@@ -4,6 +4,7 @@ import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Klasa reprezentująca pojedyńcze zdarzenie podczas relacjonowanego wydarzenia.
@@ -11,11 +12,19 @@ import java.util.Map;
 public class Event {
     private String id;
     private String content;
-    private Integer timestamp;
+    private String timestamp;
     private String topic; //topic ID
 
     public Event() {
+        this.setId(UUID.randomUUID().toString());
         // Default constructor required for calls to DataSnapshot.getValue(Event.class)
+    }
+
+    public Event(String content, String timestamp, String topic) {
+        this.setId(UUID.randomUUID().toString());
+        this.content = content;
+        this.timestamp = timestamp;
+        this.topic = topic;
     }
 
     public String getId() {
@@ -34,11 +43,11 @@ public class Event {
         this.content = content;
     }
 
-    public Integer getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Integer timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -53,10 +62,14 @@ public class Event {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("id", getId());
-        result.put("content", getContent());
-        result.put("timestamp", getTimestamp());
-        result.put("topic", getTopic());
+
+        HashMap<String, Object> eventMap = new HashMap<>();
+        eventMap.put("content", getContent());
+        eventMap.put("timestamp", getTimestamp());
+        eventMap.put("topic", getTopic());
+
+        result.put(this.getId(), eventMap);
+
         return result;
     }
 }

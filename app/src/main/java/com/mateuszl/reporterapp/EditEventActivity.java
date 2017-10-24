@@ -3,14 +3,11 @@ package com.mateuszl.reporterapp;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-/**
- * Lista eventów
- */
-public class MainActivity extends AppCompatActivity {
+public class EditEventActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_edit_event);
     }
 }
