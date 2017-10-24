@@ -19,9 +19,7 @@ import com.mateuszl.reporterapp.model.Event;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -33,7 +31,7 @@ public class EventActivity extends AppCompatActivity {
     private EditText addEventEditText;
     private TextView eventsListTextView;
     private DatabaseReference root;
-    private String temp_key, topic_name, currentTime, topic_event, event_id;
+    private String temp_key, topic_name, currentTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,21 +46,20 @@ public class EventActivity extends AppCompatActivity {
         addEventEditText.getBackground().setColorFilter(45235, PorterDuff.Mode.SRC_IN);
 
 //        user_name = getIntent().getExtras().get("user_name").toString();
-//        String topic_name = getIntent().getExtras().get("topic_name").toString();
-        topic_name = "topic1"; //// TODO: 24.10.2017 hardcoded
+        topic_name = getIntent().getExtras().get("topic_name").toString();
         setTitle("Topic: " + topic_name);
 
-        root = FirebaseDatabase.getInstance().getReference().child(topic_name);
+        root = FirebaseDatabase.getInstance().getReference().child("events");
 
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, Object> map = new HashMap<>();
-                temp_key = root.push().getKey();
+//                Map<String, Object> map = new HashMap<>();
+//                temp_key = root.push().getKey();
+//
+//                root.updateChildren(map);
+//                DatabaseReference events_root = root.child(temp_key);
 
-                root.updateChildren(map);
-
-                DatabaseReference events_root = root.child(temp_key);
                 if (addEventEditText.getText().length() < 1) {
                     //todo odswietlenie pola/mrugniecie czy coś
                 } else {
@@ -73,7 +70,7 @@ public class EventActivity extends AppCompatActivity {
 
                     addEventEditText.setText("");
 
-                    events_root.updateChildren(event.toMap());
+                    root.child(event.getId()).setValue(event);
                 }
             }
         });
@@ -114,10 +111,12 @@ public class EventActivity extends AppCompatActivity {
 
         Iterator i = dataSnapshot.getChildren().iterator();
         while (i.hasNext()) {
-            topic_event = (String) ((DataSnapshot) i.next()).getValue();
-            event_id = (String) ((DataSnapshot) i.next()).getValue();
+            String content = (String) ((DataSnapshot) i.next()).getValue();
+            String event_id = (String) ((DataSnapshot) i.next()).getValue();
+            String timestamp = (String) ((DataSnapshot) i.next()).getValue();
+            String topic_id = (String) ((DataSnapshot) i.next()).getValue(); //// TODO: 25.10.2017 Topic name for now, change for ID
 
-            eventsListTextView.append(getDate(this.currentTime) + " ID: " + event_id + "; Msg: " + topic_event + " \n");
+            eventsListTextView.append(getDate(timestamp) + " ID: " + event_id + "; Msg: " + content + "; T. Id: " + topic_id + " \n");
         }
 
     }

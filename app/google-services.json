@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "773080078403",
-    "firebase_url": "https://reporterapp-fce45.firebaseio.com",
-    "project_id": "reporterapp-fce45",
-    "storage_bucket": "reporterapp-fce45.appspot.com"
+    "project_number": "754090131528",
+    "firebase_url": "https://reporterapp-28355.firebaseio.com",
+    "project_id": "reporterapp-28355",
+    "storage_bucket": "reporterapp-28355.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:773080078403:android:f81ff64da45653c1",
+        "mobilesdk_app_id": "1:754090131528:android:832d84a29e05dfee",
         "android_client_info": {
           "package_name": "com.mateuszl.reporterapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "773080078403-rgc9kmd34r27nqinmh2jtqdbp4ghr490.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.mateuszl.reporterapp",
-            "certificate_hash": "f0ced1e605f57a341192de24e96be365ab356d96"
-          }
-        },
-        {
-          "client_id": "773080078403-9602mfvmvfragcdvfhg1jcbv44aqbk3c.apps.googleusercontent.com",
+          "client_id": "754090131528-4u1mpkec773stm6cqaupb05i2i2ah246.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAC76ztsqCbJbHFISSqsophPSPW_P89VmI"
+          "current_key": "AIzaSyD5zTF5RIwrUTaUSa1bTLJ-l_vx829Zl3I"
         }
       ],
       "services": {
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "773080078403-9602mfvmvfragcdvfhg1jcbv44aqbk3c.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

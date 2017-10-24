@@ -61,15 +61,12 @@ public class Event {
 
     @Exclude
     public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-
         HashMap<String, Object> eventMap = new HashMap<>();
+        eventMap.put("id", getId());
         eventMap.put("content", getContent());
         eventMap.put("timestamp", getTimestamp());
         eventMap.put("topic", getTopic());
 
-        result.put(this.getId(), eventMap);
-
-        return result;
+        return eventMap;
     }
 }
