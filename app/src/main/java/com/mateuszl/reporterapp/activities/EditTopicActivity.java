@@ -1,16 +1,15 @@
-package com.mateuszl.reporterapp;
+package com.mateuszl.reporterapp.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-/**
- * Lista eventów
- */
-public class MainActivity extends AppCompatActivity {
+import com.mateuszl.reporterapp.R;
+
+public class EditTopicActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_edit_topic);
     }
 }

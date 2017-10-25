@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.mateuszl.reporterapp.LoginActivity">
+    tools:context="com.mateuszl.reporterapp.activities.LoginActivity">
 
     <!-- Login progress -->
     <ProgressBar
@@ -73,10 +73,15 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/cheat_btn"
+                android:id="@+id/events_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CHEAT !!" />
+                android:text="Events CHEAT !!" />
+            <Button
+                android:id="@+id/topics_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Topics CHEAT !!" />
 
         </LinearLayout>
     </ScrollView>

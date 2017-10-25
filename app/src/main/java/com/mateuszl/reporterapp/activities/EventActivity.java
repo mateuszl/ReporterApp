@@ -1,4 +1,4 @@
-package com.mateuszl.reporterapp;
+package com.mateuszl.reporterapp.activities;
 
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -8,37 +8,37 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.model.Event;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.TimeZone;
+
+import static com.mateuszl.reporterapp.utils.Utils.getDate;
 
 /**
  * Lista zdarzeń (eventów) w wyświetlanej relacji wydarzenia.
  */
 public class EventActivity extends AppCompatActivity {
 
-    private ImageButton send_btn;
+    private ImageButton sendBtn;
     private EditText addEventEditText;
     private TextView eventsListTextView;
     private DatabaseReference root;
-    private String temp_key, topic_name, currentTime;
+    private String topic_name, currentTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-        send_btn = (ImageButton) findViewById(R.id.send_btn);
+        sendBtn = (ImageButton) findViewById(R.id.send_btn);
         addEventEditText = (EditText) findViewById(R.id.addEvent_editText);
         eventsListTextView = (TextView) findViewById(R.id.eventsList_textView);
         eventsListTextView.setMovementMethod(new ScrollingMovementMethod());
@@ -51,22 +51,16 @@ public class EventActivity extends AppCompatActivity {
 
         root = FirebaseDatabase.getInstance().getReference().child("events");
 
-        send_btn.setOnClickListener(new View.OnClickListener() {
+        sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Map<String, Object> map = new HashMap<>();
-//                temp_key = root.push().getKey();
-//
-//                root.updateChildren(map);
-//                DatabaseReference events_root = root.child(temp_key);
-
                 if (addEventEditText.getText().length() < 1) {
                     //todo odswietlenie pola/mrugniecie czy coś
                 } else {
                     Long tsLong = System.currentTimeMillis()/1000;
                     currentTime = tsLong.toString();
 
-                    Event event = new Event(addEventEditText.getText().toString(), currentTime, topic_name);
+                    Event event = new Event(addEventEditText.getText().toString(), currentTime, topic_name); //automatycznie Event uzyskuje ID
 
                     addEventEditText.setText("");
 
@@ -75,63 +69,56 @@ public class EventActivity extends AppCompatActivity {
             }
         });
 
-        root.addChildEventListener(new
-
-                                           ChildEventListener() {
+        root.addChildEventListener(new ChildEventListener() {
                                                @Override
-                                               public void onChildAdded (DataSnapshot dataSnapshot, String s){
-
-                                                   appendToTopicEvents(dataSnapshot);
+                                               public void onChildAdded (DataSnapshot dataSnapshot, String previousChildName){
+                                                   addEventsToListView(dataSnapshot);
                                                }
 
                                                @Override
-                                               public void onChildChanged (DataSnapshot dataSnapshot, String s){
+                                               public void onChildChanged (DataSnapshot dataSnapshot, String previousChildName){
 
                                                }
 
                                                @Override
                                                public void onChildRemoved (DataSnapshot dataSnapshot){
-
+                                                   clearAndAddEventsToListView(dataSnapshot);
                                                }
 
                                                @Override
-                                               public void onChildMoved (DataSnapshot dataSnapshot, String s){
+                                               public void onChildMoved (DataSnapshot dataSnapshot, String previousChildName){
 
                                                }
 
                                                @Override
                                                public void onCancelled (DatabaseError databaseError){
-
+                                                   Toast.makeText(getApplicationContext(), "Failed to load comments.",
+                                                           Toast.LENGTH_SHORT).show();
                                                }
                                            });
 
     }
 
-    private void appendToTopicEvents(DataSnapshot dataSnapshot) {
-
+    private void addEventsToListView(DataSnapshot dataSnapshot) {
         Iterator i = dataSnapshot.getChildren().iterator();
         while (i.hasNext()) {
             String content = (String) ((DataSnapshot) i.next()).getValue();
             String event_id = (String) ((DataSnapshot) i.next()).getValue();
             String timestamp = (String) ((DataSnapshot) i.next()).getValue();
             String topic_id = (String) ((DataSnapshot) i.next()).getValue(); //// TODO: 25.10.2017 Topic name for now, change for ID
-
             eventsListTextView.append(getDate(timestamp) + " ID: " + event_id + "; Msg: " + content + "; T. Id: " + topic_id + " \n");
         }
-
     }
 
-    private String getDate(String timestamp){
-            try{
-                Calendar calendar = Calendar.getInstance();
-                TimeZone tz = TimeZone.getDefault();
-                calendar.setTimeInMillis(Long.decode(timestamp) * 1000);
-                calendar.add(Calendar.MILLISECOND, tz.getOffset(calendar.getTimeInMillis()));
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date currenTimeZone = (Date) calendar.getTime();
-                return sdf.format(currenTimeZone);
-            }catch (Exception e) {
-                return "XX ERROR XX";
-            }
+    private void clearAndAddEventsToListView(DataSnapshot dataSnapshot) {
+        eventsListTextView.setText("");
+        Iterator i = dataSnapshot.getChildren().iterator();
+        while (i.hasNext()) {
+            String content = (String) ((DataSnapshot) i.next()).getValue();
+            String event_id = (String) ((DataSnapshot) i.next()).getValue();
+            String timestamp = (String) ((DataSnapshot) i.next()).getValue();
+            String topic_id = (String) ((DataSnapshot) i.next()).getValue(); //// TODO: 25.10.2017 Topic name for now, change for ID
+            eventsListTextView.append(getDate(timestamp) + " ID: " + event_id + "; Msg: " + content + "; T. Id: " + topic_id + " \n");
+        }
     }
 }

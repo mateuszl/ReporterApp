@@ -1,4 +1,4 @@
-package com.mateuszl.reporterapp;
+package com.mateuszl.reporterapp.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -27,6 +27,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.mateuszl.reporterapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,14 +62,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private Button cheat_btn;
+    private Button events_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        cheat_btn = (Button) findViewById(R.id.cheat_btn);
+        events_btn = (Button) findViewById(R.id.events_btn);
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -96,7 +98,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        cheat_btn.setOnClickListener(new View.OnClickListener() {
+        events_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EventActivity.class);
                 intent.putExtra("topic_name", "Top.Name XX"); //// TODO: 24.10.2017 hardcoded

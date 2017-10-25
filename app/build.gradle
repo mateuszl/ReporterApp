@@ -19,6 +19,15 @@ android {
     }
 }
 
+allprojects {
+    repositories {
+        jcenter()
+        maven {
+            url 'https://maven.google.com'
+        }
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -26,13 +35,10 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:design:26.+'
-    compile 'com.google.firebase:firebase-database:10.0.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    // FirebaseUI for Firebase Realtime Database
+    compile 'com.firebaseui:firebase-ui-database:3.1.0'
+    // Each FirebaseUI library has a transitive dependency on the appropriate Firebase SDK so there is no need to include those separately
     testCompile 'junit:junit:4.12'
 }
-
-
-
-
 
 apply plugin: 'com.google.gms.google-services'
