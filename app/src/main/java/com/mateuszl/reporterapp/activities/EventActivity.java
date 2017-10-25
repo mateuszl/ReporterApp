@@ -4,6 +4,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -32,6 +33,7 @@ public class EventActivity extends AppCompatActivity {
     private TextView eventsListTextView;
     private DatabaseReference root;
     private String topic_name, currentTime;
+    private final String TAG = "EventActivity LOG ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,19 +108,13 @@ public class EventActivity extends AppCompatActivity {
             String event_id = (String) ((DataSnapshot) i.next()).getValue();
             String timestamp = (String) ((DataSnapshot) i.next()).getValue();
             String topic_id = (String) ((DataSnapshot) i.next()).getValue(); //// TODO: 25.10.2017 Topic name for now, change for ID
-            eventsListTextView.append(getDate(timestamp) + " ID: " + event_id + "; Msg: " + content + "; T. Id: " + topic_id + " \n");
+            Log.d(TAG, "clearAndAddEventsToListView: Event with ID: " + event_id + " appended");
+            eventsListTextView.append(getDate(timestamp) + "; Msg: " + content + "; T. Id: " + topic_id + " \n");
         }
     }
 
     private void clearAndAddEventsToListView(DataSnapshot dataSnapshot) {
         eventsListTextView.setText("");
-        Iterator i = dataSnapshot.getChildren().iterator();
-        while (i.hasNext()) {
-            String content = (String) ((DataSnapshot) i.next()).getValue();
-            String event_id = (String) ((DataSnapshot) i.next()).getValue();
-            String timestamp = (String) ((DataSnapshot) i.next()).getValue();
-            String topic_id = (String) ((DataSnapshot) i.next()).getValue(); //// TODO: 25.10.2017 Topic name for now, change for ID
-            eventsListTextView.append(getDate(timestamp) + " ID: " + event_id + "; Msg: " + content + "; T. Id: " + topic_id + " \n");
-        }
+        addEventsToListView(dataSnapshot);
     }
 }

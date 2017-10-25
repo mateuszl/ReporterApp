@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private Button events_btn;
+    private Button events_btn, topics_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
 
         events_btn = (Button) findViewById(R.id.events_btn);
+        topics_btn = (Button) findViewById(R.id.topics_btn);
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -101,12 +102,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         events_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EventActivity.class);
-                intent.putExtra("topic_name", "Top.Name XX"); //// TODO: 24.10.2017 hardcoded
+                intent.putExtra("topic_name", "Passed Topic Name"); //// TODO: 24.10.2017 hardcoded
                 startActivity(intent);
             }
         });
 
-
+        topics_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);
+                intent.putExtra("user_name", "Passed User Name"); //// TODO: 24.10.2017 hardcoded
+                startActivity(intent);
+            }});
     }
 
     private void populateAutoComplete() {

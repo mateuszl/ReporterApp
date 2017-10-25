@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.mateuszl.reporterapp.activities.EditTopicActivity">
 
-
-    <Button
-        android:id="@+id/accept_topic_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:text="Accept" />
 
     <EditText
         android:id="@+id/topic_title_editText"
@@ -42,5 +34,14 @@
         android:ems="10"
         android:inputType="text"
         android:text="Topic Description" />
+
+    <ImageButton
+        android:id="@+id/accept_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        app:srcCompat="@android:drawable/stat_notify_sdcard" />
 
 </RelativeLayout>

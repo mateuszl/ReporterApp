@@ -33,18 +33,18 @@ public class TopicsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event);
+        setContentView(R.layout.activity_topics);
 
         addTopicBtn = (ImageButton) findViewById(R.id.add_topic_btn);
-        topicsListTextView = (TextView) findViewById(R.id.eventsList_textView);
+        topicsListTextView = (TextView) findViewById(R.id.topicsList_textView);
         topicsListTextView.setMovementMethod(new ScrollingMovementMethod());
 
 
-        user_name = "mockedName"; //todo getIntent().getExtras().get("user_name").toString();
+        user_name = getIntent().getExtras().get("user_name").toString();
 //        topic_name = getIntent().getExtras().get("topic_name").toString();
         setTitle(user_name + " topics");
 
-        root = FirebaseDatabase.getInstance().getReference().child("events");
+        root = FirebaseDatabase.getInstance().getReference().child("topics");
 
         addTopicBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +58,7 @@ public class TopicsActivity extends AppCompatActivity {
         root.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded (DataSnapshot dataSnapshot, String previousChildName){
-                addEventsToListView(dataSnapshot);
+//                addEventsToListView(dataSnapshot);
             }
 
             @Override
@@ -68,7 +68,7 @@ public class TopicsActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved (DataSnapshot dataSnapshot){
-                clearAndAddEventsToListView(dataSnapshot);
+//                clearAndAddEventsToListView(dataSnapshot);
             }
 
             @Override
@@ -79,10 +79,10 @@ public class TopicsActivity extends AppCompatActivity {
             @Override
             public void onCancelled (DatabaseError databaseError){
                 Toast.makeText(getApplicationContext(), "Failed to load comments.",
+
                         Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void addEventsToListView(DataSnapshot dataSnapshot) {
@@ -91,20 +91,13 @@ public class TopicsActivity extends AppCompatActivity {
             String content = (String) ((DataSnapshot) i.next()).getValue();
             String event_id = (String) ((DataSnapshot) i.next()).getValue();
             String timestamp = (String) ((DataSnapshot) i.next()).getValue();
-            String topic_id = (String) ((DataSnapshot) i.next()).getValue(); //// TODO: 25.10.2017 Topic name for now, change for ID
+            String topic_id = (String) ((DataSnapshot) i.next()).getValue();
             topicsListTextView.append(getDate(timestamp) + " ID: " + event_id + "; Msg: " + content + "; T. Id: " + topic_id + " \n");
         }
     }
 
     private void clearAndAddEventsToListView(DataSnapshot dataSnapshot) {
         topicsListTextView.setText("");
-        Iterator i = dataSnapshot.getChildren().iterator();
-        while (i.hasNext()) {
-            String content = (String) ((DataSnapshot) i.next()).getValue();
-            String event_id = (String) ((DataSnapshot) i.next()).getValue();
-            String timestamp = (String) ((DataSnapshot) i.next()).getValue();
-            String topic_id = (String) ((DataSnapshot) i.next()).getValue(); //// TODO: 25.10.2017 Topic name for now, change for ID
-            topicsListTextView.append(getDate(timestamp) + " ID: " + event_id + "; Msg: " + content + "; T. Id: " + topic_id + " \n");
-        }
+        addEventsToListView(dataSnapshot);
     }
 }
