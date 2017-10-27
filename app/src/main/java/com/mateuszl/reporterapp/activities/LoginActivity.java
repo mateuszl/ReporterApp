@@ -32,6 +32,7 @@ import com.mateuszl.reporterapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -102,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         events_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
-                intent.putExtra("topic_id", "Topic Id From LoginAct"); //// TODO: 24.10.2017 hardcoded
+                intent.putExtra("topic_id", "LoginAct Id(" + UUID.randomUUID().toString().substring(0,8) + ")"); //// TODO: 24.10.2017 hardcoded
                 startActivity(intent);
             }
         });
@@ -110,7 +111,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         topics_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);
-                intent.putExtra("user_name", "Passed User Name"); //// TODO: 24.10.2017 hardcoded
+                intent.putExtra("user_name", "LoginAct Name(" + UUID.randomUUID().toString().substring(0,8) + ")"); //// TODO: 24.10.2017 hardcoded
                 intent.putExtra("success", false);
                 startActivity(intent);
             }});

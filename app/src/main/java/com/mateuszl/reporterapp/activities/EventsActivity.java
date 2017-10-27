@@ -21,6 +21,7 @@ import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 import static com.mateuszl.reporterapp.utils.Utils.getDate;
@@ -30,12 +31,12 @@ import static com.mateuszl.reporterapp.utils.Utils.getDate;
  */
 public class EventsActivity extends AppCompatActivity {
 
+    private final String TAG = "EventsActivity LOG ";
     private ImageButton sendBtn;
     private EditText addEventEditText;
     private TextView eventsListTextView;
     private DatabaseReference eventsRoot, topicEventsRoot;
     private String topic_id, currentTime;
-    private final String TAG = "EventsActivity LOG ";
     private Topic topic;
 
     @Override
@@ -54,10 +55,13 @@ public class EventsActivity extends AppCompatActivity {
 //        user_name = getIntent().getExtras().get("user_name").toString();
         topic_id = getIntent().getExtras().get("topic_id").toString();
 
-//        this.topic = getTopicFromDb();
-
-        setTitle("Topic: " + topic_id);
-
+        this.topic = getTopicFromDb();
+        if (topic != null) {
+            setTitle("Topic: " + topic.getTitle());
+        } else {
+            Toast.makeText(getApplicationContext(), "No such topic in DB!!",
+                    Toast.LENGTH_SHORT).show();
+        }
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +86,7 @@ public class EventsActivity extends AppCompatActivity {
         eventsRoot.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-//                addEventsToListView(dataSnapshot);
+                addEventsToListView(dataSnapshot);
             }
 
             @Override
@@ -113,6 +117,7 @@ public class EventsActivity extends AppCompatActivity {
         this.eventsRoot.child(topic_id).addValueEventListener(new ValueEventListener() {
             // the value event will fire once for the initial state of the data, and then again every time the value of that data changes.
             Topic topic = null;
+
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 topic = (Topic) snapshot.getValue();
@@ -129,7 +134,7 @@ public class EventsActivity extends AppCompatActivity {
     private void addEventToTopic(Event event) {
         topicEventsRoot = FirebaseDatabase.getInstance().getReference().child("topicEvents");
 
-        topicEventsRoot.child(topic_id).setValue(event.getId());
+        topicEventsRoot.child(topic_id).child(event.getId()).setValue(true);
     }
 
     private void addEventsToListView(DataSnapshot dataSnapshot) {
