@@ -17,13 +17,13 @@ public class Topic {
     private String description;
     private String timestamp;
     private String author; //authors User ID
-    private List<String> subscribers; //subscribers User IDs
-    private List<String> events; //events IDs
+//    private List<String> subscribers; //todo subscribers User IDs
+//    private List<String> events; //events IDs
 
     public Topic() {
         this.setId(UUID.randomUUID().toString());
-        setSubscribers(new ArrayList<String>());
-        setEvents(new ArrayList<String>());
+//        setSubscribers(new ArrayList<String>());
+//        setEvents(new ArrayList<String>());
         // Default constructor required for calls to DataSnapshot.getValue(Topic.class)
     }
 
@@ -72,26 +72,26 @@ public class Topic {
         this.author = author;
     }
 
-    public List<String> getSubscribers() {
-        return subscribers;
-    }
-
-    public void setSubscribers(List<String> subscribers) {
-        this.subscribers = subscribers;
-    }
+//    public List<String> getSubscribers() {
+//        return subscribers;
+//    }
+//
+//    public void setSubscribers(List<String> subscribers) {
+//        this.subscribers = subscribers;
+//    }
 
     /**
      * List with Events Ids
      *
      * @return
      */
-    public List<String> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<String> events) {
-        this.events = events;
-    }
+//    public List<String> getEvents() {
+//        return events;
+//    }
+//
+//    public void setEvents(List<String> events) {
+//        this.events = events;
+//    }
 
     @Exclude
     public Map<String, Object> toMap() {
@@ -101,8 +101,8 @@ public class Topic {
         result.put("description", getDescription());
         result.put("author", getAuthor());
         result.put("timestamp", getTimestamp());
-        result.put("subscribers", getSubscribers());
-        result.put("events", getEvents());
+//        result.put("subscribers", getSubscribers());
+//        result.put("events", getEvents());
         return result;
     }
 }

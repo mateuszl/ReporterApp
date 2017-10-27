@@ -14,6 +14,8 @@ import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic;
 
+import java.util.Arrays;
+
 public class EditTopicActivity extends AppCompatActivity {
 
     private ImageButton acceptBtn;
@@ -66,6 +68,7 @@ public class EditTopicActivity extends AppCompatActivity {
         topic.setDescription(topicDescriptionEditText.getText().toString());
         topic.setTitle(topicTitleEditText.getText().toString());
         topic.setTimestamp(currentTime);
+//        topic.setSubscribers(Arrays.asList("kebab", "ajzol")); //mocked !!
         return topic;
     }
 }

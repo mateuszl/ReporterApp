@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.R;
 
 import java.util.Iterator;
+import java.util.List;
 
 import static com.mateuszl.reporterapp.utils.Utils.getDate;
 
@@ -65,7 +66,7 @@ public class TopicsActivity extends AppCompatActivity {
         root.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-//                addEventsToListView(dataSnapshot);
+                addTopicsToListView(dataSnapshot);
             }
 
             @Override
@@ -75,7 +76,7 @@ public class TopicsActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-//                clearAndAddEventsToListView(dataSnapshot);
+                clearAndAddTopicsToListView(dataSnapshot);
             }
 
             @Override
@@ -92,19 +93,20 @@ public class TopicsActivity extends AppCompatActivity {
         });
     }
 
-    private void addEventsToListView(DataSnapshot dataSnapshot) {
+    private void addTopicsToListView(DataSnapshot dataSnapshot) {
         Iterator i = dataSnapshot.getChildren().iterator();
         while (i.hasNext()) {
-            String content = (String) ((DataSnapshot) i.next()).getValue();
-            String event_id = (String) ((DataSnapshot) i.next()).getValue();
+            String topicId = (String) ((DataSnapshot) i.next()).getValue();
+            String title = (String) ((DataSnapshot) i.next()).getValue();
+            String description = (String) ((DataSnapshot) i.next()).getValue();
             String timestamp = (String) ((DataSnapshot) i.next()).getValue();
-            String topic_id = (String) ((DataSnapshot) i.next()).getValue();
-            topicsListTextView.append(getDate(timestamp) + " ID: " + event_id + "; Msg: " + content + "; T. Id: " + topic_id + " \n");
+            String author = (String) ((DataSnapshot) i.next()).getValue();
+            topicsListTextView.append(getDate(timestamp) + "; Title: " + title + "; Desc.: " + description + " \n");
         }
     }
 
-    private void clearAndAddEventsToListView(DataSnapshot dataSnapshot) {
+    private void clearAndAddTopicsToListView(DataSnapshot dataSnapshot) {
         topicsListTextView.setText("");
-        addEventsToListView(dataSnapshot);
+        addTopicsToListView(dataSnapshot);
     }
 }

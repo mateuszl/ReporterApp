@@ -62,7 +62,7 @@ public class Event {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> eventMap = new HashMap<>();
-//        eventMap.put("id", getId()); //// TODO: 25.10.2017 make sure not needed here!
+//        eventMap.put("id", getId()); //ID umieszczane jest w bazie jako klucz obiektu. Żeby nie duplikować danych
         eventMap.put("content", getContent());
         eventMap.put("timestamp", getTimestamp());
         eventMap.put("topic", getTopic());
