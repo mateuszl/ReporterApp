@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);
                 intent.putExtra("user_name", "Passed User Name"); //// TODO: 24.10.2017 hardcoded
+                intent.putExtra("success", false);
                 startActivity(intent);
             }});
     }

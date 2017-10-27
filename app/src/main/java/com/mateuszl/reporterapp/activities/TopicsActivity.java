@@ -29,6 +29,7 @@ public class TopicsActivity extends AppCompatActivity {
     private TextView topicsListTextView;
     private DatabaseReference root;
     private String topic_name, user_name;
+    private Boolean success = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +40,15 @@ public class TopicsActivity extends AppCompatActivity {
         topicsListTextView = (TextView) findViewById(R.id.topicsList_textView);
         topicsListTextView.setMovementMethod(new ScrollingMovementMethod());
 
-
         user_name = getIntent().getExtras().get("user_name").toString();
+        success = ((boolean) getIntent().getExtras().get("success"));
 //        topic_name = getIntent().getExtras().get("topic_name").toString();
         setTitle(user_name + " topics");
+
+        if (success) {
+            Toast.makeText(getApplicationContext(), "Topic Created !",
+                    Toast.LENGTH_SHORT).show();
+        }
 
         root = FirebaseDatabase.getInstance().getReference().child("topics");
 
@@ -51,33 +57,34 @@ public class TopicsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EditTopicActivity.class);
                 intent.putExtra("user_name", "mocked userName");
+                intent.putExtra("action", "Create new ");
                 startActivity(intent);
             }
         });
 
         root.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded (DataSnapshot dataSnapshot, String previousChildName){
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
 //                addEventsToListView(dataSnapshot);
             }
 
             @Override
-            public void onChildChanged (DataSnapshot dataSnapshot, String previousChildName){
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
 
             }
 
             @Override
-            public void onChildRemoved (DataSnapshot dataSnapshot){
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
 //                clearAndAddEventsToListView(dataSnapshot);
             }
 
             @Override
-            public void onChildMoved (DataSnapshot dataSnapshot, String previousChildName){
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
 
             }
 
             @Override
-            public void onCancelled (DatabaseError databaseError){
+            public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(getApplicationContext(), "Failed to load comments.",
 
                         Toast.LENGTH_SHORT).show();
