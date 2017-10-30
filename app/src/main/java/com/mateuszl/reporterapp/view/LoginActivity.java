@@ -1,4 +1,4 @@
-package com.mateuszl.reporterapp.activities;
+package com.mateuszl.reporterapp.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

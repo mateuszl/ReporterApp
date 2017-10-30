@@ -1,4 +1,4 @@
-package com.mateuszl.reporterapp.activities;
+package com.mateuszl.reporterapp.view;
 
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -16,12 +16,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.mateuszl.reporterapp.R;
+import com.mateuszl.reporterapp.controller.Repository;
 import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic;
 
-import java.util.HashMap;
 import java.util.Iterator;
 
 import static com.mateuszl.reporterapp.utils.Utils.getDate;
@@ -36,14 +35,16 @@ public class EventsActivity extends AppCompatActivity {
     private EditText addEventEditText;
     private TextView eventsListTextView;
     private DatabaseReference eventsRoot, topicEventsRoot;
-    private String topic_id, currentTime;
+    private String topicId, currentTime;
     private Topic topic;
+    private Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
         eventsRoot = FirebaseDatabase.getInstance().getReference().child("events");
+        repository = Repository.getInstance();
 
         sendBtn = (ImageButton) findViewById(R.id.send_btn);
         addEventEditText = (EditText) findViewById(R.id.addEvent_editText);
@@ -53,9 +54,9 @@ public class EventsActivity extends AppCompatActivity {
         addEventEditText.getBackground().setColorFilter(45235, PorterDuff.Mode.SRC_IN);
 
 //        user_name = getIntent().getExtras().get("user_name").toString();
-        topic_id = getIntent().getExtras().get("topic_id").toString();
+        topicId = getIntent().getExtras().get("topicId").toString();
 
-        this.topic = getTopicFromDb();
+        this.topic = repository.getTopicById(topicId);
         if (topic != null) {
             setTitle("Topic: " + topic.getTitle());
         } else {
@@ -72,13 +73,11 @@ public class EventsActivity extends AppCompatActivity {
                     Long tsLong = System.currentTimeMillis() / 1000;
                     currentTime = tsLong.toString();
 
-                    Event event = new Event(addEventEditText.getText().toString(), currentTime, topic_id); //automatycznie Event uzyskuje ID
-
-                    addEventToTopic(event);
+                    Event event = new Event(addEventEditText.getText().toString(), currentTime, topicId); //automatycznie Event uzyskuje ID
 
                     addEventEditText.setText("");
 
-                    eventsRoot.child(event.getId()).setValue(event.toMap());
+                    repository.saveEvent(event, topic);
                 }
             }
         });
@@ -111,30 +110,6 @@ public class EventsActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private Topic getTopicFromDb() {
-        this.eventsRoot.child(topic_id).addValueEventListener(new ValueEventListener() {
-            // the value event will fire once for the initial state of the data, and then again every time the value of that data changes.
-            Topic topic = null;
-
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                topic = (Topic) snapshot.getValue();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-        return topic;
-    }
-
-    private void addEventToTopic(Event event) {
-        topicEventsRoot = FirebaseDatabase.getInstance().getReference().child("topicEvents");
-
-        topicEventsRoot.child(topic_id).child(event.getId()).setValue(true);
     }
 
     private void addEventsToListView(DataSnapshot dataSnapshot) {

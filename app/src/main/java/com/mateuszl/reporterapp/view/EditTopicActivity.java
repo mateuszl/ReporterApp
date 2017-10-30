@@ -1,4 +1,4 @@
-package com.mateuszl.reporterapp.activities;
+package com.mateuszl.reporterapp.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,18 +11,16 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.R;
-import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic;
-
-import java.util.Arrays;
+import com.mateuszl.reporterapp.model.User;
 
 public class EditTopicActivity extends AppCompatActivity {
 
     private ImageButton acceptBtn;
     private String userName;
     private String action, currentTime;
-    private DatabaseReference topicsRoot;
     private EditText topicTitleEditText, topicDescriptionEditText;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +35,13 @@ public class EditTopicActivity extends AppCompatActivity {
         action = getIntent().getExtras().get("action").toString();
         setTitle(action + "topic");
 
+        //
+        user = new User();
+        user.setId("123");
+        user.setName("Mateusz");
+        //
+
+
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +52,13 @@ public class EditTopicActivity extends AppCompatActivity {
 
                     Topic newTopic = createNewTopic();
 
-                    topicsRoot = FirebaseDatabase.getInstance().getReference().child("topics");
+                    DatabaseReference topicsRoot = FirebaseDatabase.getInstance().getReference().child("topics");
+                    DatabaseReference newTopicRef = topicsRoot.push();
+                    newTopic.setId(newTopicRef.getKey());
+
+                    DatabaseReference userTopicsRoot = FirebaseDatabase.getInstance().getReference().child("userTopics");
+                    userTopicsRoot.child(user.getId()).child(newTopic.getId()).setValue(true);
+
                     topicsRoot.child(newTopic.getId()).setValue(newTopic);
 
                     Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);

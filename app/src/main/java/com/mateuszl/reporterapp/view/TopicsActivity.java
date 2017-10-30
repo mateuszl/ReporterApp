@@ -1,4 +1,4 @@
-package com.mateuszl.reporterapp.activities;
+package com.mateuszl.reporterapp.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.R;
 
 import java.util.Iterator;
-import java.util.List;
 
 import static com.mateuszl.reporterapp.utils.Utils.getDate;
 

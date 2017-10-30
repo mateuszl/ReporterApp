@@ -1,6 +1,7 @@
 package com.mateuszl.reporterapp.model;
 
 import com.google.firebase.database.Exclude;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.List;
@@ -79,5 +80,11 @@ public class User {
         result.put("topicsCreated", getTopicsCreated());
         result.put("topicsSubscribed", getTopicsSubscribed());
         return result;
+    }
+
+    @Override
+    public String toString() {
+        Gson gson = new Gson();
+        return gson.toJson(this.toMap());
     }
 }

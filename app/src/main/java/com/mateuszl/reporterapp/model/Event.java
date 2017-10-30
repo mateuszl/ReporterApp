@@ -1,6 +1,7 @@
 package com.mateuszl.reporterapp.model;
 
 import com.google.firebase.database.Exclude;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +17,7 @@ public class Event {
     private String topic; //topic ID
 
     public Event() {
-        this.setId(UUID.randomUUID().toString());
+//        this.setId(UUID.randomUUID().toString());
         // Default constructor required for calls to DataSnapshot.getValue(Event.class)
     }
 
@@ -60,13 +61,19 @@ public class Event {
     }
 
     @Exclude
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> eventMap = new HashMap<>();
+    public Map<String, String> toMap() {
+        HashMap<String, String> eventMap = new HashMap<>();
 //        eventMap.put("id", getId()); //ID umieszczane jest w bazie jako klucz obiektu. Żeby nie duplikować danych
         eventMap.put("content", getContent());
         eventMap.put("timestamp", getTimestamp());
         eventMap.put("topic", getTopic());
 
         return eventMap;
+    }
+
+    @Override
+    public String toString() {
+        Gson gson = new Gson();
+        return gson.toJson(this.toMap());
     }
 }

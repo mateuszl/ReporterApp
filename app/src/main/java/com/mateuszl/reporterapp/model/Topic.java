@@ -1,12 +1,10 @@
 package com.mateuszl.reporterapp.model;
 
 import com.google.firebase.database.Exclude;
+import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Klasa reprezentująca wydarzenie sportowe, którego dotyczy relacja.
@@ -21,7 +19,7 @@ public class Topic {
 //    private List<String> events; //events IDs
 
     public Topic() {
-        this.setId(UUID.randomUUID().toString());
+//        this.setId(UUID.randomUUID().toString());
 //        setSubscribers(new ArrayList<String>());
 //        setEvents(new ArrayList<String>());
         // Default constructor required for calls to DataSnapshot.getValue(Topic.class)
@@ -104,5 +102,12 @@ public class Topic {
 //        result.put("subscribers", getSubscribers());
 //        result.put("events", getEvents());
         return result;
+    }
+
+
+    @Override
+    public String toString() {
+        Gson gson = new Gson();
+        return gson.toJson(this.toMap());
     }
 }
