@@ -14,8 +14,6 @@ import android.widget.Toast;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.Repository;
 import com.mateuszl.reporterapp.model.Event;
@@ -34,7 +32,6 @@ public class EventsActivity extends AppCompatActivity {
     private ImageButton sendBtn;
     private EditText addEventEditText;
     private TextView eventsListTextView;
-    private DatabaseReference eventsRoot, topicEventsRoot;
     private String topicId, currentTime;
     private Topic topic;
     private Repository repository;
@@ -43,7 +40,6 @@ public class EventsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
-        eventsRoot = FirebaseDatabase.getInstance().getReference().child("events");
         repository = Repository.getInstance();
 
         sendBtn = (ImageButton) findViewById(R.id.send_btn);
@@ -82,7 +78,7 @@ public class EventsActivity extends AppCompatActivity {
             }
         });
 
-        eventsRoot.addChildEventListener(new ChildEventListener() {
+        repository.getEventsRoot().addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 addEventsToListView(dataSnapshot);

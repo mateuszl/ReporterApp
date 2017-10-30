@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         events_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
-                intent.putExtra("topic_id", "LoginAct Id(" + UUID.randomUUID().toString().substring(0,8) + ")"); //// TODO: 24.10.2017 hardcoded
+                intent.putExtra("topicId", "LoginAct Id(" + UUID.randomUUID().toString().substring(0,8) + ")"); //// TODO: 24.10.2017 hardcoded
                 startActivity(intent);
             }
         });

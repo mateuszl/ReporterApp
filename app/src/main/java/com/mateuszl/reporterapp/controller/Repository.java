@@ -1,10 +1,7 @@
 package com.mateuszl.reporterapp.controller;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic;
 import com.mateuszl.reporterapp.model.User;
@@ -26,7 +23,6 @@ public class Repository {
             instance = new Repository();
         }
         return instance;
-
     }
 
     public DatabaseReference getRoot() {
@@ -73,6 +69,9 @@ public class Repository {
 
     public Topic getTopicById(String topicId) {
         Topic topic = new Topic();
+
+        //// TODO: 30.10.2017
+        /*
         this.eventsRoot.child(topicId).addValueEventListener(new ValueEventListener() {
             // the value event will fire once for the initial state of the data, and then again every time the value of that data changes.
             Topic topic = null;
@@ -86,11 +85,13 @@ public class Repository {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
+        */
+        topic.setId("sssss");
+        topic.setTitle("ttilellelele");
         return topic;
     }
 
-    private String getNewKey(DatabaseReference reference){
+    private String getNewKey(DatabaseReference reference) {
         DatabaseReference newDBObjectRef = reference.push();
         return newDBObjectRef.getKey();
     }
