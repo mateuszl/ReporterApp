@@ -15,7 +15,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.mateuszl.reporterapp.R;
-import com.mateuszl.reporterapp.controller.Repository;
+import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic;
 
@@ -34,13 +34,13 @@ public class EventsActivity extends AppCompatActivity {
     private TextView eventsListTextView;
     private String topicId, currentTime;
     private Topic topic;
-    private Repository repository;
+    private RepositoryManager repositoryManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
-        repository = Repository.getInstance();
+        repositoryManager = RepositoryManager.getInstance();
 
         sendBtn = (ImageButton) findViewById(R.id.send_btn);
         addEventEditText = (EditText) findViewById(R.id.addEvent_editText);
@@ -52,7 +52,7 @@ public class EventsActivity extends AppCompatActivity {
 //        user_name = getIntent().getExtras().get("user_name").toString();
         topicId = getIntent().getExtras().get("topicId").toString();
 
-        this.topic = repository.getTopicById(topicId);
+        this.topic = repositoryManager.getTopicById(topicId);
         if (topic != null) {
             setTitle("Topic: " + topic.getTitle());
         } else {
@@ -69,16 +69,16 @@ public class EventsActivity extends AppCompatActivity {
                     Long tsLong = System.currentTimeMillis() / 1000;
                     currentTime = tsLong.toString();
 
-                    Event event = new Event(addEventEditText.getText().toString(), currentTime, topicId); //automatycznie Event uzyskuje ID
+                    Event event = new Event(addEventEditText.getText().toString(), currentTime, topicId);
 
                     addEventEditText.setText("");
 
-                    repository.saveEvent(event, topic);
+                    repositoryManager.saveEvent(event, topic);
                 }
             }
         });
 
-        repository.getEventsRoot().addChildEventListener(new ChildEventListener() {
+        repositoryManager.getEventsRoot().addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 addEventsToListView(dataSnapshot);

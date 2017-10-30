@@ -8,9 +8,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.R;
+import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.model.Topic;
 import com.mateuszl.reporterapp.model.User;
 
@@ -21,11 +20,13 @@ public class EditTopicActivity extends AppCompatActivity {
     private String action, currentTime;
     private EditText topicTitleEditText, topicDescriptionEditText;
     private User user;
+    private RepositoryManager repositoryManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_topic);
+        repositoryManager = RepositoryManager.getInstance();
 
         acceptBtn = (ImageButton) findViewById(R.id.accept_btn);
         topicTitleEditText = (EditText) findViewById(R.id.topic_title_editText);
@@ -41,29 +42,20 @@ public class EditTopicActivity extends AppCompatActivity {
         user.setName("Mateusz");
         //
 
-
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (topicTitleEditText.getText().length() > 0 && topicDescriptionEditText.getText().length() > 0) {
-
-                    Long tsLong = System.currentTimeMillis() / 1000;
-                    currentTime = tsLong.toString();
+                    //todo dodać sprawdzenie czy takie wydarzenie juz istnieje
 
                     Topic newTopic = createNewTopic();
 
-                    DatabaseReference topicsRoot = FirebaseDatabase.getInstance().getReference().child("topics");
-                    DatabaseReference newTopicRef = topicsRoot.push();
-                    newTopic.setId(newTopicRef.getKey());
-
-                    DatabaseReference userTopicsRoot = FirebaseDatabase.getInstance().getReference().child("userTopics");
-                    userTopicsRoot.child(user.getId()).child(newTopic.getId()).setValue(true);
-
-                    topicsRoot.child(newTopic.getId()).setValue(newTopic);
+                    String savedTopicId = repositoryManager.saveTopic(newTopic, user);
 
                     Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);
                     intent.putExtra("user_name", "mocked userName");
                     intent.putExtra("success", true);
+                    intent.putExtra("topicId", savedTopicId);
                     startActivity(intent);
                 } else {
                     Toast.makeText(getApplicationContext(), "Złe dane.",
@@ -74,6 +66,9 @@ public class EditTopicActivity extends AppCompatActivity {
     }
 
     private Topic createNewTopic() {
+        Long tsLong = System.currentTimeMillis() / 1000;
+        currentTime = tsLong.toString();
+
         Topic topic = new Topic();
         topic.setAuthor(userName);
         topic.setDescription(topicDescriptionEditText.getText().toString());

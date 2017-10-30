@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.R;
+import com.mateuszl.reporterapp.controller.RepositoryManager;
 
 import java.util.Iterator;
 
@@ -30,11 +31,13 @@ public class TopicsActivity extends AppCompatActivity {
     private DatabaseReference root;
     private String topic_name, user_name;
     private Boolean success = false;
+    private RepositoryManager repositoryManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topics);
+        repositoryManager = RepositoryManager.getInstance();
 
         addTopicBtn = (ImageButton) findViewById(R.id.add_topic_btn);
         topicsListTextView = (TextView) findViewById(R.id.topicsList_textView);
@@ -42,6 +45,7 @@ public class TopicsActivity extends AppCompatActivity {
 
         user_name = getIntent().getExtras().get("user_name").toString();
         success = ((boolean) getIntent().getExtras().get("success"));
+        String newTopicId = getIntent().getExtras().get("topicId").toString();
 //        topic_name = getIntent().getExtras().get("topic_name").toString();
         setTitle(user_name + " topics");
 
@@ -49,6 +53,11 @@ public class TopicsActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Topic Created !",
                     Toast.LENGTH_SHORT).show();
         }
+
+        if (!newTopicId.isEmpty()){
+            //// TODO: 30.10.2017 podswietlenie nowego topicu albo od razu wejscie w jego eventsy
+        }
+
 
         root = FirebaseDatabase.getInstance().getReference().child("topics");
 
@@ -62,7 +71,7 @@ public class TopicsActivity extends AppCompatActivity {
             }
         });
 
-        root.addChildEventListener(new ChildEventListener() {
+        repositoryManager.getTopicsRoot().addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 addTopicsToListView(dataSnapshot);

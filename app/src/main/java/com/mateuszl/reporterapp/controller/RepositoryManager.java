@@ -6,21 +6,25 @@ import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic;
 import com.mateuszl.reporterapp.model.User;
 
-public class Repository {
-    private static Repository instance = null;
+public class RepositoryManager {
+    private static RepositoryManager instance = null;
     private DatabaseReference root;
     private DatabaseReference eventsRoot;
+    private DatabaseReference topicsRoot;
     private DatabaseReference topicEventsRoot;
+    private DatabaseReference userTopicsRoot;
 
-    protected Repository() {
+    protected RepositoryManager() {
         root = FirebaseDatabase.getInstance().getReference();
         topicEventsRoot = root.child("topicEvents");
+        userTopicsRoot = root.child("userTopics");
         eventsRoot = root.child("events");
+        topicsRoot = root.child("topics");
     }
 
-    public static Repository getInstance() {
+    public static RepositoryManager getInstance() {
         if (instance == null) {
-            instance = new Repository();
+            instance = new RepositoryManager();
         }
         return instance;
     }
@@ -33,12 +37,23 @@ public class Repository {
         return eventsRoot;
     }
 
+    public DatabaseReference getTopicsRoot() {
+        return topicsRoot;
+    }
+
+    public DatabaseReference getUserTopicsRoot() {
+        return userTopicsRoot;
+    }
+
     public DatabaseReference getTopicEventsRoot() {
         return topicEventsRoot;
     }
 
-    public void saveTopic(Topic topic, User user) {
-        //todo
+    public String saveTopic(Topic topic, User user) {
+        topic.setId(getNewKey(topicsRoot));
+        topicsRoot.child(topic.getId()).setValue(topic);
+        addTopicToUser(topic, user);
+        return topic.getId();
     }
 
     public void deleteTopic(Topic topic, User user) {
@@ -56,9 +71,7 @@ public class Repository {
     public String saveEvent(Event event, Topic topic) {
         event.setId(getNewKey(eventsRoot));
         eventsRoot.child(event.getId()).setValue(event.toMap());
-
         addEventToTopic(event, topic);
-
         return event.getId();
     }
 
@@ -102,5 +115,13 @@ public class Repository {
 
     private void deleteEventFromTopic(Event event, Topic topic) {
         topicEventsRoot.child(topic.getId()).child(event.getId()).removeValue();
+    }
+
+    private void addTopicToUser(Topic topic, User user) {
+        userTopicsRoot.child(user.getId()).child(topic.getId()).setValue(true);
+    }
+
+    private void deleteTopicFromUser(Topic topic, User user) {
+        userTopicsRoot.child(user.getId()).child(topic.getId()).removeValue();
     }
 }
