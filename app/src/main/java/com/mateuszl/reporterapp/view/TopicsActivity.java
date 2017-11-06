@@ -11,8 +11,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseListAdapter;
-import com.firebase.ui.database.FirebaseListOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,15 +21,24 @@ import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.model.Topic;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
-import static com.mateuszl.reporterapp.utils.Utils.getDate;
 
 /**
  * Lista eventów
  */
 public class TopicsActivity extends AppCompatActivity {
+
+
+    // All static variables
+    public static final String URL = "https://api.androidhive.info/music/music.xml";
+    // XML node keys
+    public static final String AUTHOR = "author"; // parent node
+    public static final String ID = "id";
+    public static final String TITLE = "title";
+    public static final String DESCRIPTION = "description";
+    public static final String TIMESTAMP = "timestamp";
+//    public static final String KEY_THUMB_URL = "thumb_url";
+
 
     private ImageButton addTopicBtn;
     private TextView topicsListTextView;
@@ -82,8 +89,7 @@ public class TopicsActivity extends AppCompatActivity {
 */
 
 
-
-        if (!newTopicId.isEmpty()){
+        if (!newTopicId.isEmpty()) {
             //// TODO: 30.10.2017 podswietlenie nowego topicu albo od razu wejscie w jego eventsy
         }
 
