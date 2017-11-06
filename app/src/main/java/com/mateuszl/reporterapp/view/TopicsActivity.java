@@ -104,11 +104,11 @@ public class TopicsActivity extends AppCompatActivity {
     private void addTopicsToListView(DataSnapshot dataSnapshot) {
         Iterator i = dataSnapshot.getChildren().iterator();
         while (i.hasNext()) {
-            String topicId = (String) ((DataSnapshot) i.next()).getValue();
-            String title = (String) ((DataSnapshot) i.next()).getValue();
-            String description = (String) ((DataSnapshot) i.next()).getValue();
-            String timestamp = (String) ((DataSnapshot) i.next()).getValue();
             String author = (String) ((DataSnapshot) i.next()).getValue();
+            String description = (String) ((DataSnapshot) i.next()).getValue();
+            String topicId = (String) ((DataSnapshot) i.next()).getValue();
+            String timestamp = (String) ((DataSnapshot) i.next()).getValue();
+            String title = (String) ((DataSnapshot) i.next()).getValue();
             topicsListTextView.append(getDate(timestamp) + "; Title: " + title + "; Desc.: " + description + " \n");
         }
     }
