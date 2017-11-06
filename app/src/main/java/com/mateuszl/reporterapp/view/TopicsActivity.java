@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
+import com.mateuszl.reporterapp.controller.TopicsAdapter;
 import com.mateuszl.reporterapp.model.Topic;
 
 import java.util.ArrayList;
@@ -50,6 +51,8 @@ public class TopicsActivity extends AppCompatActivity {
 
     private List<String> topicList = new ArrayList<>();
 
+    private List<Topic> topicsList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +60,7 @@ public class TopicsActivity extends AppCompatActivity {
         repositoryManager = RepositoryManager.getInstance();
 
         addTopicBtn = (ImageButton) findViewById(R.id.add_topic_btn);
-        topicsListTextView = (TextView) findViewById(R.id.topicsList_textView);
+//        topicsListTextView = (TextView) findViewById(R.id.topicsList_textView);
         topicsListView = (ListView) findViewById(R.id.topics_listView);
 
         topicsListTextView.setMovementMethod(new ScrollingMovementMethod());
@@ -151,8 +154,22 @@ public class TopicsActivity extends AppCompatActivity {
         topicList.add("Name: " + topic.getTitle() + " || Id: " + topic.getId());
 
 
-        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(this, R.layout.topic_list_item, topicList);
-        topicsListView.setAdapter(stringArrayAdapter);
+        topicsList.add(topic);
+
+        TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
+        topicsListView.setAdapter(topicsAdapter);
+
+        topicsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+            }
+        });
+
+//        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(this, R.layout.topic_list_item, topicList);
+//        topicsListView.setAdapter(stringArrayAdapter);
     }
 
     private void clearAndAddTopicsToListView(DataSnapshot dataSnapshot) {
