@@ -6,17 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.mateuszl.reporterapp.view.TopicsActivity">
 
-    <TextView
-        android:id="@+id/topicsList_textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/add_topic_btn"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:gravity="bottom"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault" />
-
     <ImageButton
         android:id="@+id/add_topic_btn"
         android:layout_width="wrap_content"
@@ -25,5 +14,32 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <RelativeLayout
+        android:id="@+id/relative_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/add_topic_btn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/topicsList_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:gravity="bottom"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault" />
+
+        <ListView
+            android:id="@+id/topics_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/topicsList_textView" />
+    </RelativeLayout>
 
 </RelativeLayout>

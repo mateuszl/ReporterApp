@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseListOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,8 +20,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
+import com.mateuszl.reporterapp.model.Topic;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import static com.mateuszl.reporterapp.utils.Utils.getDate;
 
@@ -28,10 +35,13 @@ public class TopicsActivity extends AppCompatActivity {
 
     private ImageButton addTopicBtn;
     private TextView topicsListTextView;
+    private ListView topicsListView;
     private DatabaseReference root;
     private String topic_name, user_name;
     private Boolean success = false;
     private RepositoryManager repositoryManager;
+
+    private List<String> topicList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +51,8 @@ public class TopicsActivity extends AppCompatActivity {
 
         addTopicBtn = (ImageButton) findViewById(R.id.add_topic_btn);
         topicsListTextView = (TextView) findViewById(R.id.topicsList_textView);
+        topicsListView = (ListView) findViewById(R.id.topics_listView);
+
         topicsListTextView.setMovementMethod(new ScrollingMovementMethod());
 
         user_name = getIntent().getExtras().get("user_name").toString();
@@ -53,6 +65,23 @@ public class TopicsActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Topic Created !",
                     Toast.LENGTH_SHORT).show();
         }
+
+        DatabaseReference topicsRoot = repositoryManager.getTopicsRoot();
+
+
+        /* todo
+        FirebaseListAdapter myAdapter = new FirebaseListAdapter<Topic>(this, Topic.class, android.R.layout.simple_list_item_1, topicsRoot) {
+
+            protected void populateView(View v, Topic model, int position) {
+
+                ((TextView)v.findViewById(R.id.topics_listView)).setText(model.getTitle());
+            }
+
+        };
+        topicsListView.setAdapter(myAdapter);
+*/
+
+
 
         if (!newTopicId.isEmpty()){
             //// TODO: 30.10.2017 podswietlenie nowego topicu albo od razu wejscie w jego eventsy
@@ -71,7 +100,7 @@ public class TopicsActivity extends AppCompatActivity {
             }
         });
 
-        repositoryManager.getTopicsRoot().addChildEventListener(new ChildEventListener() {
+        topicsRoot.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 addTopicsToListView(dataSnapshot);
@@ -102,15 +131,22 @@ public class TopicsActivity extends AppCompatActivity {
     }
 
     private void addTopicsToListView(DataSnapshot dataSnapshot) {
-        Iterator i = dataSnapshot.getChildren().iterator();
-        while (i.hasNext()) {
-            String author = (String) ((DataSnapshot) i.next()).getValue();
-            String description = (String) ((DataSnapshot) i.next()).getValue();
-            String topicId = (String) ((DataSnapshot) i.next()).getValue();
-            String timestamp = (String) ((DataSnapshot) i.next()).getValue();
-            String title = (String) ((DataSnapshot) i.next()).getValue();
-            topicsListTextView.append(getDate(timestamp) + "; Title: " + title + "; Desc.: " + description + " \n");
-        }
+//        Iterator i = dataSnapshot.getChildren().iterator();
+//        while (i.hasNext()) {
+//            String author = (String) ((DataSnapshot) i.next()).getValue();
+//            String description = (String) ((DataSnapshot) i.next()).getValue();
+//            String topicId = (String) ((DataSnapshot) i.next()).getValue();
+//            String timestamp = (String) ((DataSnapshot) i.next()).getValue();
+//            String title = (String) ((DataSnapshot) i.next()).getValue();
+//            topicsListTextView.append(getDate(timestamp) + "; Title: " + title + "; Desc.: " + description + " \n");
+//        }
+
+        Topic topic = dataSnapshot.getValue(Topic.class);
+        topicList.add("Name: " + topic.getTitle() + " || Id: " + topic.getId());
+
+
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(this, R.layout.topic_list_item, topicList);
+        topicsListView.setAdapter(stringArrayAdapter);
     }
 
     private void clearAndAddTopicsToListView(DataSnapshot dataSnapshot) {
