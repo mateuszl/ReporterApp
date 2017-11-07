@@ -42,7 +42,7 @@ public class TopicsActivity extends AppCompatActivity {
 
 
     private ImageButton addTopicBtn;
-    private TextView topicsListTextView;
+//    private TextView topicsListTextView;
     private ListView topicsListView;
     private DatabaseReference root;
     private String topic_name, user_name;
@@ -63,7 +63,7 @@ public class TopicsActivity extends AppCompatActivity {
 //        topicsListTextView = (TextView) findViewById(R.id.topicsList_textView);
         topicsListView = (ListView) findViewById(R.id.topics_listView);
 
-        topicsListTextView.setMovementMethod(new ScrollingMovementMethod());
+//        topicsListTextView.setMovementMethod(new ScrollingMovementMethod());
 
         user_name = getIntent().getExtras().get("user_name").toString();
         success = ((boolean) getIntent().getExtras().get("success"));
@@ -173,7 +173,7 @@ public class TopicsActivity extends AppCompatActivity {
     }
 
     private void clearAndAddTopicsToListView(DataSnapshot dataSnapshot) {
-        topicsListTextView.setText("");
+//        topicsListTextView.setText("");
         addTopicsToListView(dataSnapshot);
     }
 }
