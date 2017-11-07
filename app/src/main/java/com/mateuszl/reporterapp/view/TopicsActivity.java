@@ -89,7 +89,6 @@ public class TopicsActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
                 intent.putExtra("topicId", topicSelected.getId());
                 startActivity(intent);
-
             }
         });
 
