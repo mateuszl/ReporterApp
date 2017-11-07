@@ -3,12 +3,10 @@ package com.mateuszl.reporterapp.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -23,33 +21,19 @@ import com.mateuszl.reporterapp.model.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Lista eventów
  */
 public class TopicsActivity extends AppCompatActivity {
 
-
-    // All static variables
-    public static final String URL = "https://api.androidhive.info/music/music.xml";
-    // XML node keys
-    public static final String AUTHOR = "author"; // parent node
-    public static final String ID = "id";
-    public static final String TITLE = "title";
-    public static final String DESCRIPTION = "description";
-    public static final String TIMESTAMP = "timestamp";
-//    public static final String KEY_THUMB_URL = "thumb_url";
-
-
     private ImageButton addTopicBtn;
-//    private TextView topicsListTextView;
     private ListView topicsListView;
     private DatabaseReference root;
     private String topic_name, user_name;
     private Boolean success = false;
     private RepositoryManager repositoryManager;
-
-    private List<String> topicList = new ArrayList<>();
 
     private List<Topic> topicsList = new ArrayList<>();
 
@@ -78,21 +62,7 @@ public class TopicsActivity extends AppCompatActivity {
 
         DatabaseReference topicsRoot = repositoryManager.getTopicsRoot();
 
-
-        /* todo
-        FirebaseListAdapter myAdapter = new FirebaseListAdapter<Topic>(this, Topic.class, android.R.layout.simple_list_item_1, topicsRoot) {
-
-            protected void populateView(View v, Topic model, int position) {
-
-                ((TextView)v.findViewById(R.id.topics_listView)).setText(model.getTitle());
-            }
-
-        };
-        topicsListView.setAdapter(myAdapter);
-*/
-
-
-        if (!newTopicId.isEmpty()) {
+        if (!newTopicId.isEmpty() && newTopicId!=null) {
             //// TODO: 30.10.2017 podswietlenie nowego topicu albo od razu wejscie w jego eventsy
         }
 
@@ -108,6 +78,21 @@ public class TopicsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        topicsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Topic topicSelected = (Topic) parent.getAdapter().getItem(position);
+
+
+                Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
+                intent.putExtra("topicId", topicSelected.getId());
+                startActivity(intent);
+
+            }
+        });
+
 
         topicsRoot.addChildEventListener(new ChildEventListener() {
             @Override
@@ -133,43 +118,23 @@ public class TopicsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(getApplicationContext(), "Failed to load comments.",
-
                         Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void addTopicsToListView(DataSnapshot dataSnapshot) {
-//        Iterator i = dataSnapshot.getChildren().iterator();
-//        while (i.hasNext()) {
-//            String author = (String) ((DataSnapshot) i.next()).getValue();
-//            String description = (String) ((DataSnapshot) i.next()).getValue();
-//            String topicId = (String) ((DataSnapshot) i.next()).getValue();
-//            String timestamp = (String) ((DataSnapshot) i.next()).getValue();
-//            String title = (String) ((DataSnapshot) i.next()).getValue();
-//            topicsListTextView.append(getDate(timestamp) + "; Title: " + title + "; Desc.: " + description + " \n");
-//        }
-
         Topic topic = dataSnapshot.getValue(Topic.class);
-        topicList.add("Name: " + topic.getTitle() + " || Id: " + topic.getId());
-
-
         topicsList.add(topic);
 
         TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
         topicsListView.setAdapter(topicsAdapter);
+    }
 
-        topicsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-            }
-        });
-
-//        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(this, R.layout.topic_list_item, topicList);
-//        topicsListView.setAdapter(stringArrayAdapter);
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
     }
 
     private void clearAndAddTopicsToListView(DataSnapshot dataSnapshot) {

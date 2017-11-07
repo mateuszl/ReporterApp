@@ -83,7 +83,8 @@ public class RepositoryManager {
     public Topic getTopicById(String topicId) {
         Topic topic = new Topic();
 
-        //// TODO: 30.10.2017
+        //todo 07.11  - get topic from db
+
         /*
         this.eventsRoot.child(topicId).addValueEventListener(new ValueEventListener() {
             // the value event will fire once for the initial state of the data, and then again every time the value of that data changes.

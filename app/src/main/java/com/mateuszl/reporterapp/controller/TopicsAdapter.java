@@ -1,7 +1,6 @@
 package com.mateuszl.reporterapp.controller;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +28,7 @@ public class TopicsAdapter extends BaseAdapter {
     public TopicsAdapter(Activity a, List<Topic> t) {
         activity = a;
         topics = t;
-        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE); //fixme if needed OPTION 1
 //        imageLoader=new ImageLoader(activity.getApplicationContext());
     }
 
@@ -38,7 +37,7 @@ public class TopicsAdapter extends BaseAdapter {
     }
 
     public Object getItem(int position) {
-        return position;
+        return topics.get(position);
     }
 
     public long getItemId(int position) {
@@ -47,9 +46,10 @@ public class TopicsAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
-        if (convertView == null)
-            vi = inflater.inflate(R.layout.topic_list_item, null);
-
+        if (convertView == null) {
+//            vi = inflater.inflate(R.layout.topic_list_item, null); //fixme if needed OPTION 1
+            vi = LayoutInflater.from(activity.getApplicationContext()).inflate(R.layout.topic_list_item, parent, false); //OPTION 2
+        }
         TextView title = (TextView) vi.findViewById(R.id.title); // title
         TextView description = (TextView) vi.findViewById(R.id.description); // description name
         TextView date = (TextView) vi.findViewById(R.id.timestamp); // date

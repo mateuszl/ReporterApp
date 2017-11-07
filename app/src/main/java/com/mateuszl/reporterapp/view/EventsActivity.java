@@ -1,5 +1,6 @@
 package com.mateuszl.reporterapp.view;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -32,7 +33,7 @@ public class EventsActivity extends AppCompatActivity {
     private ImageButton sendBtn;
     private EditText addEventEditText;
     private TextView eventsListTextView;
-    private String topicId, currentTime;
+    private String currentTime;
     private Topic topic;
     private RepositoryManager repositoryManager;
 
@@ -50,11 +51,11 @@ public class EventsActivity extends AppCompatActivity {
         addEventEditText.getBackground().setColorFilter(45235, PorterDuff.Mode.SRC_IN);
 
 //        user_name = getIntent().getExtras().get("user_name").toString();
-        topicId = getIntent().getExtras().get("topicId").toString();
+        String topicId = getIntent().getExtras().get("topicId").toString();
 
         this.topic = repositoryManager.getTopicById(topicId);
-        if (topic != null) {
-            setTitle("Topic: " + topic.getTitle());
+        if (this.topic != null) {
+            setTitle("Topic: " + this.topic.getTitle());
         } else {
             Toast.makeText(getApplicationContext(), "No such topic in DB!!",
                     Toast.LENGTH_SHORT).show();
@@ -69,7 +70,7 @@ public class EventsActivity extends AppCompatActivity {
                     Long tsLong = System.currentTimeMillis() / 1000;
                     currentTime = tsLong.toString();
 
-                    Event event = new Event(addEventEditText.getText().toString(), currentTime, topicId);
+                    Event event = new Event(addEventEditText.getText().toString(), currentTime, topic.getId());
 
                     addEventEditText.setText("");
 
@@ -118,6 +119,12 @@ public class EventsActivity extends AppCompatActivity {
             Log.d(TAG, "clearAndAddEventsToListView: New event apped."); // with ID: " + event_id);
             eventsListTextView.append(getDate(timestamp) + "; Msg: " + content + "; T. Id: " + topic_id + " \n");
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
     }
 
     private void clearAndAddEventsToListView(DataSnapshot dataSnapshot) {
