@@ -1,13 +1,13 @@
 package com.mateuszl.reporterapp.controller;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic;
 import com.mateuszl.reporterapp.model.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RepositoryManager {
     private static RepositoryManager instance = null;
@@ -73,7 +73,7 @@ public class RepositoryManager {
 
     public String saveEvent(Event event, Topic topic) {
         event.setId(getNewKey(eventsRoot));
-        eventsRoot.child(event.getId()).setValue(event.toMap());
+        eventsRoot.child(event.getId()).setValue(event);
         addEventToTopic(event, topic);
         return event.getId();
     }
@@ -83,63 +83,56 @@ public class RepositoryManager {
         deleteEventFromTopic(event, topic);
     }
 
-    public Topic getTopicById(final String topicId) {
-        Topic topic = new Topic();
-
-        //todo 07.11  - get topic from db
-
-//        this.eventsRoot.child(topicId).addValueEventListener(new ValueEventListener() {
+//    public Topic getTopicById(final String topicId) {
+//        Topic topic = new Topic();
+//
+//        //todo 07.11  - get topic from db
+//
+//        this.topicsRoot.addValueEventListener(new ValueEventListener() {
 //            // the value event will fire once for the initial state of the data, and then again every time the value of that data changes.
-//            Topic topic = new Topic();
 //
 //            @Override
 //            public void onDataChange(DataSnapshot snapshot) {
 //
-//                snapshot.getChildrenCount();
-//                snapshot.toString();
-//                System.out.println("sssssssssss");
+//                HashMap<String, String> map = (HashMap<String, String>) snapshot.child(topicId).getValue();
 //
-//                for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
-////                    topic.setTitle((String) messageSnapshot.child("title").getValue());
-////                    topic.setId((String) messageSnapshot.child("id").getValue());
-////                    topic.setAuthor((String) messageSnapshot.child("author").getValue());
-////                    topic.setDescription((String) messageSnapshot.child("description").getValue());
-////                    topic.setTimestamp((String) messageSnapshot.child("timestamp").getValue());
-//                    topic = messageSnapshot.getValue(Topic.class);
-//                }
+//                Topic topic = new Topic();
+//                topic.setTitle(map.get("title"));
+//                topic.setId(map.get("id"));
+//                topic.setAuthor(map.get("author"));
+//                topic.setDescription(map.get("description"));
+//                topic.setTimestamp(map.get("timestamp"));
 //            }
 //
 //            @Override
 //            public void onCancelled(DatabaseError databaseError) {
 //            }
 //        });
-        this.eventsRoot.addValueEventListener(new ValueEventListener() {
-            // the value event will fire once for the initial state of the data, and then again every time the value of that data changes.
-            Topic topic = new Topic();
+//
+//        if (topic.getTitle() == null) {
+//            topic = new Topic();
+//            topic.setId("AAAAdddddAAAAaaaa");
+//            topic.setAuthor("AADddDDAaAaaaaa");
+//            topic.setTitle("AAAddDDAADddaaaaa");
+//        }
+//        return topic;
+//    }
 
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
+    public Topic getTopicById(String topicId) {
+        Topic topic = new Topic();
+        TopicEventListener topicEventListener = new TopicEventListener(topicId);
 
-                topic = (Topic) snapshot.child(topicId).getValue();
+//        this.topicsRoot.addValueEventListener(topicEventListener);
+        this.topicsRoot.addListenerForSingleValueEvent(topicEventListener);
 
-                snapshot.getChildrenCount();
-                snapshot.toString();
-                System.out.println(topic.getTitle());
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-        if (topic.getTitle() == null) {
-            topic = new Topic();
-            topic.setId("AAAAdddddAAAA");
-            topic.setAuthor("AADddDDAaA");
-            topic.setTitle("AAAddDDAADdd");
-        }
+        topic = topicEventListener.getTopic();
         return topic;
+    }
+
+    public List<Event> getEventsForATopic(String topicId) {
+        List<Event> eventsList = new ArrayList<>();
+        //todo
+        return eventsList;
     }
 
     private String getNewKey(DatabaseReference reference) {

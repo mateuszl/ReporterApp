@@ -1,5 +1,6 @@
 package com.mateuszl.reporterapp.view;
 
+import android.app.Application;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -54,11 +55,18 @@ public class EventsActivity extends AppCompatActivity {
         String topicId = getIntent().getExtras().get("topicId").toString();
 
         this.topic = repositoryManager.getTopicById(topicId);
+
         if (this.topic != null) {
-            setTitle("Topic: " + this.topic.getTitle());
+            if (this.topic.getTitle() == null || this.topic.getTitle().isEmpty()) {
+                Toast.makeText(getApplicationContext(), "topic title empty or null!!",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                setTitle("Topic Found: " + this.topic.getTitle());
+            }
         } else {
             Toast.makeText(getApplicationContext(), "No such topic in DB!!",
                     Toast.LENGTH_SHORT).show();
+            //todo wyjście do listy topiców
         }
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +121,7 @@ public class EventsActivity extends AppCompatActivity {
         Iterator i = dataSnapshot.getChildren().iterator();
         while (i.hasNext()) {
             String content = (String) ((DataSnapshot) i.next()).getValue();
-//            String event_id = (String) ((DataSnapshot) i.next()).getValue(); //ID występuje w bazie jako klucz obiektu
+            String event_id = (String) ((DataSnapshot) i.next()).getValue(); //ID występuje w bazie jako klucz obiektu
             String timestamp = (String) ((DataSnapshot) i.next()).getValue();
             String topic_id = (String) ((DataSnapshot) i.next()).getValue(); //// TODO: 25.10.2017 Topic name for now, change for ID
             Log.d(TAG, "clearAndAddEventsToListView: New event apped."); // with ID: " + event_id);
