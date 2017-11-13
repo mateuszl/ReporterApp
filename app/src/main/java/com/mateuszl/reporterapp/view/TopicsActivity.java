@@ -85,9 +85,12 @@ public class TopicsActivity extends AppCompatActivity {
                                     int position, long id) {
                 Topic topicSelected = (Topic) parent.getAdapter().getItem(position);
 
-
                 Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
                 intent.putExtra("topicId", topicSelected.getId());
+                intent.putExtra("topicTitle", topicSelected.getTitle());
+                intent.putExtra("topicTimestamp", topicSelected.getTimestamp());
+                intent.putExtra("topicDescription", topicSelected.getDescription());
+                intent.putExtra("topicAuthor", topicSelected.getAuthor());
                 startActivity(intent);
             }
         });

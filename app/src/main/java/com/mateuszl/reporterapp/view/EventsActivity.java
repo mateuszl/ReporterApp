@@ -51,17 +51,23 @@ public class EventsActivity extends AppCompatActivity {
 
         addEventEditText.getBackground().setColorFilter(45235, PorterDuff.Mode.SRC_IN);
 
-//        user_name = getIntent().getExtras().get("user_name").toString();
-        String topicId = getIntent().getExtras().get("topicId").toString();
+        topic = new Topic();
 
-        this.topic = repositoryManager.getTopicById(topicId);
+//        user_name = getIntent().getExtras().get("user_name").toString();
+        topic.setId(getIntent().getExtras().get("topicId").toString());
+        topic.setTitle(getIntent().getExtras().get("topicTitle").toString());
+        topic.setTimestamp(getIntent().getExtras().get("topicTimestamp").toString());
+        topic.setDescription(getIntent().getExtras().get("topicDescription").toString());
+        topic.setAuthor(getIntent().getExtras().get("topicAuthor").toString());
+
+//        this.topic = repositoryManager.getTopicById(topicId);
 
         if (this.topic != null) {
             if (this.topic.getTitle() == null || this.topic.getTitle().isEmpty()) {
                 Toast.makeText(getApplicationContext(), "topic title empty or null!!",
                         Toast.LENGTH_SHORT).show();
             } else {
-                setTitle("Topic Found: " + this.topic.getTitle());
+                setTitle("Topic: " + this.topic.getTitle());
             }
         } else {
             Toast.makeText(getApplicationContext(), "No such topic in DB!!",

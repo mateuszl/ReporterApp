@@ -104,6 +104,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
                 intent.putExtra("topicId", "LoginAct Id(" + UUID.randomUUID().toString().substring(0,8) + ")"); //// TODO: 24.10.2017 hardcoded
+                intent.putExtra("topicTitle", "Hardcoded Title"); //// TODO: 24.10.2017 hardcoded
+                intent.putExtra("topicTimestamp", "123123123"); //// TODO: 24.10.2017 hardcoded
+                intent.putExtra("topicDescription", "Hardcoded Title"); //// TODO: 24.10.2017 hardcoded
+                intent.putExtra("topicAuthor", "Hardcoded Title"); //// TODO: 24.10.2017 hardcoded
                 startActivity(intent);
             }
         });
