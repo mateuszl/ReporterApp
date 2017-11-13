@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,11 +18,16 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.mateuszl.reporterapp.R;
+import com.mateuszl.reporterapp.controller.EventsAdapter;
+import com.mateuszl.reporterapp.controller.EventsStringAdapter;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import static com.mateuszl.reporterapp.utils.Utils.getDate;
 
@@ -33,10 +39,13 @@ public class EventsActivity extends AppCompatActivity {
     private final String TAG = "EventsActivity LOG ";
     private ImageButton sendBtn;
     private EditText addEventEditText;
-    private TextView eventsListTextView;
+//    private TextView eventsListTextView;
+    private ListView eventsListView;
     private String currentTime;
     private Topic topic;
     private RepositoryManager repositoryManager;
+    private List<Event> eventsList = new ArrayList<>();
+    private List<String> eventIdsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +55,20 @@ public class EventsActivity extends AppCompatActivity {
 
         sendBtn = (ImageButton) findViewById(R.id.send_btn);
         addEventEditText = (EditText) findViewById(R.id.addEvent_editText);
-        eventsListTextView = (TextView) findViewById(R.id.eventsList_textView);
-        eventsListTextView.setMovementMethod(new ScrollingMovementMethod());
+//        eventsListTextView = (TextView) findViewById(R.id.eventsList_textView);
+//        eventsListTextView.setMovementMethod(new ScrollingMovementMethod());
+        eventsListView = (ListView) findViewById(R.id.events_listView);
 
         addEventEditText.getBackground().setColorFilter(45235, PorterDuff.Mode.SRC_IN);
 
-        topic = new Topic();
+        this.topic = new Topic();
 
 //        user_name = getIntent().getExtras().get("user_name").toString();
-        topic.setId(getIntent().getExtras().get("topicId").toString());
-        topic.setTitle(getIntent().getExtras().get("topicTitle").toString());
-        topic.setTimestamp(getIntent().getExtras().get("topicTimestamp").toString());
-        topic.setDescription(getIntent().getExtras().get("topicDescription").toString());
-        topic.setAuthor(getIntent().getExtras().get("topicAuthor").toString());
+        this.topic.setId(getIntent().getExtras().get("topicId").toString());
+        this.topic.setTitle(getIntent().getExtras().get("topicTitle").toString());
+        this.topic.setTimestamp(getIntent().getExtras().get("topicTimestamp").toString());
+        this.topic.setDescription(getIntent().getExtras().get("topicDescription").toString());
+        this.topic.setAuthor(getIntent().getExtras().get("topicAuthor").toString());
 
 //        this.topic = repositoryManager.getTopicById(topicId);
 
@@ -93,7 +103,7 @@ public class EventsActivity extends AppCompatActivity {
             }
         });
 
-        repositoryManager.getEventsRoot().addChildEventListener(new ChildEventListener() {
+        repositoryManager.getTopicEventsRoot().child(topic.getId()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 addEventsToListView(dataSnapshot);
@@ -124,15 +134,27 @@ public class EventsActivity extends AppCompatActivity {
     }
 
     private void addEventsToListView(DataSnapshot dataSnapshot) {
-        Iterator i = dataSnapshot.getChildren().iterator();
-        while (i.hasNext()) {
-            String content = (String) ((DataSnapshot) i.next()).getValue();
-            String event_id = (String) ((DataSnapshot) i.next()).getValue(); //ID występuje w bazie jako klucz obiektu
-            String timestamp = (String) ((DataSnapshot) i.next()).getValue();
-            String topic_id = (String) ((DataSnapshot) i.next()).getValue(); //// TODO: 25.10.2017 Topic name for now, change for ID
-            Log.d(TAG, "clearAndAddEventsToListView: New event apped."); // with ID: " + event_id);
-            eventsListTextView.append(getDate(timestamp) + "; Msg: " + content + "; T. Id: " + topic_id + " \n");
-        }
+//        Iterator i = dataSnapshot.getChildren().iterator();
+//        while (i.hasNext()) {
+//            String content = (String) ((DataSnapshot) i.next()).getValue();
+//            String event_id = (String) ((DataSnapshot) i.next()).getValue(); //ID występuje w bazie jako klucz obiektu
+//            String timestamp = (String) ((DataSnapshot) i.next()).getValue();
+//            String topic_id = (String) ((DataSnapshot) i.next()).getValue(); //// TODO: 25.10.2017 Topic name for now, change for ID
+//            Log.d(TAG, "clearAndAddEventsToListView: New event apped."); // with ID: " + event_id);
+//            eventsListTextView.append(getDate(timestamp) + "; Msg: " + content + "; T. Id: " + topic_id + " \n");
+//        }
+
+
+//        Event event = dataSnapshot.getValue(Event.class);
+//        eventsList.add(event);
+//        EventsAdapter eventsAdapter = new EventsAdapter(this, eventsList);
+//        eventsListView.setAdapter(eventsAdapter);
+
+        String key = dataSnapshot.getKey();
+        eventIdsList.add(key);
+
+        EventsStringAdapter eventsStringAdapter = new EventsStringAdapter(this, eventIdsList);
+        eventsListView.setAdapter(eventsStringAdapter);
     }
 
     @Override
@@ -142,7 +164,8 @@ public class EventsActivity extends AppCompatActivity {
     }
 
     private void clearAndAddEventsToListView(DataSnapshot dataSnapshot) {
-        eventsListTextView.setText("");
+//        eventsListTextView.setText("");
+//        eventsListView.removeAllViews(); //todo check !
         addEventsToListView(dataSnapshot);
     }
 }

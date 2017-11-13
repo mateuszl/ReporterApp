@@ -155,4 +155,16 @@ public class RepositoryManager {
     private void deleteTopicFromUser(Topic topic, User user) {
         userTopicsRoot.child(user.getId()).child(topic.getId()).removeValue();
     }
+
+    public Event getEventById(String s) {
+        Event event = new Event();
+
+        event.setContent("13.57 aaa");
+        event.setId("13.57 bbbbb");
+        event.setTimestamp("1510577613");
+        event.setTopic("13.57 cccc");
+
+        //todo
+        return event;
+    }
 }

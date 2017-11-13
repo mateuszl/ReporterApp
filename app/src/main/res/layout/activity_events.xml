@@ -6,16 +6,22 @@
     android:layout_height="match_parent"
     tools:context="com.mateuszl.reporterapp.view.EventsActivity">
 
-    <TextView
-        android:id="@+id/eventsList_textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/relative_2"
         android:layout_above="@+id/send_btn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:gravity="bottom"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault" />
+        android:layout_alignParentStart="true">
+
+        <ListView
+            android:id="@+id/events_listView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="#b5b5b5"
+            android:dividerHeight="1dp"
+            android:listSelector="@drawable/list_selector" />
+    </RelativeLayout>
 
     <EditText
         android:id="@+id/addEvent_editText"
