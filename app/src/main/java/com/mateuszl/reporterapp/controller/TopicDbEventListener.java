@@ -11,7 +11,7 @@ import java.util.HashMap;
  * Created by mateuszl on 08.11.2017.
  */
 
-public class TopicEventListener implements ValueEventListener {
+public class TopicDbEventListener implements ValueEventListener {
 
     private String topicId;
     private Topic topic;
@@ -20,7 +20,7 @@ public class TopicEventListener implements ValueEventListener {
         return topic;
     }
 
-    public TopicEventListener(String topicId) {
+    public TopicDbEventListener(String topicId) {
         this.topicId = topicId;
         topic = new Topic();
     }
@@ -40,9 +40,9 @@ public class TopicEventListener implements ValueEventListener {
 
         if (topic.getTitle() == null) {
             topic = new Topic();
-            topic.setId("AAAAdddddAAAAaaaa");
-            topic.setAuthor("AADddDDAaAaaaaa");
-            topic.setTitle("AAAddDDAADddaaaaa");
+            topic.setId("AAAAddd HARDCODED");
+            topic.setAuthor("AADddDDAa HARDCODED");
+            topic.setTitle("AAAddD HARDCODED");
         }
 
     }

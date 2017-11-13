@@ -1,35 +1,26 @@
 package com.mateuszl.reporterapp.view;
 
-import android.app.Application;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.mateuszl.reporterapp.R;
-import com.mateuszl.reporterapp.controller.EventsAdapter;
 import com.mateuszl.reporterapp.controller.EventsStringAdapter;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-
-import static com.mateuszl.reporterapp.utils.Utils.getDate;
 
 /**
  * Lista zdarzeń (eventów) w wyświetlanej relacji wydarzenia.
@@ -39,13 +30,11 @@ public class EventsActivity extends AppCompatActivity {
     private final String TAG = "EventsActivity LOG ";
     private ImageButton sendBtn;
     private EditText addEventEditText;
-//    private TextView eventsListTextView;
     private ListView eventsListView;
     private String currentTime;
     private Topic topic;
     private RepositoryManager repositoryManager;
-    private List<Event> eventsList = new ArrayList<>();
-    private List<String> eventIdsList = new ArrayList<>();
+    private List<String> topicEventsIdsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +44,6 @@ public class EventsActivity extends AppCompatActivity {
 
         sendBtn = (ImageButton) findViewById(R.id.send_btn);
         addEventEditText = (EditText) findViewById(R.id.addEvent_editText);
-//        eventsListTextView = (TextView) findViewById(R.id.eventsList_textView);
-//        eventsListTextView.setMovementMethod(new ScrollingMovementMethod());
         eventsListView = (ListView) findViewById(R.id.events_listView);
 
         addEventEditText.getBackground().setColorFilter(45235, PorterDuff.Mode.SRC_IN);
@@ -70,7 +57,6 @@ public class EventsActivity extends AppCompatActivity {
         this.topic.setDescription(getIntent().getExtras().get("topicDescription").toString());
         this.topic.setAuthor(getIntent().getExtras().get("topicAuthor").toString());
 
-//        this.topic = repositoryManager.getTopicById(topicId);
 
         if (this.topic != null) {
             if (this.topic.getTitle() == null || this.topic.getTitle().isEmpty()) {
@@ -150,11 +136,14 @@ public class EventsActivity extends AppCompatActivity {
 //        EventsAdapter eventsAdapter = new EventsAdapter(this, eventsList);
 //        eventsListView.setAdapter(eventsAdapter);
 
-        String key = dataSnapshot.getKey();
-        eventIdsList.add(key);
+        String eventIdKey = dataSnapshot.getKey();
+        topicEventsIdsList.add(eventIdKey);
 
-        EventsStringAdapter eventsStringAdapter = new EventsStringAdapter(this, eventIdsList);
+        EventsStringAdapter eventsStringAdapter = new EventsStringAdapter(this, topicEventsIdsList);
         eventsListView.setAdapter(eventsStringAdapter);
+
+//        eventsStringAdapter.notifyDataSetChanged();
+//        eventsListView.invalidateViews();
     }
 
     @Override

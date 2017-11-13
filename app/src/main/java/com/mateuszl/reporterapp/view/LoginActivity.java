@@ -29,9 +29,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mateuszl.reporterapp.R;
+import com.mateuszl.reporterapp.controller.RepositoryManager;
+import com.mateuszl.reporterapp.model.Event;
+import com.mateuszl.reporterapp.model.Topic2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -103,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         events_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
-                intent.putExtra("topicId", "LoginAct Id(" + UUID.randomUUID().toString().substring(0,8) + ")"); //// TODO: 24.10.2017 hardcoded
+                intent.putExtra("topicId", "LoginAct Id(" + UUID.randomUUID().toString().substring(0, 8) + ")"); //// TODO: 24.10.2017 hardcoded
                 intent.putExtra("topicTitle", "Hardcoded Title"); //// TODO: 24.10.2017 hardcoded
                 intent.putExtra("topicTimestamp", "123123123"); //// TODO: 24.10.2017 hardcoded
                 intent.putExtra("topicDescription", "Hardcoded Title"); //// TODO: 24.10.2017 hardcoded
@@ -115,11 +119,42 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         topics_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);
-                intent.putExtra("user_name", "LoginAct Name(" + UUID.randomUUID().toString().substring(0,8) + ")"); //// TODO: 24.10.2017 hardcoded
+                intent.putExtra("user_name", "LoginAct Name(" + UUID.randomUUID().toString().substring(0, 8) + ")"); //// TODO: 24.10.2017 hardcoded
                 intent.putExtra("success", false);
                 intent.putExtra("topicId", "");
                 startActivity(intent);
-            }});
+            }
+        });
+
+        //////////////////////////////////////////// TEST TODO
+
+        Topic2 topic2 = new Topic2();
+        topic2.setId("12121212");
+        topic2.setTitle("title2");
+        topic2.setAuthor("auth2");
+        topic2.setDescription("desc2");
+        topic2.setTimestamp("1510146332");
+        Event event = new Event();
+        event.setId("11111");
+        event.setTopic(topic2.getId());
+        event.setContent("content111");
+        event.setTimestamp("1510146332");
+        Event event2 = new Event();
+        event2.setId("22222");
+        event2.setTopic(topic2.getId());
+        event2.setContent("content22222");
+        event2.setTimestamp("1510146332");
+        List<Event> events = new ArrayList<>();
+        events.add(event);
+        events.add(event2);
+        topic2.setEvents(events);
+
+        RepositoryManager repositoryManager = RepositoryManager.getInstance();
+        Random random = new Random();
+        repositoryManager.getRoot().child("topics2").child("topic30").child("events").child("3").removeValue();
+
+        //////////////////////////////////////////// TEST
+
     }
 
     private void populateAutoComplete() {

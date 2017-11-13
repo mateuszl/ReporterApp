@@ -120,12 +120,12 @@ public class RepositoryManager {
 
     public Topic getTopicById(String topicId) {
         Topic topic = new Topic();
-        TopicEventListener topicEventListener = new TopicEventListener(topicId);
+        TopicDbEventListener topicDbEventListener = new TopicDbEventListener(topicId);
 
-//        this.topicsRoot.addValueEventListener(topicEventListener);
-        this.topicsRoot.addListenerForSingleValueEvent(topicEventListener);
+//        this.topicsRoot.addValueEventListener(topicDbEventListener);
+        this.topicsRoot.addListenerForSingleValueEvent(topicDbEventListener);
 
-        topic = topicEventListener.getTopic();
+        topic = topicDbEventListener.getTopic();
         return topic;
     }
 
@@ -156,15 +156,17 @@ public class RepositoryManager {
         userTopicsRoot.child(user.getId()).child(topic.getId()).removeValue();
     }
 
-    public Event getEventById(String s) {
+    public Event getEventById(String eventId) {
         Event event = new Event();
 
-        event.setContent("13.57 aaa");
-        event.setId("13.57 bbbbb");
-        event.setTimestamp("1510577613");
-        event.setTopic("13.57 cccc");
+        EventDbEventListener eventListener = new EventDbEventListener(eventId);
+//        this.eventsRoot.addChildEventListener(eventListener);
 
-        //todo
+        this.eventsRoot.child(eventId).addValueEventListener(eventListener);
+
+        event = eventListener.getEvent();
+
+        //todo check !
         return event;
     }
 }

@@ -55,8 +55,7 @@ public class TopicsAdapter extends BaseAdapter {
         TextView date = (TextView) vi.findViewById(R.id.timestamp); // date
 //        ImageView thumb_image = (ImageView) vi.findViewById(R.id.list_image); // thumb image
 
-        Topic topic = null;
-        topic = topics.get(position);
+        Topic topic = topics.get(position);
 
         // Setting all values in listview
         title.setText(topic.getTitle());
