@@ -28,6 +28,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.model.Event;
@@ -152,6 +155,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         RepositoryManager repositoryManager = RepositoryManager.getInstance();
         Random random = new Random();
         repositoryManager.getRoot().child("topics2").child("topic30").child("events").child("3").removeValue();
+
+        repositoryManager.getRoot().child("topics2").child("topic30").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Topic2 object = dataSnapshot.getValue(Topic2.class);
+                System.out.println(object);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         //////////////////////////////////////////// TEST
 
