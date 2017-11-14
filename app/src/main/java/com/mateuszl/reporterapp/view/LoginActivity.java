@@ -28,19 +28,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.mateuszl.reporterapp.R;
-import com.mateuszl.reporterapp.controller.RepositoryManager;
-import com.mateuszl.reporterapp.model.Event;
-import com.mateuszl.reporterapp.model.Topic2;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -133,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         //////////////////////////////////////////// TEST TODO
 
-//        Topic2 topic2 = new Topic2();
+//        Topic topic2 = new Topic();
 //        topic2.setId("12121212");
 //        topic2.setTitle("title2");
 //        topic2.setAuthor("auth2");
@@ -154,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //        events.add(event2);
 //        topic2.setEvents(events);
 //
-//        Topic2 topic3 = new Topic2();
+//        Topic topic3 = new Topic();
 //        topic3.setId("3434343434");
 //        topic3.setTitle("title2");
 //        topic3.setAuthor("auth2");

@@ -15,13 +15,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.EventsAdapter;
-import com.mateuszl.reporterapp.controller.EventsStringAdapter;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.model.Event;
-import com.mateuszl.reporterapp.model.Topic2;
+import com.mateuszl.reporterapp.model.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Lista zdarzeń (eventów) w wyświetlanej relacji wydarzenia.
@@ -33,7 +33,7 @@ public class EventsActivity extends AppCompatActivity {
     private EditText addEventEditText;
     private ListView eventsListView;
     private String currentTime;
-    private Topic2 topic;
+    private Topic topic;
     private RepositoryManager repositoryManager;
     private List<String> topicEventsIdsList = new ArrayList<>();
     private List<Event> topicEventsList = new ArrayList<>();
@@ -50,7 +50,7 @@ public class EventsActivity extends AppCompatActivity {
 
         addEventEditText.getBackground().setColorFilter(45235, PorterDuff.Mode.SRC_IN);
 
-        this.topic = new Topic2();
+        this.topic = new Topic();
 
 //        user_name = getIntent().getExtras().get("user_name").toString();
         this.topic.setId(getIntent().getExtras().get("topicId").toString());
@@ -137,7 +137,10 @@ public class EventsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);
+        intent.putExtra("user_name", "User Name HC(" + UUID.randomUUID().toString().substring(0, 8) + ")"); //// TODO: 24.10.2017 hardcoded
+        intent.putExtra("success", false);
+        intent.putExtra("topicId", "");
         startActivity(intent);
     }
 

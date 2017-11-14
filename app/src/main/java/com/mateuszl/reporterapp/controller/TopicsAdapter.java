@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.mateuszl.reporterapp.R;
-import com.mateuszl.reporterapp.model.Topic2;
+import com.mateuszl.reporterapp.model.Topic;
 
 import java.util.List;
 
@@ -21,10 +21,10 @@ import static com.mateuszl.reporterapp.utils.Utils.getDate;
 public class TopicsAdapter extends BaseAdapter {
 
     private Activity activity;
-    private List<Topic2> topics;
+    private List<Topic> topics;
 //    public ImageLoader imageLoader;
 
-    public TopicsAdapter(Activity a, List<Topic2> topicList) {
+    public TopicsAdapter(Activity a, List<Topic> topicList) {
         activity = a;
         topics = topicList;
     }
@@ -50,7 +50,7 @@ public class TopicsAdapter extends BaseAdapter {
         TextView description = (TextView) vi.findViewById(R.id.description); // description name
         TextView date = (TextView) vi.findViewById(R.id.timestamp); // date
 
-        Topic2 topic = topics.get(position);
+        Topic topic = topics.get(position);
 
         // Setting all values in listview
         title.setText(topic.getTitle());

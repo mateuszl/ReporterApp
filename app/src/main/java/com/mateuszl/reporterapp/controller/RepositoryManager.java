@@ -3,7 +3,7 @@ package com.mateuszl.reporterapp.controller;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.model.Event;
-import com.mateuszl.reporterapp.model.Topic2;
+import com.mateuszl.reporterapp.model.Topic;
 import com.mateuszl.reporterapp.model.User;
 
 public class RepositoryManager {
@@ -41,47 +41,47 @@ public class RepositoryManager {
         return userTopicsRoot;
     }
 
-    public String saveTopic(Topic2 topic, User user) {
+    public String saveTopic(Topic topic, User user) {
         topic.setId(getNewKey(topicsRoot));
         topicsRoot.child(topic.getId()).setValue(topic);
         addTopicToUser(topic, user);
         return topic.getId();
     }
 
-    public void deleteTopic(Topic2 topic, User user) {
+    public void deleteTopic(Topic topic, User user) {
         //todo
     }
 
-    public void subscribeTopic(Topic2 topic, User user) {
+    public void subscribeTopic(Topic topic, User user) {
         //todo
     }
 
-    public void unsubscribeTopic(Topic2 topic, User user) {
+    public void unsubscribeTopic(Topic topic, User user) {
         //todo
     }
 
-    public Topic2 getTopicById(String topicId) {
+    public Topic getTopicById(String topicId) {
         TopicDbEventListener topicDbEventListener = new TopicDbEventListener(topicId);
         this.topicsRoot.addListenerForSingleValueEvent(topicDbEventListener);
         return topicDbEventListener.getTopic();
     }
 
-    public String saveEvent(Event event, Topic2 topic) {
+    public String saveEvent(Event event, Topic topic) {
         DatabaseReference topicEventsRef = getEventsRoot(topic.getId());
         event.setId(getNewKey(topicEventsRef));
         topicEventsRef.child(event.getId()).setValue(event);
         return event.getId();
     }
 
-    public void deleteEvent(Event event, Topic2 topic) {
+    public void deleteEvent(Event event, Topic topic) {
         getEventsRoot(topic.getId()).child(event.getId()).removeValue();
     }
 
-    public void addTopicToUser(Topic2 topic, User user) {
+    public void addTopicToUser(Topic topic, User user) {
         userTopicsRoot.child(user.getId()).child(topic.getId()).setValue(true);
     }
 
-    public void deleteTopicFromUser(Topic2 topic, User user) {
+    public void deleteTopicFromUser(Topic topic, User user) {
         userTopicsRoot.child(user.getId()).child(topic.getId()).removeValue();
     }
 

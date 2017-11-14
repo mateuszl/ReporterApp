@@ -12,7 +12,7 @@ import java.util.Map;
  * Created by Asus on 13.11.2017.
  */
 
-public class Topic2 {
+public class Topic {
     private String id;
     private String title;
     private String description;
@@ -21,10 +21,7 @@ public class Topic2 {
 //    private List<String> subscribers; //todo subscribers User IDs
     private Map<String, Event> events; //events IDs
 
-    public Topic2() {
-//        this.setId(UUID.randomUUID().toString());
-//        setSubscribers(new ArrayList<String>());
-        setEvents(new HashMap<String, Event>());
+    public Topic() {
         // Default constructor required for calls to DataSnapshot.getValue(Topic.class)
     }
 

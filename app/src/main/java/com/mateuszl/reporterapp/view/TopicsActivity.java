@@ -17,11 +17,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.controller.TopicsAdapter;
-import com.mateuszl.reporterapp.model.Event;
-import com.mateuszl.reporterapp.model.Topic2;
+import com.mateuszl.reporterapp.model.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Lista eventów
@@ -35,7 +35,7 @@ public class TopicsActivity extends AppCompatActivity {
     private Boolean success = false;
     private RepositoryManager repositoryManager;
 
-    private List<Topic2> topicsList = new ArrayList<Topic2>();
+    private List<Topic> topicsList = new ArrayList<Topic>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,7 @@ public class TopicsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Topic2 topicSelected = (Topic2) parent.getAdapter().getItem(position);
+                Topic topicSelected = (Topic) parent.getAdapter().getItem(position);
 
                 Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
                 intent.putExtra("topicId", topicSelected.getId());
@@ -128,7 +128,7 @@ public class TopicsActivity extends AppCompatActivity {
 
     private void addTopicsToListView(DataSnapshot dataSnapshot) {
         Object object = dataSnapshot.getValue();
-        Topic2 topic = dataSnapshot.getValue(Topic2.class);
+        Topic topic = dataSnapshot.getValue(Topic.class);
         topicsList.add(topic);
 
         TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
