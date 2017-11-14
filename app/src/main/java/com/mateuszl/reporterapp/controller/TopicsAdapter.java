@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.mateuszl.reporterapp.R;
-import com.mateuszl.reporterapp.model.Topic;
+import com.mateuszl.reporterapp.model.Topic_old;
 
 import java.util.List;
 
@@ -22,10 +22,10 @@ public class TopicsAdapter extends BaseAdapter {
 
     private static LayoutInflater inflater = null;
     private Activity activity;
-    private List<Topic> topics;
+    private List<Topic_old> topics;
 //    public ImageLoader imageLoader;
 
-    public TopicsAdapter(Activity a, List<Topic> t) {
+    public TopicsAdapter(Activity a, List<Topic_old> t) {
         activity = a;
         topics = t;
 //        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE); //fixme if needed OPTION 1
@@ -55,7 +55,7 @@ public class TopicsAdapter extends BaseAdapter {
         TextView date = (TextView) vi.findViewById(R.id.timestamp); // date
 //        ImageView thumb_image = (ImageView) vi.findViewById(R.id.list_image); // thumb image
 
-        Topic topic = topics.get(position);
+        Topic_old topic = topics.get(position);
 
         // Setting all values in listview
         title.setText(topic.getTitle());

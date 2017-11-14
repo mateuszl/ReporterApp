@@ -17,7 +17,8 @@ import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.EventsStringAdapter;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.model.Event;
-import com.mateuszl.reporterapp.model.Topic;
+import com.mateuszl.reporterapp.model.Topic2;
+import com.mateuszl.reporterapp.model.Topic_old;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class EventsActivity extends AppCompatActivity {
     private EditText addEventEditText;
     private ListView eventsListView;
     private String currentTime;
-    private Topic topic;
+    private Topic2 topic;
     private RepositoryManager repositoryManager;
     private List<String> topicEventsIdsList = new ArrayList<>();
 
@@ -48,7 +49,7 @@ public class EventsActivity extends AppCompatActivity {
 
         addEventEditText.getBackground().setColorFilter(45235, PorterDuff.Mode.SRC_IN);
 
-        this.topic = new Topic();
+        this.topic = new Topic_old();
 
 //        user_name = getIntent().getExtras().get("user_name").toString();
         this.topic.setId(getIntent().getExtras().get("topicId").toString());
@@ -63,7 +64,7 @@ public class EventsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "topic title empty or null!!",
                         Toast.LENGTH_SHORT).show();
             } else {
-                setTitle("Topic: " + this.topic.getTitle());
+                setTitle("Topic_old: " + this.topic.getTitle());
             }
         } else {
             Toast.makeText(getApplicationContext(), "No such topic in DB!!",
@@ -125,7 +126,7 @@ public class EventsActivity extends AppCompatActivity {
 //            String content = (String) ((DataSnapshot) i.next()).getValue();
 //            String event_id = (String) ((DataSnapshot) i.next()).getValue(); //ID występuje w bazie jako klucz obiektu
 //            String timestamp = (String) ((DataSnapshot) i.next()).getValue();
-//            String topic_id = (String) ((DataSnapshot) i.next()).getValue(); //// TODO: 25.10.2017 Topic name for now, change for ID
+//            String topic_id = (String) ((DataSnapshot) i.next()).getValue(); //// TODO: 25.10.2017 Topic_old name for now, change for ID
 //            Log.d(TAG, "clearAndAddEventsToListView: New event apped."); // with ID: " + event_id);
 //            eventsListTextView.append(getDate(timestamp) + "; Msg: " + content + "; T. Id: " + topic_id + " \n");
 //        }

@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Klasa reprezentująca wydarzenie sportowe, którego dotyczy relacja.
  */
-public class Topic {
+public class Topic_old {
     private String id;
     private String title;
     private String description;
@@ -18,11 +18,11 @@ public class Topic {
 //    private List<String> subscribers; //todo subscribers User IDs
 //    private List<String> events; //events IDs
 
-    public Topic() {
+    public Topic_old() {
 //        this.setId(UUID.randomUUID().toString());
 //        setSubscribers(new ArrayList<String>());
 //        setEvents(new ArrayList<String>());
-        // Default constructor required for calls to DataSnapshot.getValue(Topic.class)
+        // Default constructor required for calls to DataSnapshot.getValue(Topic_old.class)
     }
 
     public String getId() {

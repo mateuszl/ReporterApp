@@ -3,7 +3,8 @@ package com.mateuszl.reporterapp.controller;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.mateuszl.reporterapp.model.Topic;
+import com.mateuszl.reporterapp.model.Topic2;
+import com.mateuszl.reporterapp.model.Topic_old;
 
 import java.util.HashMap;
 
@@ -14,15 +15,15 @@ import java.util.HashMap;
 public class TopicDbEventListener implements ValueEventListener {
 
     private String topicId;
-    private Topic topic;
+    private Topic2 topic;
 
-    public Topic getTopic() {
+    public Topic2 getTopic() {
         return topic;
     }
 
     public TopicDbEventListener(String topicId) {
         this.topicId = topicId;
-        topic = new Topic();
+        topic = new Topic_old();
     }
 
     @Override
@@ -39,7 +40,7 @@ public class TopicDbEventListener implements ValueEventListener {
         }
 
         if (topic.getTitle() == null) {
-            topic = new Topic();
+            topic = new Topic_old();
             topic.setId("AAAAddd HARDCODED");
             topic.setAuthor("AADddDDAa HARDCODED");
             topic.setTitle("AAAddD HARDCODED");

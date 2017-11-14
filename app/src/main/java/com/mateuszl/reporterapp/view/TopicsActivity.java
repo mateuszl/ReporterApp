@@ -17,11 +17,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.controller.TopicsAdapter;
-import com.mateuszl.reporterapp.model.Topic;
+import com.mateuszl.reporterapp.model.Topic_old;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Lista eventów
@@ -35,7 +34,7 @@ public class TopicsActivity extends AppCompatActivity {
     private Boolean success = false;
     private RepositoryManager repositoryManager;
 
-    private List<Topic> topicsList = new ArrayList<>();
+    private List<Topic_old> topicsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,7 @@ public class TopicsActivity extends AppCompatActivity {
         setTitle(user_name + " topics");
 
         if (success) {
-            Toast.makeText(getApplicationContext(), "Topic Created !",
+            Toast.makeText(getApplicationContext(), "Topic_old Created !",
                     Toast.LENGTH_SHORT).show();
         }
 
@@ -83,7 +82,7 @@ public class TopicsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Topic topicSelected = (Topic) parent.getAdapter().getItem(position);
+                Topic_old topicSelected = (Topic_old) parent.getAdapter().getItem(position);
 
                 Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
                 intent.putExtra("topicId", topicSelected.getId());
@@ -126,7 +125,7 @@ public class TopicsActivity extends AppCompatActivity {
     }
 
     private void addTopicsToListView(DataSnapshot dataSnapshot) {
-        Topic topic = dataSnapshot.getValue(Topic.class);
+        Topic_old topic = dataSnapshot.getValue(Topic_old.class);
         topicsList.add(topic);
 
         TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);

@@ -25,7 +25,7 @@ public class Topic2 {
 //        this.setId(UUID.randomUUID().toString());
 //        setSubscribers(new ArrayList<String>());
         setEvents(new ArrayList<Event>());
-        // Default constructor required for calls to DataSnapshot.getValue(Topic.class)
+        // Default constructor required for calls to DataSnapshot.getValue(Topic_old.class)
     }
 
     public String getId() {
@@ -104,7 +104,7 @@ public class Topic2 {
         result.put("author", getAuthor());
         result.put("timestamp", getTimestamp());
 //        result.put("subscribers", getSubscribers());
-//        result.put("events", getEvents());
+        result.put("events", getEvents());
         return result;
     }
 

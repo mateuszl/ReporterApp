@@ -10,7 +10,8 @@ import android.widget.Toast;
 
 import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
-import com.mateuszl.reporterapp.model.Topic;
+import com.mateuszl.reporterapp.model.Topic2;
+import com.mateuszl.reporterapp.model.Topic_old;
 import com.mateuszl.reporterapp.model.User;
 
 public class EditTopicActivity extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class EditTopicActivity extends AppCompatActivity {
                 if (topicTitleEditText.getText().length() > 0 && topicDescriptionEditText.getText().length() > 0) {
                     //todo dodać sprawdzenie czy takie wydarzenie juz istnieje
 
-                    Topic newTopic = createNewTopic();
+                    Topic2 newTopic = createNewTopic();
 
                     String savedTopicId = repositoryManager.saveTopic(newTopic, user);
 
@@ -65,11 +66,11 @@ public class EditTopicActivity extends AppCompatActivity {
         });
     }
 
-    private Topic createNewTopic() {
+    private Topic2 createNewTopic() {
         Long tsLong = System.currentTimeMillis() / 1000;
         currentTime = tsLong.toString();
 
-        Topic topic = new Topic();
+        Topic2 topic = new Topic_old();
         topic.setAuthor(userName);
         topic.setDescription(topicDescriptionEditText.getText().toString());
         topic.setTitle(topicTitleEditText.getText().toString());
