@@ -14,11 +14,11 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.mateuszl.reporterapp.R;
+import com.mateuszl.reporterapp.controller.EventsAdapter;
 import com.mateuszl.reporterapp.controller.EventsStringAdapter;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic2;
-import com.mateuszl.reporterapp.model.Topic_old;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +36,7 @@ public class EventsActivity extends AppCompatActivity {
     private Topic2 topic;
     private RepositoryManager repositoryManager;
     private List<String> topicEventsIdsList = new ArrayList<>();
+    private List<Event> topicEventsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class EventsActivity extends AppCompatActivity {
 
         addEventEditText.getBackground().setColorFilter(45235, PorterDuff.Mode.SRC_IN);
 
-        this.topic = new Topic_old();
+        this.topic = new Topic2();
 
 //        user_name = getIntent().getExtras().get("user_name").toString();
         this.topic.setId(getIntent().getExtras().get("topicId").toString());
@@ -64,7 +65,7 @@ public class EventsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "topic title empty or null!!",
                         Toast.LENGTH_SHORT).show();
             } else {
-                setTitle("Topic_old: " + this.topic.getTitle());
+                setTitle("Topic: " + this.topic.getTitle());
             }
         } else {
             Toast.makeText(getApplicationContext(), "No such topic in DB!!",
@@ -90,9 +91,10 @@ public class EventsActivity extends AppCompatActivity {
             }
         });
 
-        repositoryManager.getTopicEventsRoot().child(topic.getId()).addChildEventListener(new ChildEventListener() {
+        repositoryManager.getEventsRoot(topic.getId()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                Object value = dataSnapshot.getValue();
                 addEventsToListView(dataSnapshot);
             }
 
@@ -121,26 +123,12 @@ public class EventsActivity extends AppCompatActivity {
     }
 
     private void addEventsToListView(DataSnapshot dataSnapshot) {
-//        Iterator i = dataSnapshot.getChildren().iterator();
-//        while (i.hasNext()) {
-//            String content = (String) ((DataSnapshot) i.next()).getValue();
-//            String event_id = (String) ((DataSnapshot) i.next()).getValue(); //ID występuje w bazie jako klucz obiektu
-//            String timestamp = (String) ((DataSnapshot) i.next()).getValue();
-//            String topic_id = (String) ((DataSnapshot) i.next()).getValue(); //// TODO: 25.10.2017 Topic_old name for now, change for ID
-//            Log.d(TAG, "clearAndAddEventsToListView: New event apped."); // with ID: " + event_id);
-//            eventsListTextView.append(getDate(timestamp) + "; Msg: " + content + "; T. Id: " + topic_id + " \n");
-//        }
+//        String eventIdKey = dataSnapshot.getKey();
+//        topicEventsIdsList.add(eventIdKey);
+        topicEventsList.add(dataSnapshot.getValue(Event.class));
 
-
-//        Event event = dataSnapshot.getValue(Event.class);
-//        eventsList.add(event);
-//        EventsAdapter eventsAdapter = new EventsAdapter(this, eventsList);
-//        eventsListView.setAdapter(eventsAdapter);
-
-        String eventIdKey = dataSnapshot.getKey();
-        topicEventsIdsList.add(eventIdKey);
-
-        EventsStringAdapter eventsStringAdapter = new EventsStringAdapter(this, topicEventsIdsList);
+//        EventsStringAdapter eventsStringAdapter = new EventsStringAdapter(this, topicEventsIdsList, this.topic.getId());
+        EventsAdapter eventsStringAdapter = new EventsAdapter(this, topicEventsList);
         eventsListView.setAdapter(eventsStringAdapter);
 
 //        eventsStringAdapter.notifyDataSetChanged();

@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.model.Topic2;
-import com.mateuszl.reporterapp.model.Topic_old;
 import com.mateuszl.reporterapp.model.User;
 
 public class EditTopicActivity extends AppCompatActivity {
@@ -70,7 +69,7 @@ public class EditTopicActivity extends AppCompatActivity {
         Long tsLong = System.currentTimeMillis() / 1000;
         currentTime = tsLong.toString();
 
-        Topic2 topic = new Topic_old();
+        Topic2 topic = new Topic2();
         topic.setAuthor(userName);
         topic.setDescription(topicDescriptionEditText.getText().toString());
         topic.setTitle(topicTitleEditText.getText().toString());

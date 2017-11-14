@@ -17,7 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.controller.TopicsAdapter;
-import com.mateuszl.reporterapp.model.Topic_old;
+import com.mateuszl.reporterapp.model.Event;
+import com.mateuszl.reporterapp.model.Topic2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class TopicsActivity extends AppCompatActivity {
     private Boolean success = false;
     private RepositoryManager repositoryManager;
 
-    private List<Topic_old> topicsList = new ArrayList<>();
+    private List<Topic2> topicsList = new ArrayList<Topic2>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class TopicsActivity extends AppCompatActivity {
         setTitle(user_name + " topics");
 
         if (success) {
-            Toast.makeText(getApplicationContext(), "Topic_old Created !",
+            Toast.makeText(getApplicationContext(), "Topic Created !",
                     Toast.LENGTH_SHORT).show();
         }
 
@@ -82,7 +83,7 @@ public class TopicsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Topic_old topicSelected = (Topic_old) parent.getAdapter().getItem(position);
+                Topic2 topicSelected = (Topic2) parent.getAdapter().getItem(position);
 
                 Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
                 intent.putExtra("topicId", topicSelected.getId());
@@ -98,6 +99,7 @@ public class TopicsActivity extends AppCompatActivity {
         topicsRoot.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                Object value = dataSnapshot.getValue();
                 addTopicsToListView(dataSnapshot);
             }
 
@@ -125,7 +127,8 @@ public class TopicsActivity extends AppCompatActivity {
     }
 
     private void addTopicsToListView(DataSnapshot dataSnapshot) {
-        Topic_old topic = dataSnapshot.getValue(Topic_old.class);
+        Object object = dataSnapshot.getValue();
+        Topic2 topic = dataSnapshot.getValue(Topic2.class);
         topicsList.add(topic);
 
         TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);

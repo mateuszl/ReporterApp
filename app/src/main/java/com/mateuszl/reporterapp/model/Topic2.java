@@ -19,13 +19,13 @@ public class Topic2 {
     private String timestamp;
     private String author; //authors User ID
 //    private List<String> subscribers; //todo subscribers User IDs
-    private List<Event> events; //events IDs
+    private Map<String, Event> events; //events IDs
 
     public Topic2() {
 //        this.setId(UUID.randomUUID().toString());
 //        setSubscribers(new ArrayList<String>());
-        setEvents(new ArrayList<Event>());
-        // Default constructor required for calls to DataSnapshot.getValue(Topic_old.class)
+        setEvents(new HashMap<String, Event>());
+        // Default constructor required for calls to DataSnapshot.getValue(Topic.class)
     }
 
     public String getId() {
@@ -86,11 +86,14 @@ public class Topic2 {
      *
      * @return
      */
-    public List<Event> getEvents() {
+    public Map<String, Event> getEvents() {
+        if (events==null){
+            setEvents(new HashMap<String, Event>());
+        }
         return events;
     }
 
-    public void setEvents(List<Event> events) {
+    public void setEvents(Map<String, Event> events) {
         this.events = events;
     }
 
@@ -107,6 +110,7 @@ public class Topic2 {
         result.put("events", getEvents());
         return result;
     }
+
 
 
     @Override

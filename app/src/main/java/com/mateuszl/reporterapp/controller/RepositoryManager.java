@@ -4,11 +4,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic2;
-import com.mateuszl.reporterapp.model.Topic_old;
 import com.mateuszl.reporterapp.model.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RepositoryManager {
     private static RepositoryManager instance = null;
@@ -52,15 +48,15 @@ public class RepositoryManager {
         return topic.getId();
     }
 
-    public void deleteTopic(Topic_old topic, User user) {
+    public void deleteTopic(Topic2 topic, User user) {
         //todo
     }
 
-    public void subscribeTopic(Topic_old topic, User user) {
+    public void subscribeTopic(Topic2 topic, User user) {
         //todo
     }
 
-    public void unsubscribeTopic(Topic_old topic, User user) {
+    public void unsubscribeTopic(Topic2 topic, User user) {
         //todo
     }
 
@@ -85,7 +81,7 @@ public class RepositoryManager {
         userTopicsRoot.child(user.getId()).child(topic.getId()).setValue(true);
     }
 
-    public void deleteTopicFromUser(Topic_old topic, User user) {
+    public void deleteTopicFromUser(Topic2 topic, User user) {
         userTopicsRoot.child(user.getId()).child(topic.getId()).removeValue();
     }
 

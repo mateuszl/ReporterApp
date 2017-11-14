@@ -67,7 +67,6 @@ public class Event {
         eventMap.put("content", getContent());
         eventMap.put("timestamp", getTimestamp());
         eventMap.put("topic", getTopic());
-
         return eventMap;
     }
 

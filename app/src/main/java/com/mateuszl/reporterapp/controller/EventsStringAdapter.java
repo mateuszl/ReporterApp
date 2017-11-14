@@ -22,12 +22,14 @@ public class EventsStringAdapter extends BaseAdapter {
 
     private Activity activity;
     private List<String> eventIds;
-    RepositoryManager repositoryManager;
+    private String topicId;
+    private RepositoryManager repositoryManager;
 
-    public EventsStringAdapter(Activity a, List<String> t) {
-        activity = a;
-        eventIds = t;
-        repositoryManager = new RepositoryManager();
+    public EventsStringAdapter(Activity activity, List<String> eventIdsList, String topicId) {
+        this.activity = activity;
+        this.eventIds = eventIdsList;
+        this.topicId = topicId;
+        this.repositoryManager = new RepositoryManager();
     }
 
     public int getCount() {
@@ -35,7 +37,7 @@ public class EventsStringAdapter extends BaseAdapter {
     }
 
     public Object getItem(int position) {
-        return eventIds.get(position);
+        return this.eventIds.get(position);
     }
 
     public long getItemId(int position) {
@@ -50,8 +52,8 @@ public class EventsStringAdapter extends BaseAdapter {
         TextView content = (TextView) vi.findViewById(R.id.event_content); // content
         TextView date = (TextView) vi.findViewById(R.id.event_timestamp); // date
 
-        String eventId = eventIds.get(position);
-        Event event = repositoryManager.getEventById(eventId);
+        String eventId = this.eventIds.get(position);
+        Event event = this.repositoryManager.getEventById(eventId, this.topicId);
 
         // Setting all values in listview
         content.setText(event.getContent());
