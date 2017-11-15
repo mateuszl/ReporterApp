@@ -62,14 +62,12 @@ public class EventsActivity extends AppCompatActivity {
 
         if (this.topic != null) {
             if (this.topic.getTitle() == null || this.topic.getTitle().isEmpty()) {
-                Toast.makeText(getApplicationContext(), "topic title empty or null!!",
-                        Toast.LENGTH_SHORT).show();
+                showMessage("topic title empty or null!!");
             } else {
                 setTitle("Topic: " + this.topic.getTitle());
             }
         } else {
-            Toast.makeText(getApplicationContext(), "No such topic in DB!!",
-                    Toast.LENGTH_SHORT).show();
+            showMessage("No such topic in DB!!");
             //todo wyjście do listy topiców
         }
 
@@ -120,6 +118,10 @@ public class EventsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void showMessage(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     private void addEventsToListView(DataSnapshot dataSnapshot) {
