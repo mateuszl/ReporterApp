@@ -73,12 +73,6 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/events_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Events CHEAT !!" />
-
-            <Button
                 android:id="@+id/topics_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

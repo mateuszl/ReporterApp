@@ -63,14 +63,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private Button events_btn, topics_btn;
+    private Button topics_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        events_btn = (Button) findViewById(R.id.events_btn);
         topics_btn = (Button) findViewById(R.id.topics_btn);
 
         // Set up the login form.
@@ -99,18 +98,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-
-        events_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
-                intent.putExtra("topicId", "LoginAct Id(" + UUID.randomUUID().toString().substring(0, 8) + ")"); //// TODO: 24.10.2017 hardcoded
-                intent.putExtra("topicTitle", "Hardcoded Title"); //// TODO: 24.10.2017 hardcoded
-                intent.putExtra("topicTimestamp", "123123123"); //// TODO: 24.10.2017 hardcoded
-                intent.putExtra("topicDescription", "Hardcoded Title"); //// TODO: 24.10.2017 hardcoded
-                intent.putExtra("topicAuthor", "Hardcoded Title"); //// TODO: 24.10.2017 hardcoded
-                startActivity(intent);
-            }
-        });
 
         topics_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
