@@ -5,7 +5,7 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".auth.AuthUiActivity">
+    tools:context=".view.AuthUiActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -45,37 +45,6 @@
                 android:layout_marginBottom="8dp"
                 android:text="@string/use_theme_header" />
 
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <RadioButton
-                    android:id="@+id/default_theme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/default_theme" />
-
-                <RadioButton
-                    android:id="@+id/purple_theme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/purple_theme" />
-
-                <RadioButton
-                    android:id="@+id/green_theme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/green_theme" />
-
-                <RadioButton
-                    android:id="@+id/dark_theme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dark_theme" />
-            </RadioGroup>
-
             <TextView
                 style="@style/Base.TextAppearance.AppCompat.Subhead"
                 android:layout_width="wrap_content"
@@ -92,20 +61,6 @@
                 android:text="@string/google_label" />
 
             <CheckBox
-                android:id="@+id/facebook_provider"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/facebook_label" />
-
-            <CheckBox
-                android:id="@+id/twitter_provider"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/twitter_label" />
-
-            <CheckBox
                 android:id="@+id/email_provider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -118,14 +73,6 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/phone_label" />
-
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Subhead"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/tos_header" />
 
             <RadioGroup
                 android:layout_width="wrap_content"
@@ -208,29 +155,6 @@
                     android:text="@string/no_logo_label" />
 
             </RadioGroup>
-
-            <TextView
-                android:id="@+id/facebook_scopes_label"
-                style="@style/Base.TextAppearance.AppCompat.Subhead"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/extra_facebook_scopes" />
-
-            <CheckBox
-                android:id="@+id/facebook_scope_friends"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:text="@string/friends" />
-
-            <CheckBox
-                android:id="@+id/facebook_scope_photos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:text="@string/photos" />
 
             <TextView
                 android:id="@+id/google_scopes_label"

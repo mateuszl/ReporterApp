@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import butterknife.BindView;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -65,12 +67,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private Button topics_btn;
 
+//    @BindView(R.id.accounts_btn)
+    Button accounts_btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         topics_btn = (Button) findViewById(R.id.topics_btn);
+        accounts_btn = (Button) findViewById(R.id.accounts_btn);
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -105,6 +111,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 intent.putExtra("user_name", "LoginAct Name(" + UUID.randomUUID().toString().substring(0, 8) + ")"); //// TODO: 24.10.2017 hardcoded
                 intent.putExtra("success", false);
                 intent.putExtra("topicId", "");
+                startActivity(intent);
+            }
+        });
+
+        accounts_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AuthUiActivity.class);
                 startActivity(intent);
             }
         });

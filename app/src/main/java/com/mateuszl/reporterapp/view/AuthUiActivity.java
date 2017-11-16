@@ -43,32 +43,11 @@ public class AuthUiActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 100;
 
-    @BindView(R.id.default_theme)
-    RadioButton mUseDefaultTheme;
-
-    @BindView(R.id.green_theme)
-    RadioButton mUseGreenTheme;
-
-    @BindView(R.id.purple_theme)
-    RadioButton mUsePurpleTheme;
-
-    @BindView(R.id.dark_theme)
-    RadioButton mUseDarkTheme;
-
     @BindView(R.id.email_provider)
     CheckBox mUseEmailProvider;
 
-    @BindView(R.id.phone_provider)
-    CheckBox mUsePhoneProvider;
-
     @BindView(R.id.google_provider)
     CheckBox mUseGoogleProvider;
-
-    @BindView(R.id.facebook_provider)
-    CheckBox mUseFacebookProvider;
-
-    @BindView(R.id.twitter_provider)
-    CheckBox mUseTwitterProvider;
 
     @BindView(R.id.google_tos)
     RadioButton mUseGoogleTos;
@@ -106,14 +85,6 @@ public class AuthUiActivity extends AppCompatActivity {
     @BindView(R.id.allow_new_email_accounts)
     CheckBox mAllowNewEmailAccounts;
 
-    @BindView(R.id.facebook_scopes_label)
-    TextView mFacebookScopesLabel;
-
-    @BindView(R.id.facebook_scope_friends)
-    CheckBox mFacebookScopeFriends;
-
-    @BindView(R.id.facebook_scope_photos)
-    CheckBox mFacebookScopePhotos;
 
     @BindView(R.id.google_scopes_label)
     TextView mGoogleScopesLabel;
@@ -156,34 +127,10 @@ public class AuthUiActivity extends AppCompatActivity {
             });
         }
 
-        if (isFacebookMisconfigured()) {
-            mUseFacebookProvider.setChecked(false);
-            mUseFacebookProvider.setEnabled(false);
-            mUseFacebookProvider.setText(R.string.facebook_label_missing_config);
-            setFacebookScopesEnabled(false);
-        } else {
-            setFacebookScopesEnabled(mUseFacebookProvider.isChecked());
-            mUseFacebookProvider.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                    setFacebookScopesEnabled(checked);
-                }
-            });
-        }
-
-        if (isTwitterMisconfigured()) {
-            mUseTwitterProvider.setChecked(false);
-            mUseTwitterProvider.setEnabled(false);
-            mUseTwitterProvider.setText(R.string.twitter_label_missing_config);
-        }
-
         if (isGoogleMisconfigured() || isFacebookMisconfigured() || isTwitterMisconfigured()) {
             showSnackbar(R.string.configuration_required);
         }
 
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            mUseDarkTheme.setChecked(true);
-        }
     }
 
     @OnClick(R.id.sign_in)
@@ -266,21 +213,6 @@ public class AuthUiActivity extends AppCompatActivity {
     }
 
     @MainThread
-    private void setFacebookScopesEnabled(boolean enabled) {
-        mFacebookScopesLabel.setEnabled(enabled);
-        mFacebookScopeFriends.setEnabled(enabled);
-        mFacebookScopePhotos.setEnabled(enabled);
-    }
-
-    @OnClick({R.id.default_theme, R.id.purple_theme, R.id.green_theme, R.id.dark_theme})
-    public void toggleDarkTheme() {
-        int mode = mUseDarkTheme.isChecked() ?
-                AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_AUTO;
-        AppCompatDelegate.setDefaultNightMode(mode);
-        getDelegate().setLocalNightMode(mode);
-    }
-
-    @MainThread
     @StyleRes
     private int getSelectedTheme() {
         return AuthUI.getDefaultTheme();
@@ -302,26 +234,26 @@ public class AuthUiActivity extends AppCompatActivity {
                             .setPermissions(getGooglePermissions())
                             .build());
         }
-
-        if (mUseFacebookProvider.isChecked()) {
-            selectedProviders.add(
-                    new IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER)
-                            .setPermissions(getFacebookPermissions())
-                            .build());
-        }
-
-        if (mUseTwitterProvider.isChecked()) {
-            selectedProviders.add(new IdpConfig.Builder(AuthUI.TWITTER_PROVIDER).build());
-        }
+//
+//        if (mUseFacebookProvider.isChecked()) {
+//            selectedProviders.add(
+//                    new IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER)
+//                            .setPermissions(getFacebookPermissions())
+//                            .build());
+//        }
+//
+//        if (mUseTwitterProvider.isChecked()) {
+//            selectedProviders.add(new IdpConfig.Builder(AuthUI.TWITTER_PROVIDER).build());
+//        }
 
         if (mUseEmailProvider.isChecked()) {
             selectedProviders.add(new IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
         }
-
-        if (mUsePhoneProvider.isChecked()) {
-            selectedProviders.add(
-                    new IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build());
-        }
+//
+//        if (mUsePhoneProvider.isChecked()) {
+//            selectedProviders.add(
+//                    new IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build());
+//        }
 
         return selectedProviders;
     }
@@ -367,18 +299,6 @@ public class AuthUiActivity extends AppCompatActivity {
     @MainThread
     private void showSnackbar(@StringRes int errorMessageRes) {
         Snackbar.make(mRootView, errorMessageRes, Snackbar.LENGTH_LONG).show();
-    }
-
-    @MainThread
-    private List<String> getFacebookPermissions() {
-        List<String> result = new ArrayList<>();
-        if (mFacebookScopeFriends.isChecked()) {
-            result.add("user_friends");
-        }
-        if (mFacebookScopePhotos.isChecked()) {
-            result.add("user_photos");
-        }
-        return result;
     }
 
     @MainThread
