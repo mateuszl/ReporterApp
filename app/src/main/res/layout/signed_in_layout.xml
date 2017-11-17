@@ -8,7 +8,7 @@
     android:paddingTop="16dp"
     android:paddingBottom="16dp"
     android:clipToPadding="false"
-    tools:context=".view.SignedInActivity">
+    tools:context=".view.UserAccountActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

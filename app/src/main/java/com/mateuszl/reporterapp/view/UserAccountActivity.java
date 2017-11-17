@@ -37,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SignedInActivity extends AppCompatActivity {
+public class UserAccountActivity extends AppCompatActivity {
 
     private static final String EXTRA_IDP_RESPONSE = "extra_idp_response";
     private static final String EXTRA_SIGNED_IN_CONFIG = "extra_signed_in_config";
@@ -74,7 +74,7 @@ public class SignedInActivity extends AppCompatActivity {
             startIntent.putExtra(EXTRA_IDP_RESPONSE, idpResponse);
         }
 
-        return startIntent.setClass(context, SignedInActivity.class)
+        return startIntent.setClass(context, UserAccountActivity.class)
                 .putExtra(EXTRA_SIGNED_IN_CONFIG, signedInConfig);
     }
 
@@ -106,7 +106,7 @@ public class SignedInActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            startActivity(AuthUiActivity.createIntent(SignedInActivity.this));
+                            startActivity(AuthUiActivity.createIntent(UserAccountActivity.this));
                             finish();
                         } else {
                             showSnackbar(R.string.sign_out_failed);
@@ -136,7 +136,7 @@ public class SignedInActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            startActivity(AuthUiActivity.createIntent(SignedInActivity.this));
+                            startActivity(AuthUiActivity.createIntent(UserAccountActivity.this));
                             finish();
                         } else {
                             showSnackbar(R.string.delete_account_failed);

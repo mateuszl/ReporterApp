@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.UUID;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -55,20 +56,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
+
+    Button accounts_btn;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
-
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
     private Button topics_btn;
-
-//    @BindView(R.id.accounts_btn)
-    Button accounts_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,18 +106,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         topics_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);
-                intent.putExtra("user_name", "LoginAct Name(" + UUID.randomUUID().toString().substring(0, 8) + ")"); //// TODO: 24.10.2017 hardcoded
-                intent.putExtra("success", false);
-                intent.putExtra("topicId", "");
-                startActivity(intent);
+                onTopicsBtnClick(v);
             }
         });
 
         accounts_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AuthUiActivity.class);
-                startActivity(intent);
+                onAccountsBtnClick(v);
             }
         });
 
@@ -188,8 +182,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //        });
 
         //////////////////////////////////////////// TEST
-
     }
+
+    private void onAccountsBtnClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), AuthUiActivity.class);
+        startActivity(intent);
+    }
+
+    private void onTopicsBtnClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);
+        intent.putExtra("user_name", "LoginAct Name(" + UUID.randomUUID().toString().substring(0, 8) + ")"); //// TODO: 24.10.2017 hardcoded
+        intent.putExtra("success", false);
+        intent.putExtra("topicId", "");
+        startActivity(intent);
+    }
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {

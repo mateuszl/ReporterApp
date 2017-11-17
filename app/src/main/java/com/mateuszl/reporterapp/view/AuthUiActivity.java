@@ -9,7 +9,6 @@ import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -193,10 +192,10 @@ public class AuthUiActivity extends AppCompatActivity {
 
     private void startSignedInActivity(IdpResponse response) {
         startActivity(
-                SignedInActivity.createIntent(
+                UserAccountActivity.createIntent(
                         this,
                         response,
-                        new SignedInActivity.SignedInConfig(
+                        new UserAccountActivity.SignedInConfig(
                                 getSelectedLogo(),
                                 getSelectedTheme(),
                                 getSelectedProviders(),
