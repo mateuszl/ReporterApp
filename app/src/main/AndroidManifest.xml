@@ -31,7 +31,6 @@
         <activity android:name=".view.TopicsActivity" />
         <activity android:name=".view.EventsActivity" />
         <activity android:name=".view.UserAccountActivity" />
-        <activity android:name=".view.AuthUiActivity" />
         <activity android:name=".view.EditTopicActivity"></activity>
     </application>
 

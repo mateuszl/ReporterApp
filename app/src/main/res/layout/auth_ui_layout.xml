@@ -5,7 +5,7 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.AuthUiActivity">
+    tools:context=".view.FirebaseLoginActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -37,14 +37,15 @@
                 android:layout_gravity="center"
                 android:layout_margin="16dp"
                 android:text="@string/sign_in" />
+
             <Button
-                android:id="@+id/other_option"
+                android:id="@+id/topics_cheat"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="16dp"
-                android:text="OTHER" />
+                android:text="TOPICS CHEAT" />
 
 
         </LinearLayout>
