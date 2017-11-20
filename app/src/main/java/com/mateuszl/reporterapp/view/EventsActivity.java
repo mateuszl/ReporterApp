@@ -23,19 +23,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnLongClick;
+
 /**
  * Lista zdarzeń (eventów) w wyświetlanej relacji wydarzenia.
  */
 public class EventsActivity extends AppCompatActivity {
 
     private final String TAG = "EventsActivity LOG ";
-    private ImageButton sendBtn;
-    private EditText addEventEditText;
-    private ListView eventsListView;
-    private String currentTime;
+
+    @BindView(R.id.send_event_btn)
+    public ImageButton sendBtn;
+
+    @BindView(R.id.send_event_editText)
+    public EditText sendEventEditText;
+
+    @BindView(R.id.events_listView)
+    public ListView eventsListView;
+
     private Topic topic;
     private RepositoryManager repositoryManager;
-    private List<String> topicEventsIdsList = new ArrayList<>();
     private List<Event> topicEventsList = new ArrayList<>();
 
     @Override
@@ -43,12 +53,9 @@ public class EventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
         repositoryManager = RepositoryManager.getInstance();
+        ButterKnife.bind(this);
 
-        sendBtn = (ImageButton) findViewById(R.id.send_btn);
-        addEventEditText = (EditText) findViewById(R.id.addEvent_editText);
-        eventsListView = (ListView) findViewById(R.id.events_listView);
-
-        addEventEditText.getBackground().setColorFilter(45235, PorterDuff.Mode.SRC_IN);
+        sendEventEditText.getBackground().setColorFilter(45235, PorterDuff.Mode.SRC_IN);
 
         this.topic = new Topic();
 
@@ -70,24 +77,6 @@ public class EventsActivity extends AppCompatActivity {
             showMessage("No such topic in DB!!");
             //todo wyjście do listy topiców
         }
-
-        sendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (addEventEditText.getText().length() < 1) {
-                    //todo odswietlenie pola/mrugniecie czy coś
-                } else {
-                    Long tsLong = System.currentTimeMillis() / 1000;
-                    currentTime = tsLong.toString();
-
-                    Event event = new Event(addEventEditText.getText().toString(), currentTime, topic.getId());
-
-                    addEventEditText.setText("");
-
-                    repositoryManager.saveEvent(event, topic);
-                }
-            }
-        });
 
         repositoryManager.getEventsRoot(topic.getId()).addChildEventListener(new ChildEventListener() {
             @Override
@@ -113,11 +102,29 @@ public class EventsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(), "Failed to load comments.",
+                Toast.makeText(getApplicationContext(), "Failed to load data.",
                         Toast.LENGTH_SHORT).show();
             }
         });
 
+        scrollEventsListViewToBottom();
+    }
+
+    @OnClick(R.id.send_event_btn)
+    public void saveNewEvent(View view) {
+        if (sendEventEditText.getText().length() < 1) {
+            //todo odswietlenie pola/mrugniecie czy coś
+        } else {
+            Long currentTime = System.currentTimeMillis() / 1000;
+            Event event = new Event(sendEventEditText.getText().toString(), currentTime.toString(), topic.getId());
+            sendEventEditText.setText("");
+            repositoryManager.saveEvent(event, topic);
+        }
+    }
+
+    @OnLongClick(R.id.send_event_btn)
+    public void editEventMenu(View view){
+        showMessage("Not implemented!");
     }
 
     private void showMessage(String message) {
@@ -125,16 +132,22 @@ public class EventsActivity extends AppCompatActivity {
     }
 
     private void addEventsToListView(DataSnapshot dataSnapshot) {
-//        String eventIdKey = dataSnapshot.getKey();
-//        topicEventsIdsList.add(eventIdKey);
         topicEventsList.add(dataSnapshot.getValue(Event.class));
 
-//        EventsStringAdapter eventsStringAdapter = new EventsStringAdapter(this, topicEventsIdsList, this.topic.getId());
-        EventsAdapter eventsStringAdapter = new EventsAdapter(this, topicEventsList);
-        eventsListView.setAdapter(eventsStringAdapter);
+        EventsAdapter eventsAdapter = new EventsAdapter(this, topicEventsList);
+        eventsListView.setAdapter(eventsAdapter);
 
-//        eventsStringAdapter.notifyDataSetChanged();
-//        eventsListView.invalidateViews();
+        scrollEventsListViewToBottom();
+    }
+
+    private void scrollEventsListViewToBottom() {
+        eventsListView.post(new Runnable() {
+            @Override
+            public void run() {
+                // Select the last row so it will scroll into view...
+                eventsListView.setSelection(topicEventsList.size() - 1);
+            }
+        });
     }
 
     @Override

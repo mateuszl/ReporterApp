@@ -41,8 +41,8 @@ public class EventsAdapter extends BaseAdapter {
         if (convertView == null) {
             vi = LayoutInflater.from(activity.getApplicationContext()).inflate(R.layout.event_list_item, parent, false);
         }
-        TextView content = (TextView) vi.findViewById(R.id.event_content); // content
-        TextView date = (TextView) vi.findViewById(R.id.event_timestamp); // date
+        TextView content = (TextView) vi.findViewById(R.id.event_content_textView); // content
+        TextView date = (TextView) vi.findViewById(R.id.event_timestamp_textView); // date
 
         Event event = null;
         event = events.get(position);
