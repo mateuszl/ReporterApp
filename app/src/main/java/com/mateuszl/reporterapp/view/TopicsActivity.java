@@ -13,7 +13,6 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.controller.TopicsAdapter;
@@ -21,33 +20,34 @@ import com.mateuszl.reporterapp.model.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
 
 /**
  * Lista eventów
  */
 public class TopicsActivity extends AppCompatActivity {
 
-    private ImageButton addTopicBtn;
-    private ListView topicsListView;
-    private DatabaseReference root;
-    private String topic_name, user_name;
-    private Boolean success = false;
-    private RepositoryManager repositoryManager;
+    @BindView(R.id.add_topic_btn)
+    public ImageButton addTopicBtn;
 
+    @BindView(R.id.topics_listView)
+    public ListView topicsListView;
+
+    private String user_name;
+    private Boolean success = false;
     private List<Topic> topicsList = new ArrayList<Topic>();
+    private RepositoryManager repositoryManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topics);
         repositoryManager = RepositoryManager.getInstance();
-
-        addTopicBtn = (ImageButton) findViewById(R.id.add_topic_btn);
-//        topicsListTextView = (TextView) findViewById(R.id.topicsList_textView);
-        topicsListView = (ListView) findViewById(R.id.topics_listView);
-
-//        topicsListTextView.setMovementMethod(new ScrollingMovementMethod());
+        ButterKnife.bind(this);
 
         user_name = getIntent().getExtras().get("user_name").toString();
         success = ((boolean) getIntent().getExtras().get("success"));
@@ -60,42 +60,11 @@ public class TopicsActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
 
-        DatabaseReference topicsRoot = repositoryManager.getTopicsRoot();
-
-        if (!newTopicId.isEmpty() && newTopicId!=null) {
+        if (!newTopicId.isEmpty() && newTopicId != null) {
             //// TODO: 30.10.2017 podswietlenie nowego topicu albo od razu wejscie w jego eventsy
         }
 
-
-        root = FirebaseDatabase.getInstance().getReference().child("topics");
-
-        addTopicBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EditTopicActivity.class);
-                intent.putExtra("user_name", "mocked userName");
-                intent.putExtra("action", "Create new ");
-                startActivity(intent);
-            }
-        });
-
-        topicsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Topic topicSelected = (Topic) parent.getAdapter().getItem(position);
-
-                Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
-                intent.putExtra("topicId", topicSelected.getId());
-                intent.putExtra("topicTitle", topicSelected.getTitle());
-                intent.putExtra("topicTimestamp", topicSelected.getTimestamp());
-                intent.putExtra("topicDescription", topicSelected.getDescription());
-                intent.putExtra("topicAuthor", topicSelected.getAuthor());
-                startActivity(intent);
-            }
-        });
-
-
+        DatabaseReference topicsRoot = repositoryManager.getTopicsRoot();
         topicsRoot.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
@@ -124,6 +93,28 @@ public class TopicsActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @OnItemClick(R.id.topics_listView)
+    public void openEventsActivity(AdapterView<?> parent, View view,
+                                   int position, long id){
+        Topic topicSelected = (Topic) parent.getAdapter().getItem(position);
+//todo passing an object with intent instead of strings
+        Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
+        intent.putExtra("topicId", topicSelected.getId());
+        intent.putExtra("topicTitle", topicSelected.getTitle());
+        intent.putExtra("topicTimestamp", topicSelected.getTimestamp());
+        intent.putExtra("topicDescription", topicSelected.getDescription());
+        intent.putExtra("topicAuthor", topicSelected.getAuthor());
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.add_topic_btn)
+    public void openEditTopicActivity(View view) {
+        Intent intent = new Intent(getApplicationContext(), EditTopicActivity.class);
+        intent.putExtra("user_name", "mocked userName");
+        intent.putExtra("action", "Create new ");
+        startActivity(intent);
     }
 
     private void addTopicsToListView(DataSnapshot dataSnapshot) {

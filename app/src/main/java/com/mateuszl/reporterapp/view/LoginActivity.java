@@ -57,15 +57,10 @@ public class LoginActivity extends AppCompatActivity {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
-            startSignedInActivity(null);
+            startUserAccountActivity(null);
             finish();
             return;
         }
-
-        if (isGoogleMisconfigured()) {
-            showSnackbar(R.string.configuration_required);
-        }
-
     }
 
     @OnClick(R.id.sign_in)
@@ -100,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Successfully signed in
         if (resultCode == RESULT_OK) {
-            startSignedInActivity(response);
+            startUserAccountActivity(response);
             finish();
             return;
         } else {
@@ -125,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
         showSnackbar(R.string.unknown_sign_in_response);
     }
 
-    private void startSignedInActivity(IdpResponse response) {
+    private void startUserAccountActivity(IdpResponse response) {
         startActivity(
                 UserAccountActivity.createIntent(
                         this,
@@ -192,10 +187,6 @@ public class LoginActivity extends AppCompatActivity {
         return FIREBASE_PRIVACY_POLICY_URL;
     }
 
-    @MainThread
-    private boolean isGoogleMisconfigured() {
-        return UNCHANGED_CONFIG_VALUE.equals(getString(R.string.default_web_client_id));
-    }
 //
 //    @MainThread
 //    private boolean isFacebookMisconfigured() {
