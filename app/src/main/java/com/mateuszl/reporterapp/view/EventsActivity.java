@@ -26,7 +26,7 @@ import java.util.UUID;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnLongClick;
+import butterknife.OnItemLongClick;
 
 /**
  * Lista zdarzeń (eventów) w wyświetlanej relacji wydarzenia.
@@ -116,15 +116,18 @@ public class EventsActivity extends AppCompatActivity {
             //todo odswietlenie pola/mrugniecie czy coś
         } else {
             Long currentTime = System.currentTimeMillis() / 1000;
-            Event event = new Event(sendEventEditText.getText().toString(), currentTime.toString(), topic.getId());
+            String time = currentTime.toString(); //todo zmienic na godzine:minuty:sekundy a nie całą datę
+
+            Event event = new Event(sendEventEditText.getText().toString(), time, topic.getId());
             sendEventEditText.setText("");
             repositoryManager.saveEvent(event, topic);
         }
     }
 
-    @OnLongClick(R.id.send_event_btn)
-    public void editEventMenu(View view){
-        showMessage("Not implemented!");
+    @OnItemLongClick(R.id.events_listView)
+    public boolean editEventMenu(View view, int position){
+        showMessage("Not implemented! pos: " + position);
+        return true;
     }
 
     private void showMessage(String message) {

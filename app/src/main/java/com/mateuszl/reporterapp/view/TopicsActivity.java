@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
+import butterknife.OnItemLongClick;
 
 /**
  * Lista eventów
@@ -56,8 +57,7 @@ public class TopicsActivity extends AppCompatActivity {
         setTitle(user_name + " topics");
 
         if (success) {
-            Toast.makeText(getApplicationContext(), "Topic Created !",
-                    Toast.LENGTH_SHORT).show();
+            showMessage("Topic Created !");
         }
 
         if (!newTopicId.isEmpty() && newTopicId != null) {
@@ -89,8 +89,7 @@ public class TopicsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(), "Failed to load comments.",
-                        Toast.LENGTH_SHORT).show();
+                showMessage("Failed to load comments.");
             }
         });
     }
@@ -107,6 +106,12 @@ public class TopicsActivity extends AppCompatActivity {
         intent.putExtra("topicDescription", topicSelected.getDescription());
         intent.putExtra("topicAuthor", topicSelected.getAuthor());
         startActivity(intent);
+    }
+
+    @OnItemLongClick(R.id.topics_listView)
+    public boolean editEventMenu(View view, int position){
+        showMessage("Not implemented! pos: " + position);
+        return true;
     }
 
     @OnClick(R.id.add_topic_btn)
@@ -135,5 +140,9 @@ public class TopicsActivity extends AppCompatActivity {
     private void clearAndAddTopicsToListView(DataSnapshot dataSnapshot) {
 //        topicsListTextView.setText("");
         addTopicsToListView(dataSnapshot);
+    }
+
+    private void showMessage(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 }
