@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/tw__solid_white"
     tools:context="com.mateuszl.reporterapp.view.EventsActivity">
 
     <RelativeLayout
         android:id="@+id/relative_2"
-        android:layout_above="@+id/send_event_btn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/send_event_btn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
@@ -18,7 +19,7 @@
             android:id="@+id/events_listView"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:divider="#b5b5b5"
+            android:divider="#F5F5F5"
             android:dividerHeight="1dp"
             android:listSelector="@drawable/list_selector" />
     </RelativeLayout>
@@ -32,11 +33,13 @@
         android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/send_event_btn"
         android:layout_toStartOf="@+id/send_event_btn"
+        android:background="#EEEEEE"
+        android:backgroundTint="#EEEEEE"
         android:ems="10"
+        android:hint="@string/enter_text"
         android:inputType="text"
-        android:minHeight="45dp"
         android:maxLines="4"
-        android:hint="@string/enter_text"/>
+        android:minHeight="45dp" />
 
     <ImageButton
         android:id="@+id/send_event_btn"
@@ -45,7 +48,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        app:srcCompat="@android:drawable/ic_menu_send"
-        android:background="@drawable/send_button"/>
+        android:background="@drawable/send_button"
+        app:srcCompat="@android:drawable/ic_menu_send" />
 
 </RelativeLayout>
