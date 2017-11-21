@@ -30,7 +30,6 @@ import butterknife.OnClick;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
-    private static final String UNCHANGED_CONFIG_VALUE = "CHANGE-ME";
     private static final String FIREBASE_TOS_URL = "https://firebase.google.com/terms/";
     private static final String FIREBASE_PRIVACY_POLICY_URL = "https://firebase.google.com/terms/analytics/#7_privacy";
 
@@ -52,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.auth_ui_layout);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -155,24 +154,6 @@ public class LoginActivity extends AppCompatActivity {
                         .build());
 
         selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
-//
-//        if (mUseFacebookProvider.isChecked()) {
-//            selectedProviders.add(
-//                    new IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER)
-//                            .setPermissions(getFacebookPermissions())
-//                            .build());
-//        }
-//
-//        if (mUseTwitterProvider.isChecked()) {
-//            selectedProviders.add(new IdpConfig.Builder(AuthUI.TWITTER_PROVIDER).build());
-//        }
-
-
-//
-//        if (mUsePhoneProvider.isChecked()) {
-//            selectedProviders.add(
-//                    new IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build());
-//        }
 
         return selectedProviders;
     }
@@ -186,22 +167,6 @@ public class LoginActivity extends AppCompatActivity {
     private String getPrivacyPolicyUrl() {
         return FIREBASE_PRIVACY_POLICY_URL;
     }
-
-//
-//    @MainThread
-//    private boolean isFacebookMisconfigured() {
-//        return UNCHANGED_CONFIG_VALUE.equals(getString(R.string.facebook_application_id));
-//    }
-//
-//    @MainThread
-//    private boolean isTwitterMisconfigured() {
-//        List<String> twitterConfigs = Arrays.asList(
-//                getString(R.string.twitter_consumer_key),
-//                getString(R.string.twitter_consumer_secret)
-//        );
-//
-//        return twitterConfigs.contains(UNCHANGED_CONFIG_VALUE);
-//    }
 
     @MainThread
     private void showSnackbar(@StringRes int errorMessageRes) {

@@ -35,7 +35,8 @@
         android:ems="10"
         android:inputType="text"
         android:minHeight="45dp"
-        android:maxLines="4" />
+        android:maxLines="4"
+        android:hint="@string/enter_text"/>
 
     <ImageButton
         android:id="@+id/send_event_btn"
@@ -44,6 +45,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        app:srcCompat="@android:drawable/ic_menu_send" />
+        app:srcCompat="@android:drawable/ic_menu_send"
+        android:background="@drawable/send_button"/>
 
 </RelativeLayout>

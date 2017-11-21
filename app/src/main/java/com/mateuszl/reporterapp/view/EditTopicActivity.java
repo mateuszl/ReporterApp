@@ -28,7 +28,7 @@ public class EditTopicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_topic);
         repositoryManager = RepositoryManager.getInstance();
 
-        acceptBtn = (ImageButton) findViewById(R.id.accept_btn);
+        acceptBtn = (ImageButton) findViewById(R.id.accept_new_topic_btn);
         topicTitleEditText = (EditText) findViewById(R.id.topic_title_editText);
         topicDescriptionEditText = (EditText) findViewById(R.id.topic_description_editText);
 

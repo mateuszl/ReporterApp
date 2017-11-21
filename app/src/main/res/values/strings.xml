@@ -35,26 +35,9 @@
     <string name="desc_storage">Demonstrates displaying an image from Cloud Storage using Glide.</string>
 
     <!-- Auth UI -->
-    <string name="launch_title">FirebaseUI Auth Demo</string>
-    <string name="sign_in">Start</string>
-
-    <string name="use_theme_header">Use theme:</string>
-    <string name="default_theme">Default theme</string>
-    <string name="purple_theme">Purple Theme</string>
-    <string name="green_theme">Green Theme</string>
-    <string name="dark_theme">Dark Theme</string>
-
-    <string name="logo_header">Logo:</string>
-    <string name="firebase_logo_label">Firebase Auth</string>
-    <string name="google_logo_label">Google</string>
-    <string name="no_logo_label">None</string>
-
-    <string name="auth_providers_header">Use auth providers:</string>
-    <string name="google_label">Google</string>
-    <string name="facebook_label">Facebook</string>
-    <string name="twitter_label">Twitter</string>
-    <string name="email_label">Email</string>
-    <string name="phone_label">Phone</string>
+    <string name="launch_title">Reporter App</string>
+    <string name="sign_in">Log or sign in</string>
+    <string name="all_topics_button">Show all topics</string>
 
     <string name="configuration_required">Configuration is required - see README.md</string>
     <string name="google_label_missing_config">Google - configuration missing</string>
@@ -120,6 +103,9 @@
         Make sure your device is online and that Anonymous Auth is configured in your Firebase project
         (https://console.firebase.google.com/project/_/authentication/providers)
     </string>
+    <string name="topic_title">Topic title</string>
+    <string name="topic_description">Topic Description</string>
+    <string name="enter_text">Enter text...</string>
 
 
 </resources>

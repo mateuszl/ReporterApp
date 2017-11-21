@@ -92,7 +92,7 @@ public class UserAccountActivity extends AppCompatActivity {
         mIdpResponse = getIntent().getParcelableExtra(EXTRA_IDP_RESPONSE);
         mSignedInConfig = getIntent().getParcelableExtra(EXTRA_SIGNED_IN_CONFIG);
 
-        setContentView(R.layout.signed_in_layout);
+        setContentView(R.layout.activity_user_account);
         ButterKnife.bind(this);
         populateProfile();
         populateIdpToken();

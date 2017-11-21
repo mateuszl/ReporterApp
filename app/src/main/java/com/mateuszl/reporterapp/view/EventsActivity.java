@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -55,6 +57,7 @@ public class EventsActivity extends AppCompatActivity {
         repositoryManager = RepositoryManager.getInstance();
         ButterKnife.bind(this);
 
+        sendBtn.setEnabled(false);
         sendEventEditText.getBackground().setColorFilter(45235, PorterDuff.Mode.SRC_IN);
 
         this.topic = new Topic();
@@ -106,7 +109,7 @@ public class EventsActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
-
+        enableSendButton();
         scrollEventsListViewToBottom();
     }
 
@@ -121,11 +124,17 @@ public class EventsActivity extends AppCompatActivity {
             Event event = new Event(sendEventEditText.getText().toString(), time, topic.getId());
             sendEventEditText.setText("");
             repositoryManager.saveEvent(event, topic);
+            scrollEventsListViewToBottom();
         }
     }
 
+    @OnClick(R.id.send_event_editText)
+    public void editTextEvent(View view) {
+        scrollEventsListViewToBottom();
+    }
+
     @OnItemLongClick(R.id.events_listView)
-    public boolean editEventMenu(View view, int position){
+    public boolean editEventMenu(View view, int position) {
         showMessage("Not implemented! pos: " + position);
         return true;
     }
@@ -149,6 +158,36 @@ public class EventsActivity extends AppCompatActivity {
             public void run() {
                 // Select the last row so it will scroll into view...
                 eventsListView.setSelection(topicEventsList.size() - 1);
+            }
+        });
+    }
+
+    private void enableSendButton() {
+        sendEventEditText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.toString().trim().length() == 0) {
+                    sendBtn.setEnabled(false);
+                } else {
+                    sendBtn.setEnabled(true);
+                }
+
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+
             }
         });
     }
