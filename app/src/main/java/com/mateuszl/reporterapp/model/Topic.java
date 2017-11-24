@@ -3,9 +3,7 @@ package com.mateuszl.reporterapp.model;
 import com.google.firebase.database.Exclude;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,7 +16,6 @@ public class Topic {
     private String description;
     private String timestamp;
     private String author; //authors User ID
-//    private List<String> subscribers; //todo subscribers User IDs
     private Map<String, Event> events; //events IDs
 
     public Topic() {
@@ -70,14 +67,6 @@ public class Topic {
         this.author = author;
     }
 
-//    public List<String> getSubscribers() {
-//        return subscribers;
-//    }
-//
-//    public void setSubscribers(List<String> subscribers) {
-//        this.subscribers = subscribers;
-//    }
-
     /**
      * List with Events Ids
      *
@@ -103,7 +92,6 @@ public class Topic {
         result.put("description", getDescription());
         result.put("author", getAuthor());
         result.put("timestamp", getTimestamp());
-//        result.put("subscribers", getSubscribers());
         result.put("events", getEvents());
         return result;
     }

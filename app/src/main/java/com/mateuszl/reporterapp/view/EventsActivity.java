@@ -73,7 +73,6 @@ public class EventsActivity extends AppCompatActivity {
 
         this.topic = new Topic();
 
-//        user_name = getIntent().getExtras().get("user_name").toString();
         this.topic.setId(getIntent().getExtras().get("topicId").toString());
         this.topic.setTitle(getIntent().getExtras().get("topicTitle").toString());
         this.topic.setTimestamp(getIntent().getExtras().get("topicTimestamp").toString());
@@ -205,9 +204,6 @@ public class EventsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        intent.putExtra("user_name", currentUser !=null && currentUser.getEmail()!=null ? currentUser.getEmail() : "null USER"); //// TODO: 24.10.2017 check
-        intent.putExtra("success", false);
         intent.putExtra("topicId", "");
         startActivity(intent);
     }

@@ -9,6 +9,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,33 +37,32 @@ public class UserTopicsActivity extends AppCompatActivity {
     @BindView(R.id.add_topic_btn)
     public ImageButton addTopicBtn;
 
-    @BindView(R.id.topics_listView)
+    @BindView(R.id.topics_user_listView)
     public ListView topicsListView;
 
-    private String user_name;
-    private Boolean success = false;
     private List<Topic> topicsList = new ArrayList<Topic>();
     private RepositoryManager repositoryManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_topics);
+        setContentView(R.layout.activity_user_topics);
         repositoryManager = RepositoryManager.getInstance();
         ButterKnife.bind(this);
 
-        user_name = getIntent().getExtras().get("user_name").toString();
-        success = ((boolean) getIntent().getExtras().get("success"));
-        String newTopicId = getIntent().getExtras().get("topicId").toString();
-//        topic_name = getIntent().getExtras().get("topic_name").toString();
-        setTitle(user_name + " topics");
-
-        if (success) {
-            showMessage("Topic Created !");
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            startActivity(LoginActivity.createIntent(this));
+            finish();
+            return;
         }
+        setTitle(currentUser.getDisplayName());
 
-        if (!newTopicId.isEmpty() && newTopicId != null) {
+        String newTopicId = (String) getIntent().getExtras().get("topicId");
+
+        if (newTopicId != null && !newTopicId.isEmpty()) {
             //// TODO: 30.10.2017 podswietlenie nowego topicu albo od razu wejscie w jego eventsy
+            topicsListView.setSelection(topicsList.size()-1);
         }
 
         DatabaseReference topicsRoot = repositoryManager.getTopicsRoot();
@@ -94,9 +95,9 @@ public class UserTopicsActivity extends AppCompatActivity {
         });
     }
 
-    @OnItemClick(R.id.topics_listView)
+    @OnItemClick(R.id.topics_user_listView)
     public void openEventsActivity(AdapterView<?> parent, View view,
-                                   int position, long id){
+                                   int position, long id) {
         Topic topicSelected = (Topic) parent.getAdapter().getItem(position);
 //todo passing an object with intent instead of strings
         Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
@@ -108,8 +109,8 @@ public class UserTopicsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @OnItemLongClick(R.id.topics_listView)
-    public boolean editEventMenu(View view, int position){
+    @OnItemLongClick(R.id.topics_user_listView)
+    public boolean editEventMenu(View view, int position) {
         showMessage("Not implemented! pos: " + position);
         return true;
     }
@@ -117,7 +118,6 @@ public class UserTopicsActivity extends AppCompatActivity {
     @OnClick(R.id.add_topic_btn)
     public void openEditTopicActivity(View view) {
         Intent intent = new Intent(getApplicationContext(), EditTopicActivity.class);
-        intent.putExtra("user_name", "mocked userName");
         intent.putExtra("action", "Create new ");
         startActivity(intent);
     }

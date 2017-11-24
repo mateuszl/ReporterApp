@@ -1,5 +1,6 @@
 package com.mateuszl.reporterapp.controller;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.model.Event;
@@ -41,7 +42,7 @@ public class RepositoryManager {
         return userTopicsRoot;
     }
 
-    public String saveTopic(Topic topic, User user) {
+    public String saveTopic(Topic topic, FirebaseUser user) {
         topic.setId(getNewKey(topicsRoot));
         topicsRoot.child(topic.getId()).setValue(topic);
         addTopicToUser(topic, user);
@@ -49,14 +50,6 @@ public class RepositoryManager {
     }
 
     public void deleteTopic(Topic topic, User user) {
-        //todo
-    }
-
-    public void subscribeTopic(Topic topic, User user) {
-        //todo
-    }
-
-    public void unsubscribeTopic(Topic topic, User user) {
         //todo
     }
 
@@ -77,8 +70,8 @@ public class RepositoryManager {
         getEventsRoot(topic.getId()).child(event.getId()).removeValue();
     }
 
-    public void addTopicToUser(Topic topic, User user) {
-        userTopicsRoot.child(user.getId()).child(topic.getId()).setValue(true);
+    public void addTopicToUser(Topic topic, FirebaseUser user) {
+        userTopicsRoot.child(user.getUid()).child(topic.getId()).setValue(true);
     }
 
     public void deleteTopicFromUser(Topic topic, User user) {

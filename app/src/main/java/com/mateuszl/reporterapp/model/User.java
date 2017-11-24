@@ -14,9 +14,7 @@ public class User {
     private String id;
     private String name;
     private String email;
-    private UserRole role;
     private List<String> topicsCreated; //topics IDs
-    private List<String> topicsSubscribed; //topics IDs
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -46,14 +44,6 @@ public class User {
         this.email = email;
     }
 
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-
     public List<String> getTopicsCreated() {
         return topicsCreated;
     }
@@ -62,23 +52,13 @@ public class User {
         this.topicsCreated = topicsCreated;
     }
 
-    public List<String> getTopicsSubscribed() {
-        return topicsSubscribed;
-    }
-
-    public void setTopicsSubscribed(List<String> topicsSubscribed) {
-        this.topicsSubscribed = topicsSubscribed;
-    }
-
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", getId());
         result.put("name", getName());
         result.put("email", getEmail());
-        result.put("role", getRole());
         result.put("topicsCreated", getTopicsCreated());
-        result.put("topicsSubscribed", getTopicsSubscribed());
         return result;
     }
 
