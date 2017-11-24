@@ -2,6 +2,7 @@ package com.mateuszl.reporterapp.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.MainThread;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,7 +40,7 @@ public class UserTopicsActivity extends AppCompatActivity {
 
     @BindView(R.id.topics_user_listView)
     public ListView topicsListView;
-
+    FirebaseUser currentUser;
     private List<Topic> topicsList = new ArrayList<Topic>();
     private RepositoryManager repositoryManager;
 
@@ -50,7 +51,7 @@ public class UserTopicsActivity extends AppCompatActivity {
         repositoryManager = RepositoryManager.getInstance();
         ButterKnife.bind(this);
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
             startActivity(LoginActivity.createIntent(this));
             finish();
@@ -62,14 +63,13 @@ public class UserTopicsActivity extends AppCompatActivity {
 
         if (newTopicId != null && !newTopicId.isEmpty()) {
             //// TODO: 30.10.2017 podswietlenie nowego topicu albo od razu wejscie w jego eventsy
-            topicsListView.setSelection(topicsList.size()-1);
+            topicsListView.setSelection(topicsList.size() - 1);
         }
 
-        DatabaseReference topicsRoot = repositoryManager.getTopicsRoot();
-        topicsRoot.addChildEventListener(new ChildEventListener() {
+        DatabaseReference userTopicsRoot = repositoryManager.getUserTopicsRoot().child(this.currentUser.getUid());
+        userTopicsRoot.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                Object value = dataSnapshot.getValue();
                 addTopicsToListView(dataSnapshot);
             }
 
@@ -100,7 +100,7 @@ public class UserTopicsActivity extends AppCompatActivity {
                                    int position, long id) {
         Topic topicSelected = (Topic) parent.getAdapter().getItem(position);
 //todo passing an object with intent instead of strings
-        Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), UserEventsActivity.class);
         intent.putExtra("topicId", topicSelected.getId());
         intent.putExtra("topicTitle", topicSelected.getTitle());
         intent.putExtra("topicTimestamp", topicSelected.getTimestamp());
@@ -122,13 +122,21 @@ public class UserTopicsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @MainThread
     private void addTopicsToListView(DataSnapshot dataSnapshot) {
-        Topic topic = dataSnapshot.getValue(Topic.class);
-        topicsList.add(topic);
+        if (dataSnapshot.getValue() != null && (Boolean) dataSnapshot.getValue()) {
+            String key = dataSnapshot.getKey();
 
-        TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
-        topicsListView.setAdapter(topicsAdapter);
+            Topic topic = repositoryManager.getTopicById(key);
+            topicsList.add(topic);
+
+            TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
+            topicsListView.setAdapter(topicsAdapter);
+        } else {
+            //// TODO: 24/11/2017 coś
+        }
     }
+
 
     @Override
     public void onBackPressed() {

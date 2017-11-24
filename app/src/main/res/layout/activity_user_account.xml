@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
     android:clipToPadding="false"
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp"
     tools:context=".view.UserAccountActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginBottom="16dp"
         android:orientation="vertical">
 
         <TextView
@@ -30,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/sign_out"
@@ -38,19 +37,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="16dp"
+                android:layout_margin="6dp"
                 android:text="@string/sign_out" />
-<!--
+
+            <!--
+                        <Button
+                            android:id="@+id/delete_account"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="16dp"
+                            android:text="@string/delete_account_label"
+                            android:theme="@style/WarnButton"
+                            tools:ignore="ButtonStyle" />
+            -->
+
             <Button
-                android:id="@+id/delete_account"
+                android:id="@+id/topics_user_btn"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="16dp"
-                android:text="@string/delete_account_label"
-                android:theme="@style/WarnButton"
-                tools:ignore="ButtonStyle" />
--->
+                android:layout_margin="6dp"
+                android:text="@string/show_my_topics" />
+
+            <Button
+                android:id="@+id/topics_all_btn"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="6dp"
+                android:text="@string/all_topics_button" />
+
         </LinearLayout>
 
         <TextView
@@ -84,13 +103,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textIsSelectable="true" />
-<!--
-                <TextView
-                    android:id="@+id/user_phone_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textIsSelectable="true" />
--->
+                <!--
+                                <TextView
+                                    android:id="@+id/user_phone_number"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textIsSelectable="true" />
+                -->
                 <TextView
                     android:id="@+id/user_display_name"
                     android:layout_width="wrap_content"

@@ -218,6 +218,19 @@ public class UserAccountActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.topics_all_btn)
+    public void onAllTopicsBtnClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), AllTopicsActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.topics_user_btn)
+    public void onUserTopicsBtnClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
+        intent.putExtra("topicId", "");
+        startActivity(intent);
+    }
+
 //    static final class SignedInConfig implements Parcelable {
 //        int logo;
 //        int theme;

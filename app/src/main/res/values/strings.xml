@@ -106,6 +106,7 @@
     <string name="topic_title">Topic title</string>
     <string name="topic_description">Topic Description</string>
     <string name="enter_text">Enter text...</string>
+    <string name="show_my_topics">show my topics</string>
 
 
 </resources>

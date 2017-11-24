@@ -77,10 +77,10 @@ public class AllTopicsActivity extends AppCompatActivity {
 
     @OnItemClick(R.id.topics_all_listView)
     public void openEventsActivity(AdapterView<?> parent, View view,
-                                   int position, long id){
+                                   int position, long id) {
         Topic topicSelected = (Topic) parent.getAdapter().getItem(position);
 //todo passing an object with intent instead of strings
-        Intent intent = new Intent(getApplicationContext(), EventsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TopicEventsActivity.class);
         intent.putExtra("topicId", topicSelected.getId());
         intent.putExtra("topicTitle", topicSelected.getTitle());
         intent.putExtra("topicTimestamp", topicSelected.getTimestamp());
@@ -90,7 +90,7 @@ public class AllTopicsActivity extends AppCompatActivity {
     }
 
     @OnItemLongClick(R.id.topics_all_listView)
-    public boolean editEventMenu(View view, int position){
+    public boolean editEventMenu(View view, int position) {
         showMessage("Not implemented! pos: " + position);
         return true;
     }

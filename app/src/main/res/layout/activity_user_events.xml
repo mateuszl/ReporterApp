@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/tw__solid_white"
-    tools:context="com.mateuszl.reporterapp.view.EventsActivity">
+    tools:context="com.mateuszl.reporterapp.view.UserEventsActivity">
 
     <RelativeLayout
         android:id="@+id/relative_2"

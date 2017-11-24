@@ -30,7 +30,8 @@
         </activity>
         <activity android:name=".view.UserTopicsActivity" />
         <activity android:name=".view.AllTopicsActivity" />
-        <activity android:name=".view.EventsActivity" />
+        <activity android:name=".view.TopicEventsActivity" />
+        <activity android:name=".view.UserEventsActivity" />
         <activity android:name=".view.UserAccountActivity" />
         <activity android:name=".view.EditTopicActivity"></activity>
     </application>

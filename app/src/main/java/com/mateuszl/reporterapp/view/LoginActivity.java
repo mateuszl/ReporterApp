@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.sign_in)
     Button mSignIn;
 
-    @BindView(R.id.topics_cheat)
+    @BindView(R.id.topics_cheat_btn)
     Button topicsCheatBtn;
 
     @BindView(R.id.root)
@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
         Snackbar.make(mRootView, errorMessageRes, Snackbar.LENGTH_LONG).show();
     }
 
-    @OnClick(R.id.topics_cheat)
+    @OnClick(R.id.topics_cheat_btn)
     public void onTopicsBtnClick(View view) {
         Intent intent = new Intent(getApplicationContext(), AllTopicsActivity.class);
         startActivity(intent);

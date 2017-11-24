@@ -42,7 +42,7 @@
                 android:text="@string/sign_in" />
 
             <Button
-                android:id="@+id/topics_cheat"
+                android:id="@+id/topics_cheat_btn"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
