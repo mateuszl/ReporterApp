@@ -10,9 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by Asus on 24/11/2017.
+ * Implementacja Event Listenera dla bazy Firebase. W momencie dodania listenera to danej referencji
+ * uruchomiona zostaje jednokrotnie metoda onDataChange(), co pozwala na odczyt danych podlegających
+ * tej referencji.
  */
-
 public class TopicDbEventListener implements ValueEventListener {
 
     private String topicId;
@@ -20,6 +21,16 @@ public class TopicDbEventListener implements ValueEventListener {
     private List<Topic> topicList;
     private TopicsAdapter topicsAdapter;
 
+    /**
+     * W konstruktorze użyte zostały parametry, które pozwalają na przekazanie obiektów potrzebnych
+     * do asynchronicznej aktualizacji danych w widoku.
+     *
+     * @param topicId       Id topica któego chcemy pozyskać z bazy.
+     * @param topicList     Lista topiców istniejąca w widoku, do której dopięty jest Adapter oraz
+     *                      do której asynchronicznie dodany zostanie pozyskany obiekt Topic.
+     * @param topicsAdapter Adapter służący do 'spinania' danych z listy obiektów z listą widoku.
+     *                      Przekazywany aby móc go asynchronicznie odświeżać.
+     */
     public TopicDbEventListener(String topicId, List<Topic> topicList, TopicsAdapter topicsAdapter) {
         this.topicId = topicId;
         this.topicList = topicList;
@@ -34,6 +45,8 @@ public class TopicDbEventListener implements ValueEventListener {
     @Override
     public void onDataChange(DataSnapshot snapshot) {
         topic = new Topic();
+        Object object = snapshot.child(topicId).getValue();
+        System.out.println(object.toString());
         HashMap<String, String> map = (HashMap<String, String>) snapshot.child(topicId).getValue();
 
         if (map != null && !map.isEmpty()) {

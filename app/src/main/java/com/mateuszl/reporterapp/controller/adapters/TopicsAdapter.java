@@ -15,14 +15,18 @@ import java.util.List;
 import static com.mateuszl.reporterapp.utils.Utils.getDate;
 
 /**
- * Created by Asus on 06.11.2017.
+ * Adapter służący do połączenia i przekazywania danych pomiędzy listą obiektów typu Topic
+ * a listą widoku w tych Activity, które prezentują użytkownikowi Topici.
  */
-
 public class TopicsAdapter extends BaseAdapter {
 
     private Activity activity;
     private List<Topic> topics;
 
+    /**
+     * @param a         Activity w którym Adapter zostaje użyty do generowania widoku.
+     * @param topicList Lista obiektów typu Topic, dla których ma zostać wygenerowany widok.
+     */
     public TopicsAdapter(Activity a, List<Topic> topicList) {
         activity = a;
         topics = topicList;
