@@ -39,7 +39,7 @@ public class EventsActivity extends AppCompatActivity {
     private final String TAG = "EventsActivity LOG ";
 
     @BindView(R.id.send_event_btn)
-    public ImageButton sendBtn;
+    public ImageButton sendEventBtn;
 
     @BindView(R.id.send_event_editText)
     public EditText sendEventEditText;
@@ -58,7 +58,17 @@ public class EventsActivity extends AppCompatActivity {
         repositoryManager = RepositoryManager.getInstance();
         ButterKnife.bind(this);
 
-        sendBtn.setEnabled(false);
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser!=null){
+            sendEventBtn.setVisibility(View.VISIBLE);
+            sendEventEditText.setVisibility(View.VISIBLE);
+        } else {
+            sendEventBtn.setVisibility(View.GONE);
+            sendEventEditText.setVisibility(View.GONE);
+        }
+
+
+        sendEventBtn.setEnabled(false);
         sendEventEditText.getBackground().setColorFilter(45235, PorterDuff.Mode.SRC_IN);
 
         this.topic = new Topic();
@@ -85,7 +95,6 @@ public class EventsActivity extends AppCompatActivity {
         repositoryManager.getEventsRoot(topic.getId()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                Object value = dataSnapshot.getValue();
                 addEventsToListView(dataSnapshot);
             }
 
@@ -170,9 +179,9 @@ public class EventsActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (s.toString().trim().length() == 0) {
-                    sendBtn.setEnabled(false);
+                    sendEventBtn.setEnabled(false);
                 } else {
-                    sendBtn.setEnabled(true);
+                    sendEventBtn.setEnabled(true);
                 }
 
 
@@ -195,7 +204,7 @@ public class EventsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         intent.putExtra("user_name", currentUser !=null && currentUser.getEmail()!=null ? currentUser.getEmail() : "null USER"); //// TODO: 24.10.2017 check
         intent.putExtra("success", false);

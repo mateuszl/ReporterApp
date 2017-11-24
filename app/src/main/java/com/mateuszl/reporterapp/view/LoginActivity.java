@@ -20,7 +20,6 @@ import com.mateuszl.reporterapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -178,10 +177,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.topics_cheat)
     public void onTopicsBtnClick(View view) {
-        Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);
-        intent.putExtra("user_name", "LoginAct Name(" + UUID.randomUUID().toString().substring(0, 8) + ")"); //// TODO: 24.10.2017 hardcoded
-        intent.putExtra("success", false);
-        intent.putExtra("topicId", "");
+        Intent intent = new Intent(getApplicationContext(), AllTopicsActivity.class);
         startActivity(intent);
     }
 

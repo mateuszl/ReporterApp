@@ -213,7 +213,7 @@ public class UserAccountActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         intent.putExtra("user_name", currentUser !=null && currentUser.getEmail()!=null ? currentUser.getEmail() : "null USER"); //// TODO: 24.10.2017 check
         intent.putExtra("success", false);

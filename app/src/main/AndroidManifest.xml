@@ -28,7 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.TopicsActivity" />
+        <activity android:name=".view.UserTopicsActivity" />
+        <activity android:name=".view.AllTopicsActivity" />
         <activity android:name=".view.EventsActivity" />
         <activity android:name=".view.UserAccountActivity" />
         <activity android:name=".view.EditTopicActivity"></activity>

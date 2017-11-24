@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,52 +22,34 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.OnItemClick;
 import butterknife.OnItemLongClick;
 
 /**
- * Lista eventów
+ * Widok z listą wszystkich aktywnych wydarzeń
  */
-public class TopicsActivity extends AppCompatActivity {
 
-    @BindView(R.id.add_topic_btn)
-    public ImageButton addTopicBtn;
+public class AllTopicsActivity extends AppCompatActivity {
 
-    @BindView(R.id.topics_listView)
+    @BindView(R.id.topics_all_listView)
     public ListView topicsListView;
 
-    private String user_name;
-    private Boolean success = false;
     private List<Topic> topicsList = new ArrayList<Topic>();
     private RepositoryManager repositoryManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_topics);
+        setContentView(R.layout.activity_all_topics);
         repositoryManager = RepositoryManager.getInstance();
         ButterKnife.bind(this);
 
-        user_name = getIntent().getExtras().get("user_name").toString();
-        success = ((boolean) getIntent().getExtras().get("success"));
-        String newTopicId = getIntent().getExtras().get("topicId").toString();
-//        topic_name = getIntent().getExtras().get("topic_name").toString();
-        setTitle(user_name + " topics");
-
-        if (success) {
-            showMessage("Topic Created !");
-        }
-
-        if (!newTopicId.isEmpty() && newTopicId != null) {
-            //// TODO: 30.10.2017 podswietlenie nowego topicu albo od razu wejscie w jego eventsy
-        }
+        setTitle("All topics");
 
         DatabaseReference topicsRoot = repositoryManager.getTopicsRoot();
         topicsRoot.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                Object value = dataSnapshot.getValue();
                 addTopicsToListView(dataSnapshot);
             }
 
@@ -94,7 +75,7 @@ public class TopicsActivity extends AppCompatActivity {
         });
     }
 
-    @OnItemClick(R.id.topics_listView)
+    @OnItemClick(R.id.topics_all_listView)
     public void openEventsActivity(AdapterView<?> parent, View view,
                                    int position, long id){
         Topic topicSelected = (Topic) parent.getAdapter().getItem(position);
@@ -108,18 +89,10 @@ public class TopicsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @OnItemLongClick(R.id.topics_listView)
+    @OnItemLongClick(R.id.topics_all_listView)
     public boolean editEventMenu(View view, int position){
         showMessage("Not implemented! pos: " + position);
         return true;
-    }
-
-    @OnClick(R.id.add_topic_btn)
-    public void openEditTopicActivity(View view) {
-        Intent intent = new Intent(getApplicationContext(), EditTopicActivity.class);
-        intent.putExtra("user_name", "mocked userName");
-        intent.putExtra("action", "Create new ");
-        startActivity(intent);
     }
 
     private void addTopicsToListView(DataSnapshot dataSnapshot) {

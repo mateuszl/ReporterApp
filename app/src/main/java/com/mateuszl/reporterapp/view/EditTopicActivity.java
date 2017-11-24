@@ -52,7 +52,7 @@ public class EditTopicActivity extends AppCompatActivity {
 
                     String savedTopicId = repositoryManager.saveTopic(newTopic, user);
 
-                    Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
                     intent.putExtra("user_name", "mocked userName");
                     intent.putExtra("success", true);
                     intent.putExtra("topicId", savedTopicId);
