@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
-import com.mateuszl.reporterapp.controller.TopicsAdapter;
+import com.mateuszl.reporterapp.controller.adapters.TopicsAdapter;
 import com.mateuszl.reporterapp.model.Topic;
 
 import java.util.ArrayList;

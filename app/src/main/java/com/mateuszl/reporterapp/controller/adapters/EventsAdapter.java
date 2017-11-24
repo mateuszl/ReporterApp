@@ -1,4 +1,4 @@
-package com.mateuszl.reporterapp.controller;
+package com.mateuszl.reporterapp.controller.adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

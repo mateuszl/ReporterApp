@@ -2,7 +2,6 @@ package com.mateuszl.reporterapp.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.MainThread;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,7 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
-import com.mateuszl.reporterapp.controller.TopicsAdapter;
+import com.mateuszl.reporterapp.controller.adapters.TopicsAdapter;
 import com.mateuszl.reporterapp.model.Topic;
 
 import java.util.ArrayList;
@@ -41,7 +40,7 @@ public class UserTopicsActivity extends AppCompatActivity {
     @BindView(R.id.topics_user_listView)
     public ListView topicsListView;
     FirebaseUser currentUser;
-    private List<Topic> topicsList = new ArrayList<Topic>();
+    private List<Topic> topicList = new ArrayList<Topic>();
     private RepositoryManager repositoryManager;
 
     @Override
@@ -63,7 +62,7 @@ public class UserTopicsActivity extends AppCompatActivity {
 
         if (newTopicId != null && !newTopicId.isEmpty()) {
             //// TODO: 30.10.2017 podswietlenie nowego topicu albo od razu wejscie w jego eventsy
-            topicsListView.setSelection(topicsList.size() - 1);
+            topicsListView.setSelection(topicList.size() - 1);
         }
 
         DatabaseReference userTopicsRoot = repositoryManager.getUserTopicsRoot().child(this.currentUser.getUid());
@@ -122,16 +121,14 @@ public class UserTopicsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @MainThread
     private void addTopicsToListView(DataSnapshot dataSnapshot) {
         if (dataSnapshot.getValue() != null && (Boolean) dataSnapshot.getValue()) {
-            String key = dataSnapshot.getKey();
+            String topicId = dataSnapshot.getKey();
 
-            Topic topic = repositoryManager.getTopicById(key);
-            topicsList.add(topic);
-
-            TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
+            TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicList);
             topicsListView.setAdapter(topicsAdapter);
+            repositoryManager.retrieveTopicsById(topicId, topicList, topicsAdapter);
+
         } else {
             //// TODO: 24/11/2017 coś
         }

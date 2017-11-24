@@ -1,4 +1,4 @@
-package com.mateuszl.reporterapp.controller;
+package com.mateuszl.reporterapp.controller.adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -22,7 +22,6 @@ public class TopicsAdapter extends BaseAdapter {
 
     private Activity activity;
     private List<Topic> topics;
-//    public ImageLoader imageLoader;
 
     public TopicsAdapter(Activity a, List<Topic> topicList) {
         activity = a;

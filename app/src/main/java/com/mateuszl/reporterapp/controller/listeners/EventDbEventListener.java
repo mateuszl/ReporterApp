@@ -1,4 +1,4 @@
-package com.mateuszl.reporterapp.controller;
+package com.mateuszl.reporterapp.controller.listeners;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

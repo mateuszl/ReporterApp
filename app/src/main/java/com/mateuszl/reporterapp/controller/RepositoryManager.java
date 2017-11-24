@@ -3,9 +3,14 @@ package com.mateuszl.reporterapp.controller;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mateuszl.reporterapp.controller.adapters.TopicsAdapter;
+import com.mateuszl.reporterapp.controller.listeners.EventDbEventListener;
+import com.mateuszl.reporterapp.controller.listeners.TopicDbEventListener;
 import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic;
 import com.mateuszl.reporterapp.model.User;
+
+import java.util.List;
 
 public class RepositoryManager {
     private static RepositoryManager instance = null;
@@ -49,14 +54,13 @@ public class RepositoryManager {
         return topic.getId();
     }
 
-    public void deleteTopic(Topic topic, User user) {
+    public void deleteTopic(Topic topic) {
         //todo
     }
 
-    public Topic getTopicById(String topicId) {
-        TopicDbEventListener topicDbEventListener = new TopicDbEventListener(topicId);
+    public void retrieveTopicsById(String topicId, List<Topic> topicList, TopicsAdapter topicsAdapter) {
+        TopicDbEventListener topicDbEventListener = new TopicDbEventListener(topicId, topicList, topicsAdapter);
         this.topicsRoot.addListenerForSingleValueEvent(topicDbEventListener);
-        return topicDbEventListener.getTopic();
     }
 
     public String saveEvent(Event event, Topic topic) {

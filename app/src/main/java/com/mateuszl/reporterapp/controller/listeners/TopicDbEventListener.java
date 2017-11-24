@@ -1,35 +1,42 @@
-package com.mateuszl.reporterapp.controller;
+package com.mateuszl.reporterapp.controller.listeners;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.mateuszl.reporterapp.controller.adapters.TopicsAdapter;
 import com.mateuszl.reporterapp.model.Topic;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
- * Created by mateuszl on 08.11.2017.
+ * Created by Asus on 24/11/2017.
  */
 
 public class TopicDbEventListener implements ValueEventListener {
 
     private String topicId;
     private Topic topic;
+    private List<Topic> topicList;
+    private TopicsAdapter topicsAdapter;
+
+    public TopicDbEventListener(String topicId, List<Topic> topicList, TopicsAdapter topicsAdapter) {
+        this.topicId = topicId;
+        this.topicList = topicList;
+        this.topicsAdapter = topicsAdapter;
+        this.topic = new Topic();
+    }
 
     public Topic getTopic() {
         return topic;
     }
 
-    public TopicDbEventListener(String topicId) {
-        this.topicId = topicId;
-        topic = new Topic();
-    }
-
     @Override
     public void onDataChange(DataSnapshot snapshot) {
+        topic = new Topic();
         HashMap<String, String> map = (HashMap<String, String>) snapshot.child(topicId).getValue();
 
-        if (map != null || !map.isEmpty()) {
+        if (map != null && !map.isEmpty()) {
 
             topic.setTitle(map.get("title"));
             topic.setId(map.get("id"));
@@ -38,13 +45,8 @@ public class TopicDbEventListener implements ValueEventListener {
             topic.setTimestamp(map.get("timestamp"));
         }
 
-        if (topic.getTitle() == null) {
-            topic = new Topic();
-            topic.setId("AAAAddd HARDCODED");
-            topic.setAuthor("AADddDDAa HARDCODED");
-            topic.setTitle("AAAddD HARDCODED");
-        }
-
+        topicList.add(topic);
+        topicsAdapter.notifyDataSetChanged();
     }
 
     @Override
