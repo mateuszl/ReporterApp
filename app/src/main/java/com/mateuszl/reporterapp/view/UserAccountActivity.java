@@ -1,16 +1,12 @@
 package com.mateuszl.reporterapp.view;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.AuthUI.IdpConfig;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,9 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.mateuszl.reporterapp.R;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,28 +47,33 @@ public class UserAccountActivity extends AppCompatActivity {
     @BindView(R.id.user_display_name)
     TextView mUserDisplayName;
 
-    @BindView(R.id.user_phone_number)
-    TextView mUserPhoneNumber;
+//    @BindView(R.id.user_phone_number)
+//    TextView mUserPhoneNumber;
 
     @BindView(R.id.user_enabled_providers)
     TextView mEnabledProviders;
 
     private IdpResponse mIdpResponse;
 
-    private SignedInConfig mSignedInConfig;
+//    private SignedInConfig mSignedInConfig;
+
+//    public static Intent createIntent(
+//            Context context,
+//            IdpResponse idpResponse,
+//            SignedInConfig signedInConfig) {
 
     public static Intent createIntent(
             Context context,
-            IdpResponse idpResponse,
-            SignedInConfig signedInConfig) {
+            IdpResponse idpResponse) {
 
         Intent startIntent = new Intent();
         if (idpResponse != null) {
             startIntent.putExtra(EXTRA_IDP_RESPONSE, idpResponse);
         }
 
-        return startIntent.setClass(context, UserAccountActivity.class)
-                .putExtra(EXTRA_SIGNED_IN_CONFIG, signedInConfig);
+//        return startIntent.setClass(context, UserAccountActivity.class)
+//                .putExtra(EXTRA_SIGNED_IN_CONFIG, signedInConfig);
+        return startIntent.setClass(context, UserAccountActivity.class);
     }
 
     @Override
@@ -90,7 +88,7 @@ public class UserAccountActivity extends AppCompatActivity {
         }
 
         mIdpResponse = getIntent().getParcelableExtra(EXTRA_IDP_RESPONSE);
-        mSignedInConfig = getIntent().getParcelableExtra(EXTRA_SIGNED_IN_CONFIG);
+//        mSignedInConfig = getIntent().getParcelableExtra(EXTRA_SIGNED_IN_CONFIG);
 
         setContentView(R.layout.activity_user_account);
         ButterKnife.bind(this);
@@ -115,35 +113,35 @@ public class UserAccountActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick(R.id.delete_account)
-    public void deleteAccountClicked() {
-        new AlertDialog.Builder(this)
-                .setMessage("Are you sure you want to delete this account?")
-                .setPositiveButton("Yes, nuke it!", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        deleteAccount();
-                    }
-                })
-                .setNegativeButton("No", null)
-                .show();
-    }
-
-    private void deleteAccount() {
-        AuthUI.getInstance()
-                .delete(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            startActivity(LoginActivity.createIntent(UserAccountActivity.this));
-                            finish();
-                        } else {
-                            showSnackbar(R.string.delete_account_failed);
-                        }
-                    }
-                });
-    }
+//    @OnClick(R.id.delete_account)
+//    public void deleteAccountClicked() {
+//        new AlertDialog.Builder(this)
+//                .setMessage("Are you sure you want to delete this account?")
+//                .setPositiveButton("Yes, nuke it!", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        deleteAccount();
+//                    }
+//                })
+//                .setNegativeButton("No", null)
+//                .show();
+//    }
+//
+//    private void deleteAccount() {
+//        AuthUI.getInstance()
+//                .delete(this)
+//                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()) {
+//                            startActivity(LoginActivity.createIntent(UserAccountActivity.this));
+//                            finish();
+//                        } else {
+//                            showSnackbar(R.string.delete_account_failed);
+//                        }
+//                    }
+//                });
+//    }
 
     @MainThread
     private void populateProfile() {
@@ -151,8 +149,8 @@ public class UserAccountActivity extends AppCompatActivity {
 
         mUserEmail.setText(
                 TextUtils.isEmpty(user.getEmail()) ? "No email" : user.getEmail());
-        mUserPhoneNumber.setText(
-                TextUtils.isEmpty(user.getPhoneNumber()) ? "No phone number" : user.getPhoneNumber());
+//        mUserPhoneNumber.setText(
+//                TextUtils.isEmpty(user.getPhoneNumber()) ? "No phone number" : user.getPhoneNumber());
         mUserDisplayName.setText(
                 TextUtils.isEmpty(user.getDisplayName()) ? "No display name" : user.getDisplayName());
 
@@ -213,63 +211,63 @@ public class UserAccountActivity extends AppCompatActivity {
         Snackbar.make(mRootView, errorMessageRes, Snackbar.LENGTH_LONG).show();
     }
 
-    static final class SignedInConfig implements Parcelable {
-        int logo;
-        int theme;
-        List<IdpConfig> providerInfo;
-        String tosUrl;
-        boolean isCredentialSelectorEnabled;
-        boolean isHintSelectorEnabled;
-
-        SignedInConfig(int logo,
-                       int theme,
-                       List<IdpConfig> providerInfo,
-                       String tosUrl,
-                       boolean isCredentialSelectorEnabled,
-                       boolean isHintSelectorEnabled) {
-            this.logo = logo;
-            this.theme = theme;
-            this.providerInfo = providerInfo;
-            this.tosUrl = tosUrl;
-            this.isCredentialSelectorEnabled = isCredentialSelectorEnabled;
-            this.isHintSelectorEnabled = isHintSelectorEnabled;
-        }
-
-        SignedInConfig(Parcel in) {
-            logo = in.readInt();
-            theme = in.readInt();
-            providerInfo = new ArrayList<>();
-            in.readList(providerInfo, IdpConfig.class.getClassLoader());
-            tosUrl = in.readString();
-            isCredentialSelectorEnabled = in.readInt() != 0;
-            isHintSelectorEnabled = in.readInt() != 0;
-        }
-
-        public static final Creator<SignedInConfig> CREATOR = new Creator<SignedInConfig>() {
-            @Override
-            public SignedInConfig createFromParcel(Parcel in) {
-                return new SignedInConfig(in);
-            }
-
-            @Override
-            public SignedInConfig[] newArray(int size) {
-                return new SignedInConfig[size];
-            }
-        };
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(logo);
-            dest.writeInt(theme);
-            dest.writeList(providerInfo);
-            dest.writeString(tosUrl);
-            dest.writeInt(isCredentialSelectorEnabled ? 1 : 0);
-            dest.writeInt(isHintSelectorEnabled ? 1 : 0);
-        }
-    }
+//    static final class SignedInConfig implements Parcelable {
+//        int logo;
+//        int theme;
+//        List<IdpConfig> providerInfo;
+//        String tosUrl;
+//        boolean isCredentialSelectorEnabled;
+//        boolean isHintSelectorEnabled;
+//
+//        SignedInConfig(int logo,
+//                       int theme,
+//                       List<IdpConfig> providerInfo,
+//                       String tosUrl,
+//                       boolean isCredentialSelectorEnabled,
+//                       boolean isHintSelectorEnabled) {
+//            this.logo = logo;
+//            this.theme = theme;
+//            this.providerInfo = providerInfo;
+//            this.tosUrl = tosUrl;
+//            this.isCredentialSelectorEnabled = isCredentialSelectorEnabled;
+//            this.isHintSelectorEnabled = isHintSelectorEnabled;
+//        }
+//
+//        SignedInConfig(Parcel in) {
+//            logo = in.readInt();
+//            theme = in.readInt();
+//            providerInfo = new ArrayList<>();
+//            in.readList(providerInfo, IdpConfig.class.getClassLoader());
+//            tosUrl = in.readString();
+//            isCredentialSelectorEnabled = in.readInt() != 0;
+//            isHintSelectorEnabled = in.readInt() != 0;
+//        }
+//
+//        public static final Creator<SignedInConfig> CREATOR = new Creator<SignedInConfig>() {
+//            @Override
+//            public SignedInConfig createFromParcel(Parcel in) {
+//                return new SignedInConfig(in);
+//            }
+//
+//            @Override
+//            public SignedInConfig[] newArray(int size) {
+//                return new SignedInConfig[size];
+//            }
+//        };
+//
+//        @Override
+//        public int describeContents() {
+//            return 0;
+//        }
+//
+//        @Override
+//        public void writeToParcel(Parcel dest, int flags) {
+//            dest.writeInt(logo);
+//            dest.writeInt(theme);
+//            dest.writeList(providerInfo);
+//            dest.writeString(tosUrl);
+//            dest.writeInt(isCredentialSelectorEnabled ? 1 : 0);
+//            dest.writeInt(isHintSelectorEnabled ? 1 : 0);
+//        }
+//    }
 }

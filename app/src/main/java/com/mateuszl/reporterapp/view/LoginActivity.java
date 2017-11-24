@@ -121,16 +121,19 @@ public class LoginActivity extends AppCompatActivity {
 
     private void startUserAccountActivity(IdpResponse response) {
         startActivity(
+//                UserAccountActivity.createIntent(
+//                this,
+//                response,
+//                new UserAccountActivity.SignedInConfig(
+//                        getSelectedLogo(),
+//                        getSelectedTheme(),
+//                        getSelectedProviders(),
+//                        getTosUrl(),
+//                        true,
+//                        true)));
                 UserAccountActivity.createIntent(
                         this,
-                        response,
-                        new UserAccountActivity.SignedInConfig(
-                                getSelectedLogo(),
-                                getSelectedTheme(),
-                                getSelectedProviders(),
-                                getTosUrl(),
-                                true,
-                                true)));
+                        response));
     }
 
     @MainThread
