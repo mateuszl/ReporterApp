@@ -123,7 +123,6 @@ public class TopicsActivity extends AppCompatActivity {
     }
 
     private void addTopicsToListView(DataSnapshot dataSnapshot) {
-        Object object = dataSnapshot.getValue();
         Topic topic = dataSnapshot.getValue(Topic.class);
         topicsList.add(topic);
 

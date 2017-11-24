@@ -12,6 +12,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,7 +25,6 @@ import com.mateuszl.reporterapp.model.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -195,7 +196,8 @@ public class EventsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);
-        intent.putExtra("user_name", "User Name HC(" + UUID.randomUUID().toString().substring(0, 8) + ")"); //// TODO: 24.10.2017 hardcoded
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        intent.putExtra("user_name", currentUser !=null && currentUser.getEmail()!=null ? currentUser.getEmail() : "null USER"); //// TODO: 24.10.2017 check
         intent.putExtra("success", false);
         intent.putExtra("topicId", "");
         startActivity(intent);

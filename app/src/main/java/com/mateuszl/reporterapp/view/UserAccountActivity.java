@@ -211,6 +211,16 @@ public class UserAccountActivity extends AppCompatActivity {
         Snackbar.make(mRootView, errorMessageRes, Snackbar.LENGTH_LONG).show();
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), TopicsActivity.class);
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        intent.putExtra("user_name", currentUser !=null && currentUser.getEmail()!=null ? currentUser.getEmail() : "null USER"); //// TODO: 24.10.2017 check
+        intent.putExtra("success", false);
+        intent.putExtra("topicId", "");
+        startActivity(intent);
+    }
+
 //    static final class SignedInConfig implements Parcelable {
 //        int logo;
 //        int theme;
