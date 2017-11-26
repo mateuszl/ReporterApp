@@ -12,7 +12,7 @@ import com.mateuszl.reporterapp.model.Event;
 
 import java.util.List;
 
-import static com.mateuszl.reporterapp.utils.Utils.getDate;
+import static com.mateuszl.reporterapp.utils.Utils.getTime;
 
 public class EventsAdapter extends BaseAdapter {
 
@@ -49,7 +49,7 @@ public class EventsAdapter extends BaseAdapter {
 
         // Setting all values in listview
         content.setText(event.getContent());
-        date.setText(getDate(event.getTimestamp()));
+        date.setText(getTime(event.getTimestamp()));
         return vi;
     }
 }
