@@ -127,10 +127,10 @@ public class UserTopicsActivity extends AppCompatActivity {
 
             TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicList);
             topicsListView.setAdapter(topicsAdapter);
-            repositoryManager.retrieveTopicsById(topicId, topicList, topicsAdapter);
+            repositoryManager.retrieveTopicsByIdForListView(topicId, topicList, topicsAdapter);
 
         } else {
-            //// TODO: 24/11/2017 coś
+            //// TODO: 24/11/2017 coś (pominięcie tego topicu)
         }
     }
 

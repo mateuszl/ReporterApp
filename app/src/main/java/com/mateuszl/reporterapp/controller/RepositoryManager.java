@@ -58,7 +58,15 @@ public class RepositoryManager {
         //todo
     }
 
-    public void retrieveTopicsById(String topicId, List<Topic> topicList, TopicsAdapter topicsAdapter) {
+    /**
+     * W metodzie użyte zostały parametry, które pozwalają na przekazanie obiektów potrzebnych
+     * do asynchronicznej aktualizacji danych w widoku.
+     *
+     * @param topicId
+     * @param topicList
+     * @param topicsAdapter
+     */
+    public void retrieveTopicsByIdForListView(String topicId, List<Topic> topicList, TopicsAdapter topicsAdapter) {
         TopicDbEventListener topicDbEventListener = new TopicDbEventListener(topicId, topicList, topicsAdapter);
         this.topicsRoot.addListenerForSingleValueEvent(topicDbEventListener);
     }

@@ -25,7 +25,7 @@ public class TopicDbEventListener implements ValueEventListener {
      * W konstruktorze użyte zostały parametry, które pozwalają na przekazanie obiektów potrzebnych
      * do asynchronicznej aktualizacji danych w widoku.
      *
-     * @param topicId       Id topica któego chcemy pozyskać z bazy.
+     * @param topicId       Id topica którego chcemy pozyskać z bazy.
      * @param topicList     Lista topiców istniejąca w widoku, do której dopięty jest Adapter oraz
      *                      do której asynchronicznie dodany zostanie pozyskany obiekt Topic.
      * @param topicsAdapter Adapter służący do 'spinania' danych z listy obiektów z listą widoku.

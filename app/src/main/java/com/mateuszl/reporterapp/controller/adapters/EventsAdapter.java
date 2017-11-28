@@ -44,8 +44,7 @@ public class EventsAdapter extends BaseAdapter {
         TextView content = (TextView) vi.findViewById(R.id.event_content_textView); // content
         TextView date = (TextView) vi.findViewById(R.id.event_timestamp_textView); // date
 
-        Event event = null;
-        event = events.get(position);
+        Event event = events.get(position);
 
         // Setting all values in listview
         content.setText(event.getContent());
