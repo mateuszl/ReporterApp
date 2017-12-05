@@ -7,6 +7,10 @@ import java.util.TimeZone;
 
 public class Utils {
 
+    /**
+     * @param timestamp zmienany na obiekt 'Date'
+     * @return Obiekt 'Date' w formacie "yyyy-MM-dd HH:mm:ss"
+     */
     public static String getDate(String timestamp) {
         try {
             return generateCurrentTime(timestamp, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
@@ -15,6 +19,10 @@ public class Utils {
         }
     }
 
+    /**
+     * @param timestamp zmienany na obiekt 'Date'
+     * @return Obiekt 'Date' w formacie "HH:mm:ss"
+     */
     public static String getTime(String timestamp) {
         try {
             return generateCurrentTime(timestamp, new SimpleDateFormat("HH:mm:ss"));
@@ -28,8 +36,8 @@ public class Utils {
         TimeZone tz = TimeZone.getDefault();
         calendar.setTimeInMillis(Long.decode(timestamp) * 1000);
         calendar.add(Calendar.MILLISECOND, tz.getOffset(calendar.getTimeInMillis()));
-        Date currenTimeZone = (Date) calendar.getTime();
-        return sdf.format(currenTimeZone);
+        Date currentTimeZone = (Date) calendar.getTime();
+        return sdf.format(currentTimeZone);
     }
 
 }

@@ -110,7 +110,7 @@ public class AllTopicsActivity extends AppCompatActivity {
     }
 
     private void clearAndAddTopicsToListView(DataSnapshot dataSnapshot) {
-//        topicsListTextView.setText("");
+        topicsList.clear();
         addTopicsToListView(dataSnapshot);
     }
 

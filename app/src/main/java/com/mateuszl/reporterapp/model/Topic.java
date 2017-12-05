@@ -22,6 +22,14 @@ public class Topic {
         // Default constructor required for calls to DataSnapshot.getValue(Topic.class)
     }
 
+    public Topic(String title, String description, String timestamp, String author, Map<String, Event> events) {
+        this.title = title;
+        this.description = description;
+        this.timestamp = timestamp;
+        this.author = author;
+        this.events = events;
+    }
+
     public String getId() {
         return id;
     }

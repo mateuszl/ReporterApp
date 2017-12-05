@@ -17,11 +17,13 @@ public class RepositoryManager {
     private DatabaseReference root;
     private DatabaseReference topicsRoot;
     private DatabaseReference userTopicsRoot;
+    private DatabaseReference topicEventsRoot;
 
     protected RepositoryManager() {
         root = FirebaseDatabase.getInstance().getReference();
         userTopicsRoot = root.child("userTopics");
         topicsRoot = root.child("topics");
+        topicEventsRoot = root.child("topicEvents");
     }
 
     public static RepositoryManager getInstance() {
@@ -47,11 +49,15 @@ public class RepositoryManager {
         return userTopicsRoot;
     }
 
-    public String saveTopic(Topic topic, FirebaseUser user) {
+    public DatabaseReference getTopicEventsRoot() {
+        return topicEventsRoot;
+    }
+
+    public Topic saveTopic(Topic topic, FirebaseUser user) {
         topic.setId(getNewKey(topicsRoot));
         topicsRoot.child(topic.getId()).setValue(topic);
         addTopicToUser(topic, user);
-        return topic.getId();
+        return topic;
     }
 
     public void deleteTopic(Topic topic) {
@@ -75,6 +81,7 @@ public class RepositoryManager {
         DatabaseReference topicEventsRef = getEventsRoot(topic.getId());
         event.setId(getNewKey(topicEventsRef));
         topicEventsRef.child(event.getId()).setValue(event);
+        addEventToTopic(event, topic);
         return event.getId();
     }
 
@@ -84,6 +91,10 @@ public class RepositoryManager {
 
     public void addTopicToUser(Topic topic, FirebaseUser user) {
         userTopicsRoot.child(user.getUid()).child(topic.getId()).setValue(true);
+    }
+
+    public void addEventToTopic(Event event, Topic topic) {
+        topicEventsRoot.child(topic.getId()).child(event.getId()).setValue(true);
     }
 
     public void deleteTopicFromUser(Topic topic, User user) {

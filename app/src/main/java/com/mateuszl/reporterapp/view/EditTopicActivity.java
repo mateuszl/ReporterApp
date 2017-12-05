@@ -14,6 +14,7 @@ import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.model.Topic;
 import com.mateuszl.reporterapp.model.User;
+import com.mateuszl.reporterapp.utils.DataGenerator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,17 +56,34 @@ public class EditTopicActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.accept_new_topic_btn)
-    public void acceptBtnOnClick(View view){
+    public void acceptBtnOnClick(View view) {
         if (topicTitleEditText.getText().length() > 0 && topicDescriptionEditText.getText().length() > 0) {
             //todo dodać sprawdzenie czy takie wydarzenie juz istnieje
 
-            Topic newTopic = createNewTopic();
+            if (topicTitleEditText.getText().toString().equalsIgnoreCase("!generate")) {
+                String text = topicDescriptionEditText.getText().toString();
+                String[] strings = text.split(";");
+                int topics = Integer.decode(strings[0]);
+                int events = Integer.decode(strings[0]);
 
-            String savedTopicId = repositoryManager.saveTopic(newTopic, this.currentUser);
+                DataGenerator dataGenerator = new DataGenerator(topics, events, currentUser);
+                dataGenerator.generateData();
 
-            Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
-            intent.putExtra("topicId", savedTopicId);
-            startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
+                intent.putExtra("topicId", "");
+                startActivity(intent);
+
+                showMessage("Data generated!");
+            } else {
+
+                Topic newTopic = createNewTopic();
+
+                Topic savedTopic = repositoryManager.saveTopic(newTopic, this.currentUser);
+
+                Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
+                intent.putExtra("topicId", savedTopic.getId());
+                startActivity(intent);
+            }
         } else {
             Toast.makeText(getApplicationContext(), "Złe dane.",
                     Toast.LENGTH_SHORT).show();
@@ -97,5 +115,9 @@ public class EditTopicActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
         intent.putExtra("topicId", "");
         startActivity(intent);
+    }
+
+    private void showMessage(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

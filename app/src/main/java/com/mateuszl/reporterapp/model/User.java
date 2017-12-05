@@ -14,7 +14,6 @@ public class User {
     private String id;
     private String name;
     private String email;
-    private List<String> topicsCreated; //topics IDs
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -44,21 +43,12 @@ public class User {
         this.email = email;
     }
 
-    public List<String> getTopicsCreated() {
-        return topicsCreated;
-    }
-
-    public void setTopicsCreated(List<String> topicsCreated) {
-        this.topicsCreated = topicsCreated;
-    }
-
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", getId());
         result.put("name", getName());
         result.put("email", getEmail());
-        result.put("topicsCreated", getTopicsCreated());
         return result;
     }
 

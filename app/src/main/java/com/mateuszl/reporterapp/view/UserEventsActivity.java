@@ -125,12 +125,12 @@ public class UserEventsActivity extends AppCompatActivity {
     @OnClick(R.id.send_event_btn)
     public void saveNewEvent(View view) {
         if (sendEventEditText.getText().length() < 1) {
-            //todo odswietlenie pola/mrugniecie czy coś
+            //todo podswietlenie pola/mrugniecie czy coś
         } else {
             Long currentTime = System.currentTimeMillis() / 1000;
             String time = currentTime.toString(); //todo zmienic na godzine:minuty:sekundy a nie całą datę
 
-            Event event = new Event(sendEventEditText.getText().toString(), time, topic.getId());
+            Event event = new Event(sendEventEditText.getText().toString(), time);
             sendEventEditText.setText("");
             repositoryManager.saveEvent(event, topic);
             scrollEventsListViewToBottom();
