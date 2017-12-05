@@ -62,18 +62,25 @@ public class EditTopicActivity extends AppCompatActivity {
 
             if (topicTitleEditText.getText().toString().equalsIgnoreCase("!generate")) {
                 String text = topicDescriptionEditText.getText().toString();
-                String[] strings = text.split(";");
-                int topics = Integer.decode(strings[0]);
-                int events = Integer.decode(strings[0]);
+                try {
+                    String[] strings = text.split(";");
+                    int topics = Integer.decode(strings[0]);
+                    int events = Integer.decode(strings[1]);
 
-                DataGenerator dataGenerator = new DataGenerator(topics, events, currentUser);
-                dataGenerator.generateData();
+                    DataGenerator dataGenerator = new DataGenerator(topics, events, currentUser);
+                    dataGenerator.generateData();
 
-                Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
-                intent.putExtra("topicId", "");
-                startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
+                    intent.putExtra("topicId", "");
+                    startActivity(intent);
 
-                showMessage("Data generated!");
+                    showMessage("Data generated!");
+                } catch (Exception e) {
+                    showMessage("Data generating error");
+                    Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
+                    intent.putExtra("topicId", "");
+                    startActivity(intent);
+                }
             } else {
 
                 Topic newTopic = createNewTopic();

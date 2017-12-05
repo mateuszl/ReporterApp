@@ -62,6 +62,7 @@ public class RepositoryManager {
 
     public void deleteTopic(Topic topic) {
         //todo
+        deleteTopicFromUser(topic, topic.getAuthor());
     }
 
     /**
@@ -86,7 +87,8 @@ public class RepositoryManager {
     }
 
     public void deleteEvent(Event event, Topic topic) {
-        getEventsRoot(topic.getId()).child(event.getId()).removeValue();
+        //todo
+//        getEventsRoot(topic.getId()).child(event.getId()).removeValue();
     }
 
     public void addTopicToUser(Topic topic, FirebaseUser user) {
@@ -97,8 +99,8 @@ public class RepositoryManager {
         topicEventsRoot.child(topic.getId()).child(event.getId()).setValue(true);
     }
 
-    public void deleteTopicFromUser(Topic topic, User user) {
-        userTopicsRoot.child(user.getId()).child(topic.getId()).removeValue();
+    public void deleteTopicFromUser(Topic topic, String userId) {
+        userTopicsRoot.child(userId).child(topic.getId()).removeValue();
     }
 
     public Event getEventById(String eventId, String topicId) {

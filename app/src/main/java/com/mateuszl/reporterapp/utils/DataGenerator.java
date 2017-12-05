@@ -39,7 +39,8 @@ public class DataGenerator {
             Topic savedTopic = repositoryManager.saveTopic(topic, user);
             generateEvents(savedTopic);
             i++;
-        } while (i == topicsNumber);
+            System.out.println("Topic generated nr: " + i);
+        } while (i < topicsNumber);
 
         System.out.println("[][][] data generated!");
     }
@@ -50,7 +51,7 @@ public class DataGenerator {
             Event event = generateEvent(i);
             repositoryManager.saveEvent(event, topic);
             i++;
-        } while (i == eventsNumber);
+        } while (i < eventsNumber);
     }
 
     private Topic generateTopic(int i) {
@@ -58,7 +59,7 @@ public class DataGenerator {
         Topic topic = new Topic();
         topic.setTitle("Mecz " + dataFactory.getFirstName() + " i " + dataFactory.getFirstName() + " w " + dataFactory.getCity());
         topic.setAuthor(user.getUid());
-        topic.setDescription(dataFactory.getRandomText(3, 12) + ".");
+        topic.setDescription(dataFactory.getRandomText(4, 50) + "."); //todo zmienic generowanie randomowego tekstu
         String timestamp = generateDateAndTimestamp(i);
         topic.setTimestamp(timestamp);
         return topic;
@@ -66,14 +67,14 @@ public class DataGenerator {
 
     private Event generateEvent(int i) {
         Event event = new Event();
-        event.setContent(dataFactory.getFirstName() + " " + dataFactory.getRandomChars(2, 10));
-        long eventDateLong = Long.decode(startTopicDate) + i * 1000;
+        event.setContent(dataFactory.getFirstName() + " " + dataFactory.getRandomText(4, 60)); //todo zmienic generowanie randomowego tekstu
+        long eventDateLong = Long.decode(startTopicDate) + i * 105;
         event.setTimestamp(String.valueOf(eventDateLong));
         return event;
     }
 
     private String generateDateAndTimestamp(int i) {
-        String startDateStr = i + 1 + "/01/2017";
+        String startDateStr = i + 1 + "/01/2017"; //todo ulepszyc date bo jest bez godzin!
         Date startDate = getDateFromString(startDateStr);
         Date randomDate = dataFactory.getDate(startDate, 1, 26);
         startTopicDate = generateTimestampFromDate(randomDate);
