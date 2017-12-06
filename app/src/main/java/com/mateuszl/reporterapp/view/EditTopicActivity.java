@@ -60,7 +60,8 @@ public class EditTopicActivity extends AppCompatActivity {
         if (topicTitleEditText.getText().length() > 0 && topicDescriptionEditText.getText().length() > 0) {
             //todo dodać sprawdzenie czy takie wydarzenie juz istnieje
 
-            if (topicTitleEditText.getText().toString().equalsIgnoreCase("!generate")) {
+            //generowanie danych po wpisaniu specjalnych znaków w pola edycji
+            if (topicTitleEditText.getText().toString().equalsIgnoreCase("!gen@")) { //todo uprościć
                 String text = topicDescriptionEditText.getText().toString();
                 try {
                     String[] strings = text.split(";");
@@ -81,6 +82,7 @@ public class EditTopicActivity extends AppCompatActivity {
                     intent.putExtra("topicId", "");
                     startActivity(intent);
                 }
+
             } else {
 
                 Topic newTopic = createNewTopic();

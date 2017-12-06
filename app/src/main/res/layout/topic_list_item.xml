@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
+        android:layout_toLeftOf="@+id/timestamp"
         android:text="Topic title..."
         android:textColor="#040404"
         android:typeface="sans"
@@ -58,14 +59,5 @@
         android:textSize="10dip"
         android:textColor="#10bcc9"
         android:textStyle="bold"/>
-
-    <!-- Rightend Arrow -->
-    <ImageView
-        android:layout_below="@+id/timestamp"
-        android:layout_width="40dip"
-        android:layout_height="40dip"
-        android:src="@drawable/common_full_open_on_phone"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"/>
 
 </RelativeLayout>

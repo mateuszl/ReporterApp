@@ -13,6 +13,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class DataGenerator {
     private int topicsNumber;
@@ -57,9 +58,16 @@ public class DataGenerator {
     private Topic generateTopic(int i) {
         if (i > 11) i = dataFactory.getNumberUpTo(11);
         Topic topic = new Topic();
-        topic.setTitle("Mecz " + dataFactory.getFirstName() + " i " + dataFactory.getFirstName() + " w " + dataFactory.getCity());
+        //
+        dataFactory.getFirstName();
+        dataFactory.getFirstName();
+        dataFactory.getCity();
+        // pierwsze generowane dane zawsze sie powtarzają, ze względu na implementacje użytego generatora,
+        // dlatego pierwsze wyniki zostają pominięte
+        String name1 = dataFactory.getFirstName();
+        topic.setTitle("Mecz " + name1 + " i " + dataFactory.getFirstName() + " w " + dataFactory.getCity());
         topic.setAuthor(user.getUid());
-        topic.setDescription(dataFactory.getRandomText(4, 50) + "."); //todo zmienic generowanie randomowego tekstu
+        topic.setDescription(generateRandomText(name1, 3,30)); //todo zmienic generowanie randomowego tekstu
         String timestamp = generateDateAndTimestamp(i);
         topic.setTimestamp(timestamp);
         return topic;
@@ -67,14 +75,14 @@ public class DataGenerator {
 
     private Event generateEvent(int i) {
         Event event = new Event();
-        event.setContent(dataFactory.getFirstName() + " " + dataFactory.getRandomText(4, 60)); //todo zmienic generowanie randomowego tekstu
-        long eventDateLong = Long.decode(startTopicDate) + i * 105;
+        event.setContent(generateRandomText(dataFactory.getFirstName(),4,20)); //todo zmienic generowanie randomowego tekstu
+        long eventDateLong = Long.decode(startTopicDate) + 65 + i * 105;
         event.setTimestamp(String.valueOf(eventDateLong));
         return event;
     }
 
     private String generateDateAndTimestamp(int i) {
-        String startDateStr = i + 1 + "/01/2017"; //todo ulepszyc date bo jest bez godzin!
+        String startDateStr = i + 1 + "/01/2017 " + "10:23:34"; //todo ulepszyc date bo jest bez godzin!
         Date startDate = getDateFromString(startDateStr);
         Date randomDate = dataFactory.getDate(startDate, 1, 26);
         startTopicDate = generateTimestampFromDate(randomDate);
@@ -102,5 +110,18 @@ public class DataGenerator {
             e.printStackTrace();
         }
         return date;
+    }
+
+    private String generateRandomText(String name, int from, int to) {
+        StringBuilder str = new StringBuilder();
+        int wordsCount = dataFactory.getNumberBetween(from, to);
+        str.append(name);
+        for (int i = 0; i < wordsCount; i++) {
+            str.append(" ");
+            String randomWord = dataFactory.getRandomWord(3, 12);
+            str.append(randomWord);
+        }
+        str.append(".");
+        return str.toString();
     }
 }

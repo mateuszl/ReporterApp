@@ -40,7 +40,7 @@ public class UserTopicsActivity extends AppCompatActivity {
     @BindView(R.id.topics_user_listView)
     public ListView topicsListView;
     FirebaseUser currentUser;
-    private List<Topic> topicList = new ArrayList<Topic>();
+    private List<Topic> topicsList = new ArrayList<Topic>();
     private RepositoryManager repositoryManager;
 
     @Override
@@ -62,7 +62,7 @@ public class UserTopicsActivity extends AppCompatActivity {
 
         if (newTopicId != null && !newTopicId.isEmpty()) {
             //// TODO: 30.10.2017 podswietlenie nowego topicu albo od razu wejscie w jego eventsy
-            topicsListView.setSelection(topicList.size() - 1);
+            topicsListView.setSelection(topicsList.size() - 1);
         }
 
         DatabaseReference userTopicsRoot = repositoryManager.getUserTopicsRoot().child(this.currentUser.getUid());
@@ -125,10 +125,9 @@ public class UserTopicsActivity extends AppCompatActivity {
         if (dataSnapshot.getValue() != null && (Boolean) dataSnapshot.getValue()) {
             String topicId = dataSnapshot.getKey();
 
-            TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicList);
+            TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
             topicsListView.setAdapter(topicsAdapter);
-            repositoryManager.retrieveTopicsByIdForListView(topicId, topicList, topicsAdapter);
-
+            repositoryManager.retrieveTopicsByIdForListView(topicId, topicsList, topicsAdapter);
         } else {
             //// TODO: 24/11/2017 coś (pominięcie tego topicu)
         }
@@ -145,6 +144,7 @@ public class UserTopicsActivity extends AppCompatActivity {
 //        topicsListTextView.setText("");
         addTopicsToListView(dataSnapshot);
     }
+
 
     private void showMessage(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();

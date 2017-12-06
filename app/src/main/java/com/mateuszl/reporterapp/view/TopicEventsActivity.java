@@ -58,7 +58,7 @@ public class TopicEventsActivity extends AppCompatActivity {
             if (this.topic.getTitle() == null || this.topic.getTitle().isEmpty()) {
                 showMessage("topic title empty or null!!");
             } else {
-                setTitle("Topic: " + this.topic.getTitle());
+                setTitle(this.topic.getTitle());
             }
         } else {
             showMessage("No such topic in DB!!");
