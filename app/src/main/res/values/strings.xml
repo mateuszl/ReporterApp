@@ -3,15 +3,14 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
+    <string name="prompt_password">Hasło (opcjonalne)</string>
+    <string name="action_sign_in">logowanie lub rejestracja</string>
+    <string name="action_sign_in_short">Zaloguj</string>
+    <string name="error_invalid_email">Niepoprawny adres email</string>
+    <string name="error_invalid_password">Hasło za krótkie</string>
+    <string name="error_incorrect_password">Hasło niepoprawne</string>
+    <string name="error_field_required">To pole jest wymagane</string>
+    <string name="permission_rationale">"Prośba o dostęp do kontaktów."
     </string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
@@ -36,8 +35,8 @@
 
     <!-- Auth UI -->
     <string name="launch_title">Reporter App</string>
-    <string name="sign_in">Log in / sign in</string>
-    <string name="all_topics_button">Show all topics</string>
+    <string name="sign_in">logowanie / rejestracja</string>
+    <string name="all_topics_button">trwające wydarzenia</string>
 
     <string name="configuration_required">Configuration is required - see README.md</string>
     <string name="google_label_missing_config">Google - configuration missing</string>
@@ -52,14 +51,6 @@
     <string name="google_privacy_label">Google Privacy Policy</string>
     <string name="firebase_privacy_label">Firebase Privacy Policy</string>
 
-    <string name="extra_google_scopes">Example extra Google scopes</string>
-    <string name="drive_file_scope">Drive File</string>
-    <string name="youtube_data_scope">Youtube data</string>
-
-    <string name="extra_facebook_scopes">Example extra Facebook scopes</string>
-    <string name="friends">Friends</string>
-    <string name="photos">Photos</string>
-
     <string name="other_options_header">Other Options:</string>
     <string name="enable_credential_selector">Enable Smart Lock\'s credential selector</string>
     <string name="enable_hint_selector">Enable Smart Lock\'s hint selector</string>
@@ -67,20 +58,20 @@
 
     <string name="unknown_response">Unexpected onActivityResult response code</string>
     <string name="unknown_sign_in_response">Unknown response from AuthUI sign-in</string>
-    <string name="sign_in_cancelled">Sign in cancelled</string>
-    <string name="no_internet_connection">No internet connection</string>
-    <string name="unknown_error">An unknown error occurred</string>
+    <string name="sign_in_cancelled">Logowanie anulowane</string>
+    <string name="no_internet_connection">Brak połączenia internetowego</string>
+    <string name="unknown_error">Wystąpił nieznany błąd</string>
 
     <!-- Auth UI - Signed in -->
-    <string name="signed_in_header">You are signed in!</string>
-    <string name="sign_out">Sign out</string>
+    <string name="signed_in_header">Zalogowano!</string>
+    <string name="sign_out">Wyloguj</string>
     <string name="delete_account_label">Delete account</string>
 
     <string name="sign_out_failed">Sign out failed</string>
     <string name="delete_account_failed">Delete account failed</string>
 
-    <string name="user_profile_header">User profile:</string>
-    <string name="profile_picture_content_desc">Profile picture</string>
+    <string name="user_profile_header">Profil użytkownika:</string>
+    <string name="profile_picture_content_desc">Zdjęcie profilowe</string>
     <string name="idp_token">IDP Token</string>
     <string name="idp_secret">IDP Secret</string>
 
@@ -96,17 +87,17 @@
 
     <!-- Database -->
     <string name="start_chatting">No messages. Start chatting at the bottom!</string>
-    <string name="signing_in">Signing in…</string>
-    <string name="signed_in">Signed In</string>
+    <string name="signing_in">Logowanie…</string>
+    <string name="signed_in">Zalogowano</string>
     <string name="anonymous_auth_failed_msg">
         Anonymous authentication failed, various components of the demo will not work.
         Make sure your device is online and that Anonymous Auth is configured in your Firebase project
         (https://console.firebase.google.com/project/_/authentication/providers)
     </string>
-    <string name="topic_title">Topic title (max 40 chars)</string>
-    <string name="topic_description">Topic Description (max 80 chars)</string>
-    <string name="enter_text">Enter text...</string>
-    <string name="show_my_topics">show my topics</string>
+    <string name="topic_title">Nazwa wydarzenia (max 40 znaków)</string>
+    <string name="topic_description">Opis wydarzenia (max 80 znaków)</string>
+    <string name="enter_text">Wprowadź tekst...</string>
+    <string name="show_my_topics">moje wydarzenia</string>
 
 
 </resources>

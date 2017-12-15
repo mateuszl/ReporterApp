@@ -56,7 +56,7 @@ public class UserTopicsActivity extends AppCompatActivity {
             finish();
             return;
         }
-        setTitle(currentUser.getDisplayName());
+        setTitle("Moje wydarzenia");
 
         String newTopicId = (String) getIntent().getExtras().get("topicId");
 

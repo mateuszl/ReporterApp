@@ -44,7 +44,7 @@ public class AllTopicsActivity extends AppCompatActivity {
         repositoryManager = RepositoryManager.getInstance();
         ButterKnife.bind(this);
 
-        setTitle("All topics");
+        setTitle("Trwające ydarzenia:");
 
         DatabaseReference topicsRoot = repositoryManager.getTopicsRoot();
         topicsRoot.addChildEventListener(new ChildEventListener() {

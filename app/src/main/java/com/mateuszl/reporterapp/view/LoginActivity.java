@@ -66,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivityForResult(
                 AuthUI.getInstance().createSignInIntentBuilder()
                         .setTheme(getSelectedTheme())
-                        .setLogo(getSelectedLogo())
                         .setAvailableProviders(getSelectedProviders())
                         .setTosUrl(getTosUrl())
                         .setPrivacyPolicyUrl(getPrivacyPolicyUrl())
@@ -139,12 +138,6 @@ public class LoginActivity extends AppCompatActivity {
     @StyleRes
     private int getSelectedTheme() {
         return AuthUI.getDefaultTheme();
-    }
-
-    @MainThread
-    @DrawableRes
-    private int getSelectedLogo() {
-        return AuthUI.NO_LOGO;
     }
 
     @MainThread
