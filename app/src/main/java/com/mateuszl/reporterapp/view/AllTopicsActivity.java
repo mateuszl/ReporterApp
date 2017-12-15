@@ -3,6 +3,7 @@ package com.mateuszl.reporterapp.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -44,7 +45,7 @@ public class AllTopicsActivity extends AppCompatActivity {
         repositoryManager = RepositoryManager.getInstance();
         ButterKnife.bind(this);
 
-        setTitle("Trwające ydarzenia:");
+        setTitle("Trwające wydarzenia:");
 
         DatabaseReference topicsRoot = repositoryManager.getTopicsRoot();
         topicsRoot.addChildEventListener(new ChildEventListener() {
@@ -71,6 +72,14 @@ public class AllTopicsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 showMessage("Failed to load comments.");
+            }
+        });
+
+        topicsListView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                topicsListView.removeOnLayoutChangeListener(this);
+                Log.i("MEASURING", "Wczytano widok");
             }
         });
     }
@@ -101,6 +110,8 @@ public class AllTopicsActivity extends AppCompatActivity {
 
         TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
         topicsListView.setAdapter(topicsAdapter);
+
+        reportFullyDrawn();
     }
 
     @Override

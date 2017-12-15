@@ -45,8 +45,6 @@ public class TopicDbEventListener implements ValueEventListener {
     @Override
     public void onDataChange(DataSnapshot snapshot) {
         topic = new Topic();
-        Object object = snapshot.child(topicId).getValue();
-        System.out.println(object.toString());
         HashMap<String, String> map = (HashMap<String, String>) snapshot.child(topicId).getValue();
 
         if (map != null && !map.isEmpty()) {

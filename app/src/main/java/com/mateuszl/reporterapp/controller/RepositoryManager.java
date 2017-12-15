@@ -109,6 +109,10 @@ public class RepositoryManager {
         return eventListener.getEvent();
     }
 
+    public void cleanDatabase(){
+        root.setValue(null);
+    }
+
     private String getNewKey(DatabaseReference reference) {
         DatabaseReference newDBObjectRef = reference.push();
         return newDBObjectRef.getKey();

@@ -143,10 +143,10 @@ public class LoginActivity extends AppCompatActivity {
     @MainThread
     private List<AuthUI.IdpConfig> getSelectedProviders() {
         List<AuthUI.IdpConfig> selectedProviders = new ArrayList<>();
-
-        selectedProviders.add(
-                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER)
-                        .build());
+//
+//        selectedProviders.add(
+//                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER)
+//                        .build());
 
         selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
 
@@ -173,74 +173,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), AllTopicsActivity.class);
         startActivity(intent);
     }
-
-
-//////////////////////////////////////////// TEST TODO
-
-//        Topic topic2 = new Topic();
-//        topic2.setId("12121212");
-//        topic2.setTitle("title2");
-//        topic2.setAuthor("auth2");
-//        topic2.setDescription("desc2");
-//        topic2.setTimestamp("1510146332");
-//        Event event = new Event();
-//        event.setId("11111");
-//        event.setTopic(topic2.getId());
-//        event.setContent("content111");
-//        event.setTimestamp("1510146332");
-//        Event event2 = new Event();
-//        event2.setId("22222");
-//        event2.setTopic(topic2.getId());
-//        event2.setContent("content22222");
-//        event2.setTimestamp("1510146332");
-//        List<Event> events = new ArrayList<>();
-//        events.add(event);
-//        events.add(event2);
-//        topic2.setEvents(events);
-//
-//        Topic topic3 = new Topic();
-//        topic3.setId("3434343434");
-//        topic3.setTitle("title2");
-//        topic3.setAuthor("auth2");
-//        topic3.setDescription("desc2");
-//        topic3.setTimestamp("1510146332");
-//        Event event3 = new Event();
-//        event3.setId("33333");
-//        event3.setTopic(topic3.getId());
-//        event3.setContent("content111");
-//        event3.setTimestamp("1510146332");
-//        Event event24 = new Event();
-//        event24.setId("444444");
-//        event24.setTopic(topic3.getId());
-//        event24.setContent("content22222");
-//        event24.setTimestamp("1510146332");
-//        List<Event> events2 = new ArrayList<>();
-//        events2.add(event3);
-//        events2.add(event24);
-//        topic3.setEvents(events2);
-//
-//        RepositoryManager repositoryManager = RepositoryManager.getInstance();
-//        Random random = new Random();
-//
-//        repositoryManager.getRoot().child("topics2").child(topic2.getId()).setValue(topic2);
-//        repositoryManager.getRoot().child("topics2").child(topic3.getId()).setValue(topic3);
-
-//        repositoryManager.getRoot().child("topics2").child("topic30").child("events").child("3").removeValue();
-
-//        FirebaseDatabase.getInstance().getReference().child("topics2").child("3434343434").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                Object object = dataSnapshot.getValue();
-//                System.out.println(object);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-
-    //////////////////////////////////////////// TEST
 
 }
 
