@@ -21,33 +21,30 @@
             android:paddingBottom="32dp"
             android:orientation="vertical">
 
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Headline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:drawableTop="@drawable/firebase_auth_120dp"
-                android:text="@string/launch_title"
-                android:textAlignment="center"
-                android:paddingBottom="20dp"/>
+            <ImageView
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:background="@drawable/reporter_app_icon"
+                android:layout_gravity="center"
+                android:layout_marginBottom="70dp"/>
 
             <Button
                 android:id="@+id/sign_in"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="16dp"
+                android:layout_margin="12dp"
                 android:padding="20dp"
                 android:text="@string/sign_in" />
 
             <Button
                 android:id="@+id/topics_cheat_btn"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="16dp"
+                android:layout_margin="12dp"
                 android:padding="20dp"
                 android:text="@string/all_topics_button" />
 

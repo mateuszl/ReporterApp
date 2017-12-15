@@ -33,7 +33,6 @@ public class DataGenerator {
 
     public void generateData() {
         System.out.println("[][][] generating data...");
-        //todo
         int i = 0;
         do {
             Topic topic = generateTopic(i);
@@ -56,7 +55,6 @@ public class DataGenerator {
     }
 
     private Topic generateTopic(int i) {
-        if (i > 11) i = dataFactory.getNumberUpTo(11);
         Topic topic = new Topic();
         //
         dataFactory.getFirstName();
@@ -67,7 +65,7 @@ public class DataGenerator {
         String name1 = dataFactory.getFirstName();
         topic.setTitle("Mecz " + name1 + " i " + dataFactory.getFirstName() + " w " + dataFactory.getCity());
         topic.setAuthor(user.getUid());
-        topic.setDescription(generateRandomText(name1, 3,30)); //todo zmienic generowanie randomowego tekstu
+        topic.setDescription(generateRandomText(name1, 3,30));
         String timestamp = generateDateAndTimestamp(i);
         topic.setTimestamp(timestamp);
         return topic;
@@ -75,17 +73,21 @@ public class DataGenerator {
 
     private Event generateEvent(int i) {
         Event event = new Event();
-        event.setContent(generateRandomText(dataFactory.getFirstName(),4,20)); //todo zmienic generowanie randomowego tekstu
+        event.setContent(generateRandomText(dataFactory.getFirstName(),4,20));
         long eventDateLong = Long.decode(startTopicDate) + 65 + i * 105;
         event.setTimestamp(String.valueOf(eventDateLong));
         return event;
     }
 
     private String generateDateAndTimestamp(int i) {
-        String startDateStr = i + 1 + "/01/2017 " + "10:23:34"; //todo ulepszyc date bo jest bez godzin!
-        Date startDate = getDateFromString(startDateStr);
-        Date randomDate = dataFactory.getDate(startDate, 1, 26);
-        startTopicDate = generateTimestampFromDate(randomDate);
+        String startDateStr = "02/03/2017 10:23:34";
+
+        String tempTimestamp = generateTimestampFromDateString(startDateStr);
+
+        long dateLong = Long.decode(tempTimestamp) + i * 456763;
+
+        this.startTopicDate = String.valueOf(dateLong);
+
         return startTopicDate;
     }
 
@@ -102,7 +104,7 @@ public class DataGenerator {
 
     @Nullable
     private Date getDateFromString(String str_date) {
-        DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date date = null;
         try {
             date = (Date) formatter.parse(str_date);

@@ -18,8 +18,9 @@
         android:layout_marginRight="28dp"
         android:tint="@android:color/primary_text_light"
         app:backgroundTint="@color/colorPrimary"
-        app:rippleColor="@drawable/common_google_signin_btn_icon_light"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:rippleColor="@color/colorPrimaryDark"
+        app:srcCompat="@android:drawable/ic_input_add"
+        />
 
     <RelativeLayout
         android:id="@+id/relative_2"
