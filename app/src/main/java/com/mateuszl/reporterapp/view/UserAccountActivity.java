@@ -114,9 +114,9 @@ public class UserAccountActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
-        intent.putExtra("topicId", "");
-        startActivity(intent);
+//        Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
+//        intent.putExtra("topicId", "");
+//        startActivity(intent);
     }
 
     @OnClick(R.id.topics_all_btn)

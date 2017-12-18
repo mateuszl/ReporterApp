@@ -37,6 +37,8 @@ public class AllTopicsActivity extends AppCompatActivity {
 
     private List<Topic> topicsList = new ArrayList<Topic>();
     private RepositoryManager repositoryManager;
+    private long sumTime = 0;
+    TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,13 +99,18 @@ public class AllTopicsActivity extends AppCompatActivity {
     }
 
     private void addTopicsToListView(DataSnapshot dataSnapshot) {
+        Log.d("POMIAR", "request!");
+        long startTime = System.currentTimeMillis();
         Topic topic = dataSnapshot.getValue(Topic.class);
         topicsList.add(topic);
 
-        TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
         topicsListView.setAdapter(topicsAdapter);
-
         reportFullyDrawn();
+
+        long difference = System.currentTimeMillis() - startTime;
+        Log.d("POMIAR", "diff: " + difference + " (ms)");
+        sumTime += difference;
+        Log.d("POMIAR", "SUMA: " + sumTime + " (ms)");
     }
 
     @Override
