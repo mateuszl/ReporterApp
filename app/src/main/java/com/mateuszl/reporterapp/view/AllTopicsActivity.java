@@ -74,14 +74,6 @@ public class AllTopicsActivity extends AppCompatActivity {
                 showMessage("Failed to load comments.");
             }
         });
-
-        topicsListView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                topicsListView.removeOnLayoutChangeListener(this);
-                Log.i("MEASURING", "Wczytano widok");
-            }
-        });
     }
 
     @OnItemClick(R.id.topics_all_listView)

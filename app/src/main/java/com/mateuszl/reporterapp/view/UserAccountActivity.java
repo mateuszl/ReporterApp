@@ -9,6 +9,7 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -102,8 +103,6 @@ public class UserAccountActivity extends AppCompatActivity {
 
         mUserEmail.setText(
                 TextUtils.isEmpty(user.getEmail()) ? "Brak adresu email użytkownika" : user.getEmail());
-//        mUserPhoneNumber.setText(
-//                TextUtils.isEmpty(user.getPhoneNumber()) ? "No phone number" : user.getPhoneNumber());
         mUserDisplayName.setText(
                 TextUtils.isEmpty(user.getDisplayName()) ? "Brak danych użytkownika" : user.getDisplayName());
     }
@@ -123,6 +122,7 @@ public class UserAccountActivity extends AppCompatActivity {
     @OnClick(R.id.topics_all_btn)
     public void onAllTopicsBtnClick(View view) {
         Intent intent = new Intent(getApplicationContext(), AllTopicsActivity.class);
+        Log.d("POMIAR START", "Wywołanie akcji");
         startActivity(intent);
     }
 

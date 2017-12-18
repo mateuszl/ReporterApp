@@ -1,6 +1,7 @@
 package com.mateuszl.reporterapp.controller.adapters;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,9 @@ public class TopicsAdapter extends BaseAdapter {
         title.setText(topic.getTitle());
         description.setText(topic.getDescription());
         date.setText(getDate(topic.getTimestamp()));
+
+        Log.d("POMIAR END","wczytano pozycje na liste. Tytuł: " + topic.getTitle() + " / pozycja: " + position);
+
         return vi;
     }
 }
