@@ -3,6 +3,7 @@ package com.mateuszl.reporterapp.model;
 import com.google.firebase.database.Exclude;
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  * Created by Asus on 13.11.2017.
  */
 
-public class Topic {
+public class Topic implements Serializable {
     private String id;
     private String title;
     private String description;

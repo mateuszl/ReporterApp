@@ -18,14 +18,9 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.mateuszl.reporterapp.R;
-
-import java.util.Iterator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -115,7 +110,6 @@ public class UserAccountActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 //        Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
-//        intent.putExtra("topicId", "");
 //        startActivity(intent);
     }
 
@@ -129,7 +123,6 @@ public class UserAccountActivity extends AppCompatActivity {
     @OnClick(R.id.topics_user_btn)
     public void onUserTopicsBtnClick(View view) {
         Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
-        intent.putExtra("topicId", "");
         startActivity(intent);
     }
 }

@@ -6,7 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -67,18 +71,12 @@ public class UserEventsActivity extends AppCompatActivity {
             sendEventEditText.setVisibility(View.GONE);
         }
 
-
         sendEventBtn.setEnabled(false);
         sendEventEditText.getBackground().setColorFilter(45235, PorterDuff.Mode.SRC_IN);
 
-        this.topic = new Topic();
+        registerForContextMenu(eventsListView);
 
-        this.topic.setId(getIntent().getExtras().get("topicId").toString());
-        this.topic.setTitle(getIntent().getExtras().get("topicTitle").toString());
-        this.topic.setTimestamp(getIntent().getExtras().get("topicTimestamp").toString());
-        this.topic.setDescription(getIntent().getExtras().get("topicDescription").toString());
-        this.topic.setAuthor(getIntent().getExtras().get("topicAuthor").toString());
-
+        this.topic = (Topic) getIntent().getSerializableExtra("Topic");
 
         if (this.topic != null) {
             if (this.topic.getTitle() == null || this.topic.getTitle().isEmpty()) {
@@ -120,6 +118,26 @@ public class UserEventsActivity extends AppCompatActivity {
         });
         enableSendButton();
         scrollEventsListViewToBottom();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        menu.setHeaderTitle(topicEventsList.get(info.position).getContent());
+        menu.add(Menu.NONE, 0, 0, "Usuń zdarzenie");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int menuItemIndex = item.getItemId();
+        showMessage("menuitemIndex: " + menuItemIndex);
+
+        if (menuItemIndex == 0) {
+            //usuwanie
+        }
+
+        return true;
     }
 
     @OnClick(R.id.send_event_btn)
@@ -202,7 +220,6 @@ public class UserEventsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
-        intent.putExtra("topicId", "");
         startActivity(intent);
     }
 

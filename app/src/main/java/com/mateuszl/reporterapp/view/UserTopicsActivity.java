@@ -3,6 +3,9 @@ package com.mateuszl.reporterapp.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -49,6 +52,7 @@ public class UserTopicsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_topics);
         repositoryManager = RepositoryManager.getInstance();
         ButterKnife.bind(this);
+        registerForContextMenu(topicsListView);
 
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
@@ -58,12 +62,7 @@ public class UserTopicsActivity extends AppCompatActivity {
         }
         setTitle("Moje wydarzenia");
 
-        String newTopicId = (String) getIntent().getExtras().get("topicId");
-
-        if (newTopicId != null && !newTopicId.isEmpty()) {
-            //// TODO: 30.10.2017 podswietlenie nowego topicu albo od razu wejscie w jego eventsy
-            topicsListView.setSelection(topicsList.size() - 1);
-        }
+        topicsListView.setSelection(topicsList.size() - 1);
 
         DatabaseReference userTopicsRoot = repositoryManager.getUserTopicsRoot().child(this.currentUser.getUid());
         userTopicsRoot.addChildEventListener(new ChildEventListener() {
@@ -94,17 +93,37 @@ public class UserTopicsActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        menu.setHeaderTitle(topicsList.get(info.position).getTitle());
+        menu.add(Menu.NONE, 0, 0, "Edytuj wydarzenie");
+        menu.add(Menu.NONE, 1, 1, "Usuń wydarzenie");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int menuItemIndex = item.getItemId();
+
+        showMessage("menuitemIndex: " + menuItemIndex);
+
+        switch (menuItemIndex) {
+            case 0: //edycja
+                break;
+            case 1: //usuwanie
+        }
+
+        return true;
+    }
+
     @OnItemClick(R.id.topics_user_listView)
     public void openEventsActivity(AdapterView<?> parent, View view,
                                    int position, long id) {
         Topic topicSelected = (Topic) parent.getAdapter().getItem(position);
 //todo passing an object with intent instead of strings
         Intent intent = new Intent(getApplicationContext(), UserEventsActivity.class);
-        intent.putExtra("topicId", topicSelected.getId());
-        intent.putExtra("topicTitle", topicSelected.getTitle());
-        intent.putExtra("topicTimestamp", topicSelected.getTimestamp());
-        intent.putExtra("topicDescription", topicSelected.getDescription());
-        intent.putExtra("topicAuthor", topicSelected.getAuthor());
+        intent.putExtra("Topic", topicSelected);
         startActivity(intent);
     }
 

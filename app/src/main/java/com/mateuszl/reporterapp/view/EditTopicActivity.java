@@ -87,7 +87,6 @@ public class EditTopicActivity extends AppCompatActivity {
                 Topic savedTopic = repositoryManager.saveTopic(newTopic, this.currentUser);
 
                 Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
-                intent.putExtra("topicId", savedTopic.getId());
                 startActivity(intent);
             }
         } else {
@@ -119,7 +118,6 @@ public class EditTopicActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
-        intent.putExtra("topicId", "");
         startActivity(intent);
     }
 

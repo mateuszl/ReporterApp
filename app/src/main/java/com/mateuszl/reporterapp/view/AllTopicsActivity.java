@@ -3,7 +3,6 @@ package com.mateuszl.reporterapp.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -37,8 +36,6 @@ public class AllTopicsActivity extends AppCompatActivity {
 
     private List<Topic> topicsList = new ArrayList<Topic>();
     private RepositoryManager repositoryManager;
-    private long sumTime = 0;
-    TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,35 +79,20 @@ public class AllTopicsActivity extends AppCompatActivity {
     public void openEventsActivity(AdapterView<?> parent, View view,
                                    int position, long id) {
         Topic topicSelected = (Topic) parent.getAdapter().getItem(position);
-//todo passing an object with intent instead of strings
         Intent intent = new Intent(getApplicationContext(), TopicEventsActivity.class);
+//        intent.putExtra("Topic", topicSelected);
         intent.putExtra("topicId", topicSelected.getId());
         intent.putExtra("topicTitle", topicSelected.getTitle());
-        intent.putExtra("topicTimestamp", topicSelected.getTimestamp());
-        intent.putExtra("topicDescription", topicSelected.getDescription());
-        intent.putExtra("topicAuthor", topicSelected.getAuthor());
         startActivity(intent);
     }
 
-    @OnItemLongClick(R.id.topics_all_listView)
-    public boolean editEventMenu(View view, int position) {
-        showMessage("Not implemented! pos: " + position);
-        return true;
-    }
-
     private void addTopicsToListView(DataSnapshot dataSnapshot) {
-        Log.d("POMIAR", "request!");
-        long startTime = System.currentTimeMillis();
         Topic topic = dataSnapshot.getValue(Topic.class);
         topicsList.add(topic);
 
+        TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
         topicsListView.setAdapter(topicsAdapter);
         reportFullyDrawn();
-
-        long difference = System.currentTimeMillis() - startTime;
-        Log.d("POMIAR", "diff: " + difference + " (ms)");
-        sumTime += difference;
-        Log.d("POMIAR", "SUMA: " + sumTime + " (ms)");
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.mateuszl.reporterapp.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,11 +20,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnItemLongClick;
-
-/**
- * Created by Asus on 24/11/2017.
- */
 
 public class TopicEventsActivity extends AppCompatActivity {
 
@@ -34,9 +28,9 @@ public class TopicEventsActivity extends AppCompatActivity {
     @BindView(R.id.events_all_listView)
     public ListView eventsListView;
 
-    private Topic topic;
     private RepositoryManager repositoryManager;
     private List<Event> topicEventsList = new ArrayList<>();
+    private Topic topic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +39,23 @@ public class TopicEventsActivity extends AppCompatActivity {
         repositoryManager = RepositoryManager.getInstance();
         ButterKnife.bind(this);
 
+//        Topic topic = (Topic) getIntent().getSerializableExtra("Topic");
+//
+//        if (topic != null) {
+//            if (topic.getTitle() == null || topic.getTitle().isEmpty()) {
+//                showMessage("topic title empty or null!!");
+//            } else {
+//                setTitle(topic.getTitle());
+//            }
+//        } else {
+//            showMessage("No such topic in DB!!");
+//            //todo wyjście do listy topiców
+//        }
+
         this.topic = new Topic();
 
         this.topic.setId(getIntent().getExtras().get("topicId").toString());
         this.topic.setTitle(getIntent().getExtras().get("topicTitle").toString());
-        this.topic.setTimestamp(getIntent().getExtras().get("topicTimestamp").toString());
-        this.topic.setDescription(getIntent().getExtras().get("topicDescription").toString());
-        this.topic.setAuthor(getIntent().getExtras().get("topicAuthor").toString());
 
 
         if (this.topic != null) {
@@ -93,12 +97,6 @@ public class TopicEventsActivity extends AppCompatActivity {
             }
         });
         scrollEventsListViewToBottom();
-    }
-
-    @OnItemLongClick(R.id.events_all_listView)
-    public boolean editEventMenu(View view, int position) {
-        showMessage("Not implemented! pos: " + position);
-        return true;
     }
 
     private void showMessage(String message) {
