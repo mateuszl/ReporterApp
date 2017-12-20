@@ -23,7 +23,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
-import butterknife.OnItemLongClick;
 
 /**
  * Widok z listą wszystkich aktywnych wydarzeń

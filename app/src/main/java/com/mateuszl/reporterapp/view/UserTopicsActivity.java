@@ -30,7 +30,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
-import butterknife.OnItemLongClick;
 
 /**
  * Widok z listą aktywnych wydarzeń zalogowanego użytkownika
@@ -45,6 +44,7 @@ public class UserTopicsActivity extends AppCompatActivity {
     FirebaseUser currentUser;
     private List<Topic> topicsList = new ArrayList<Topic>();
     private RepositoryManager repositoryManager;
+    TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +73,10 @@ public class UserTopicsActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                clearAndAddTopicsToListView(dataSnapshot);
             }
 
             @Override
@@ -106,12 +104,19 @@ public class UserTopicsActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int menuItemIndex = item.getItemId();
 
-        showMessage("menuitemIndex: " + menuItemIndex);
-
         switch (menuItemIndex) {
             case 0: //edycja
+                showMessage("menuitemIndex: " + menuItemIndex);
+
+
+
                 break;
             case 1: //usuwanie
+                repositoryManager.deleteTopic(topicsList.get(info.position));
+                topicsList.remove(info.position);
+                topicsAdapter.notifyDataSetChanged();
+                showMessage("Wydarzenie usunięto z serwera!");
+                break;
         }
 
         return true;
@@ -127,12 +132,6 @@ public class UserTopicsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @OnItemLongClick(R.id.topics_user_listView)
-    public boolean editEventMenu(View view, int position) {
-        showMessage("Not implemented! pos: " + position);
-        return true;
-    }
-
     @OnClick(R.id.add_topic_btn)
     public void openEditTopicActivity(View view) {
         Intent intent = new Intent(getApplicationContext(), EditTopicActivity.class);
@@ -144,7 +143,6 @@ public class UserTopicsActivity extends AppCompatActivity {
         if (dataSnapshot.getValue() != null && (Boolean) dataSnapshot.getValue()) {
             String topicId = dataSnapshot.getKey();
 
-            TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
             topicsListView.setAdapter(topicsAdapter);
             repositoryManager.retrieveTopicsByIdForListView(topicId, topicsList, topicsAdapter);
         } else {
@@ -152,18 +150,11 @@ public class UserTopicsActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }
-
-    private void clearAndAddTopicsToListView(DataSnapshot dataSnapshot) {
-//        topicsListTextView.setText("");
-        addTopicsToListView(dataSnapshot);
-    }
-
 
     private void showMessage(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();

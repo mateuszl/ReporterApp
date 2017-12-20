@@ -160,12 +160,6 @@ public class UserEventsActivity extends AppCompatActivity {
         scrollEventsListViewToBottom();
     }
 
-    @OnItemLongClick(R.id.events_listView)
-    public boolean editEventMenu(View view, int position) {
-        showMessage("Not implemented! pos: " + position);
-        return true;
-    }
-
     private void showMessage(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
