@@ -1,6 +1,5 @@
 package com.mateuszl.reporterapp.model;
 
-import com.google.firebase.database.Exclude;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
@@ -8,19 +7,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Asus on 13.11.2017.
+ * Model danych dla Wydarzenia, które jest
  */
-
 public class Topic implements Serializable {
     private String id;
     private String title;
     private String description;
     private String timestamp;
-    private String author; //authors User ID
+    private String author; //authors ID
     private Map<String, Event> events; //events IDs
 
     public Topic() {
-        // Default constructor required for calls to DataSnapshot.getValue(Topic.class)
+        // domyślny konstruktor potrzebny do odwołań DataSnapshot.getValue(Topic.class)
     }
 
     public Topic(String title, String description, String timestamp, String author, Map<String, Event> events) {
@@ -64,7 +62,7 @@ public class Topic implements Serializable {
     }
 
     /**
-     * Authors User Id;
+     * Id użytkownika który utworzył Wydarzenie
      *
      * @return
      */
@@ -82,7 +80,7 @@ public class Topic implements Serializable {
      * @return
      */
     public Map<String, Event> getEvents() {
-        if (events==null){
+        if (events == null) {
             setEvents(new HashMap<String, Event>());
         }
         return events;
@@ -92,24 +90,9 @@ public class Topic implements Serializable {
         this.events = events;
     }
 
-
-    @Exclude
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-//        result.put("id", getId()); //// TODO: 25.10.2017 make sure not needed here!
-        result.put("title", getTitle());
-        result.put("description", getDescription());
-        result.put("author", getAuthor());
-        result.put("timestamp", getTimestamp());
-        result.put("events", getEvents());
-        return result;
-    }
-
-
-
     @Override
     public String toString() {
         Gson gson = new Gson();
-        return gson.toJson(this.toMap());
+        return gson.toJson(this);
     }
 }

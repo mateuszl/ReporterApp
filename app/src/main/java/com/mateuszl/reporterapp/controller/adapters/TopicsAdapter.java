@@ -1,7 +1,6 @@
 package com.mateuszl.reporterapp.controller.adapters;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import static com.mateuszl.reporterapp.utils.Utils.getDate;
 
 /**
  * Adapter służący do połączenia i przekazywania danych pomiędzy listą obiektów typu Topic
- * a listą widoku w tych Activity, które prezentują użytkownikowi Topici.
+ * a listą widoku w tych Activity, które prezentują użytkownikowi Wydarzenia.
  */
 public class TopicsAdapter extends BaseAdapter {
 
@@ -50,16 +49,15 @@ public class TopicsAdapter extends BaseAdapter {
         if (convertView == null) {
             vi = LayoutInflater.from(activity.getApplicationContext()).inflate(R.layout.topic_list_item, parent, false); //OPTION 2
         }
-        TextView title = vi.findViewById(R.id.title); // title
-        TextView description = vi.findViewById(R.id.description); // description name
-        TextView date = vi.findViewById(R.id.timestamp); // date
+        TextView titleTextView = vi.findViewById(R.id.title);
+        TextView descriptionTextView = vi.findViewById(R.id.description);
+        TextView dateTextView = vi.findViewById(R.id.timestamp);
 
         Topic topic = topics.get(position);
 
-        // Setting all values in listview
-        title.setText(topic.getTitle());
-        description.setText(topic.getDescription());
-        date.setText(getDate(topic.getTimestamp()));
+        titleTextView.setText(topic.getTitle());
+        descriptionTextView.setText(topic.getDescription());
+        dateTextView.setText(getDate(topic.getTimestamp()));
 
         return vi;
     }

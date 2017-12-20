@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // Sign in failed
             if (response == null) {
-                // User pressed back button
+                // Użytkownik pressed back button
                 showSnackbar(R.string.sign_in_cancelled);
                 return;
             }

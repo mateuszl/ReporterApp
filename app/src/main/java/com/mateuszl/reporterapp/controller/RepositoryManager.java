@@ -4,14 +4,16 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mateuszl.reporterapp.controller.adapters.TopicsAdapter;
-import com.mateuszl.reporterapp.controller.listeners.EventDbEventListener;
 import com.mateuszl.reporterapp.controller.listeners.TopicDbEventListener;
 import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic;
-import com.mateuszl.reporterapp.model.User;
 
 import java.util.List;
 
+/**
+ * W implementacji zastosowany został typowy przykład menedżera warstwy perzystencji aplikacji.
+ * Uzyto tu znanego wzorca projektowego pod tytułem Singleton, chcąc skorzystać z jego oczywistych zalet.
+ */
 public class RepositoryManager {
     private static RepositoryManager instance = null;
     private DatabaseReference root;
@@ -24,6 +26,11 @@ public class RepositoryManager {
         topicsRoot = root.child("topics");
     }
 
+    /**
+     * Klasyczny przykład Singletonu, pozwalający na uzyskiwanie instancji menedżera.
+     *
+     * @return instancja Repository Manager, tworzona jeśli jest taka potrzeba
+     */
     public static RepositoryManager getInstance() {
         if (instance == null) {
             instance = new RepositoryManager();
@@ -54,14 +61,28 @@ public class RepositoryManager {
         return topic;
     }
 
+    public void editTopic(Topic topic) {
+        topicsRoot.child(topic.getId()).child("title").setValue(topic.getTitle());
+        topicsRoot.child(topic.getId()).child("description").setValue(topic.getDescription());
+    }
+
     public void deleteTopic(Topic topic) {
         getTopicsRoot().child(topic.getId()).removeValue();
         deleteTopicFromUser(topic, topic.getAuthor());
     }
 
-    public void editTopic(Topic topic){
-        topicsRoot.child(topic.getId()).child("title").setValue(topic.getTitle());
-        topicsRoot.child(topic.getId()).child("description").setValue(topic.getDescription());
+    public void saveEvent(Event event, Topic topic) {
+        DatabaseReference topicEventsRef = getEventsRoot(topic.getId());
+        event.setId(getNewKey(topicEventsRef));
+        topicEventsRef.child(event.getId()).setValue(event);
+    }
+
+    public void deleteEvent(Event event, Topic topic) {
+        getTopicsRoot().child(topic.getId()).child("events").child(event.getId()).removeValue();
+    }
+
+    public void cleanDatabase() {
+        root.setValue(null);
     }
 
     /**
@@ -77,33 +98,12 @@ public class RepositoryManager {
         this.topicsRoot.addListenerForSingleValueEvent(topicDbEventListener);
     }
 
-    public String saveEvent(Event event, Topic topic) {
-        DatabaseReference topicEventsRef = getEventsRoot(topic.getId());
-        event.setId(getNewKey(topicEventsRef));
-        topicEventsRef.child(event.getId()).setValue(event);
-        return event.getId();
-    }
-
-    public void deleteEvent(Event event, Topic topic) {
-        getTopicsRoot().child(topic.getId()).child("events").child(event.getId()).removeValue();
-    }
-
-    public void addTopicToUser(Topic topic, FirebaseUser user) {
+    private void addTopicToUser(Topic topic, FirebaseUser user) {
         userTopicsRoot.child(user.getUid()).child(topic.getId()).setValue(true);
     }
 
-    public void deleteTopicFromUser(Topic topic, String userId) {
+    private void deleteTopicFromUser(Topic topic, String userId) {
         userTopicsRoot.child(userId).child(topic.getId()).removeValue();
-    }
-
-    public Event getEventById(String eventId, String topicId) {
-        EventDbEventListener eventListener = new EventDbEventListener();
-        getEventsRoot(topicId).child(eventId).addListenerForSingleValueEvent(eventListener);
-        return eventListener.getEvent();
-    }
-
-    public void cleanDatabase(){
-        root.setValue(null);
     }
 
     private String getNewKey(DatabaseReference reference) {

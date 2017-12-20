@@ -14,6 +14,10 @@ import java.util.List;
 
 import static com.mateuszl.reporterapp.utils.Utils.getTime;
 
+/**
+ * Adapter służący do połączenia i przekazywania danych pomiędzy listą obiektów typu Event
+ * a listą widoku w tych Activity, które prezentują użytkownikowi Zdarzenia.
+ **/
 public class EventsAdapter extends BaseAdapter {
 
     private Activity activity;
@@ -39,14 +43,14 @@ public class EventsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         if (convertView == null) {
-            vi = LayoutInflater.from(activity.getApplicationContext()).inflate(R.layout.event_list_item, parent, false);
+            vi = LayoutInflater.from(activity.getApplicationContext()).
+                    inflate(R.layout.event_list_item, parent, false);
         }
-        TextView content = (TextView) vi.findViewById(R.id.event_content_textView); // content
-        TextView date = (TextView) vi.findViewById(R.id.event_timestamp_textView); // date
+        TextView content = vi.findViewById(R.id.event_content_textView);
+        TextView date = vi.findViewById(R.id.event_timestamp_textView);
 
         Event event = events.get(position);
 
-        // Setting all values in listview
         content.setText(event.getContent());
         date.setText(getTime(event.getTimestamp()));
         return vi;

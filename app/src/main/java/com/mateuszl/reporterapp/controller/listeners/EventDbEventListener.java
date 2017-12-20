@@ -6,19 +6,21 @@ import com.google.firebase.database.ValueEventListener;
 import com.mateuszl.reporterapp.model.Event;
 
 /**
- * Created by Asus on 13.11.2017.
+ * Implementacja Value Event Listenera dla bazy Firebase, która pozwala na asynchroniczną manipulację
+ * obiektem typu Event pobieranym z bazy danych.
+ * W momencie dodania listenera to danej referencji uruchomiona zostaje jednokrotnie metoda
+ * onDataChange(), co pozwala na odczyt danych podlegających tej referencji.
  */
-
 public class EventDbEventListener implements ValueEventListener {
 
     private Event event;
 
-    public Event getEvent() {
-        return event;
-    }
-
     public EventDbEventListener() {
         event = new Event();
+    }
+
+    public Event getEvent() {
+        return event;
     }
 
     @Override

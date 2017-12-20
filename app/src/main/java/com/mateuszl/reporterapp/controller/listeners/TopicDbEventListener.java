@@ -10,9 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Implementacja Event Listenera dla bazy Firebase. W momencie dodania listenera to danej referencji
- * uruchomiona zostaje jednokrotnie metoda onDataChange(), co pozwala na odczyt danych podlegających
- * tej referencji.
+ * Implementacja Value Event Listenera dla bazy Firebase, która pozwala na asynchroniczną manipulację
+ * obiektem typu Topic pobieranym z bazy danych.
+ * W momencie dodania listenera to danej referencji uruchomiona zostaje jednokrotnie metoda
+ * onDataChange(), co pozwala na odczyt danych podlegających tej referencji.
  */
 public class TopicDbEventListener implements ValueEventListener {
 
@@ -25,8 +26,8 @@ public class TopicDbEventListener implements ValueEventListener {
      * W konstruktorze użyte zostały parametry, które pozwalają na przekazanie obiektów potrzebnych
      * do asynchronicznej aktualizacji danych w widoku.
      *
-     * @param topicId       Id topica którego chcemy pozyskać z bazy.
-     * @param topicList     Lista topiców istniejąca w widoku, do której dopięty jest Adapter oraz
+     * @param topicId       Id Wydarzenia którego chcemy pozyskać z bazy.
+     * @param topicList     Lista wydarzeń istniejąca w widoku, do której dopięty jest Adapter oraz
      *                      do której asynchronicznie dodany zostanie pozyskany obiekt Topic.
      * @param topicsAdapter Adapter służący do 'spinania' danych z listy obiektów z listą widoku.
      *                      Przekazywany aby móc go asynchronicznie odświeżać.
@@ -45,6 +46,9 @@ public class TopicDbEventListener implements ValueEventListener {
     @Override
     public void onDataChange(DataSnapshot snapshot) {
         topic = new Topic();
+
+        //Mapowanie danych prosto do obiektu Topic niestety nie działa poprawnie,
+        // dlatego zostało zastosowane takie obejście z użyciem Mapy
         HashMap<String, String> map = (HashMap<String, String>) snapshot.child(topicId).getValue();
 
         if (map != null && !map.isEmpty()) {
