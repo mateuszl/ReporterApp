@@ -13,8 +13,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.model.Topic;
-import com.mateuszl.reporterapp.model.User;
 import com.mateuszl.reporterapp.utils.DataGenerator;
+import com.mateuszl.reporterapp.utils.TopicAction;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,10 +31,11 @@ public class EditTopicActivity extends AppCompatActivity {
     @BindView(R.id.topic_description_editText)
     public EditText topicDescriptionEditText;
 
-    private User user;
     private RepositoryManager repositoryManager;
-    private String action, currentTime;
+    private String currentTime;
+    private TopicAction action;
     private FirebaseUser currentUser;
+    private Topic topic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +51,23 @@ public class EditTopicActivity extends AppCompatActivity {
             return;
         }
 
-        action = getIntent().getExtras().get("action").toString();
-        setTitle(action + "topic");
+        action = (TopicAction) getIntent().getExtras().get("action");
 
+        switch (action) {
+            case CREATE:
+                setTitle("Tworzenie wydarzenia");
+                break;
+            case EDIT:
+                this.topic = (Topic) getIntent().getSerializableExtra("Topic");
+                setTitle("Edycja " + topic.getTitle());
+                setFields(topic);
+                break;
+        }
+    }
+
+    private void setFields(Topic topic) {
+        topicTitleEditText.setText(topic.getTitle());
+        topicDescriptionEditText.setText(topic.getDescription());
     }
 
     @OnClick(R.id.accept_new_topic_btn)
@@ -81,11 +96,17 @@ public class EditTopicActivity extends AppCompatActivity {
                 repositoryManager.cleanDatabase();
                 showMessage("Baza danych wyczyszczona!");
             } else {
-
-                Topic newTopic = createNewTopic();
-
-                Topic savedTopic = repositoryManager.saveTopic(newTopic, this.currentUser);
-
+                switch (action) {
+                    case EDIT:
+                        topic.setTitle(topicTitleEditText.getText().toString());
+                        topic.setDescription(topicDescriptionEditText.getText().toString());
+                        repositoryManager.editTopic(topic);
+                        break;
+                    case CREATE:
+                        Topic newTopic = createNewTopic();
+                        Topic savedTopic = repositoryManager.saveTopic(newTopic, this.currentUser);
+                        break;
+                }
                 Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
                 startActivity(intent);
             }
@@ -99,20 +120,20 @@ public class EditTopicActivity extends AppCompatActivity {
         Long tsLong = System.currentTimeMillis() / 1000;
         currentTime = tsLong.toString();
 
-        Topic topic = new Topic();
+        Topic newTopic = new Topic();
 
         if (this.currentUser != null) {
-            topic.setAuthor(this.currentUser.getUid());
+            newTopic.setAuthor(this.currentUser.getUid());
         } else {
             startActivity(LoginActivity.createIntent(this));
             finish();
             return null; //todo potrzebne?
         }
 
-        topic.setDescription(topicDescriptionEditText.getText().toString());
-        topic.setTitle(topicTitleEditText.getText().toString());
-        topic.setTimestamp(currentTime);
-        return topic;
+        newTopic.setDescription(topicDescriptionEditText.getText().toString());
+        newTopic.setTitle(topicTitleEditText.getText().toString());
+        newTopic.setTimestamp(currentTime);
+        return newTopic;
     }
 
     @Override

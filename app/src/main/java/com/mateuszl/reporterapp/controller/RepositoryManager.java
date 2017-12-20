@@ -59,8 +59,9 @@ public class RepositoryManager {
         deleteTopicFromUser(topic, topic.getAuthor());
     }
 
-    public void updateTopic(Topic topic){
-        topicsRoot.child(topic.getId()).setValue(topic);
+    public void editTopic(Topic topic){
+        topicsRoot.child(topic.getId()).child("title").setValue(topic.getTitle());
+        topicsRoot.child(topic.getId()).child("description").setValue(topic.getDescription());
     }
 
     /**

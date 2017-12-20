@@ -22,6 +22,7 @@ import com.mateuszl.reporterapp.R;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
 import com.mateuszl.reporterapp.controller.adapters.TopicsAdapter;
 import com.mateuszl.reporterapp.model.Topic;
+import com.mateuszl.reporterapp.utils.TopicAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +109,10 @@ public class UserTopicsActivity extends AppCompatActivity {
             case 0: //edycja
                 showMessage("menuitemIndex: " + menuItemIndex);
 
-
+                Intent intent = new Intent(getApplicationContext(), EditTopicActivity.class);
+                intent.putExtra("action", TopicAction.EDIT);
+                intent.putExtra("Topic", topicsList.get(info.position));
+                startActivity(intent);
 
                 break;
             case 1: //usuwanie
@@ -133,9 +137,9 @@ public class UserTopicsActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.add_topic_btn)
-    public void openEditTopicActivity(View view) {
+    public void openCreateTopicActivity(View view) {
         Intent intent = new Intent(getApplicationContext(), EditTopicActivity.class);
-        intent.putExtra("action", "Create new ");
+        intent.putExtra("action", TopicAction.CREATE);
         startActivity(intent);
     }
 
