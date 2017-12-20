@@ -106,16 +106,14 @@ public class UserTopicsActivity extends AppCompatActivity {
         int menuItemIndex = item.getItemId();
 
         switch (menuItemIndex) {
-            case 0: //edycja
-                showMessage("menuitemIndex: " + menuItemIndex);
-
+            case 0: //edycja wydarzenia
                 Intent intent = new Intent(getApplicationContext(), EditTopicActivity.class);
                 intent.putExtra("action", TopicAction.EDIT);
                 intent.putExtra("Topic", topicsList.get(info.position));
                 startActivity(intent);
 
                 break;
-            case 1: //usuwanie
+            case 1: //usuwanie wydarzenia
                 repositoryManager.deleteTopic(topicsList.get(info.position));
                 topicsList.remove(info.position);
                 topicsAdapter.notifyDataSetChanged();

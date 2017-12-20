@@ -85,8 +85,7 @@ public class RepositoryManager {
     }
 
     public void deleteEvent(Event event, Topic topic) {
-        //todo
-//        getEventsRoot(topic.getId()).child(event.getId()).removeValue();
+        getTopicsRoot().child(topic.getId()).child("events").child(event.getId()).removeValue();
     }
 
     public void addTopicToUser(Topic topic, FirebaseUser user) {

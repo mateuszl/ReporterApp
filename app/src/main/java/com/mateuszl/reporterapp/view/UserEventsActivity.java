@@ -54,6 +54,7 @@ public class UserEventsActivity extends AppCompatActivity {
     private Topic topic;
     private RepositoryManager repositoryManager;
     private List<Event> topicEventsList = new ArrayList<>();
+    EventsAdapter eventsAdapter = new EventsAdapter(this, topicEventsList);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +103,6 @@ public class UserEventsActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                clearAndAddEventsToListView(dataSnapshot);
             }
 
             @Override
@@ -131,10 +131,12 @@ public class UserEventsActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int menuItemIndex = item.getItemId();
-        showMessage("menuitemIndex: " + menuItemIndex);
 
         if (menuItemIndex == 0) {
-            //usuwanie
+            repositoryManager.deleteEvent(topicEventsList.get(info.position), topic);
+            topicEventsList.remove(info.position);
+            eventsAdapter.notifyDataSetChanged();
+            showMessage("Zdarzenie usunięto z bazy!");
         }
 
         return true;
@@ -167,7 +169,6 @@ public class UserEventsActivity extends AppCompatActivity {
     private void addEventsToListView(DataSnapshot dataSnapshot) {
         topicEventsList.add(dataSnapshot.getValue(Event.class));
 
-        EventsAdapter eventsAdapter = new EventsAdapter(this, topicEventsList);
         eventsListView.setAdapter(eventsAdapter);
 
         scrollEventsListViewToBottom();
@@ -215,11 +216,5 @@ public class UserEventsActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
         startActivity(intent);
-    }
-
-    private void clearAndAddEventsToListView(DataSnapshot dataSnapshot) {
-//        eventsListTextView.setText("");
-//        eventsListView.removeAllViews(); //todo check !
-        addEventsToListView(dataSnapshot);
     }
 }
