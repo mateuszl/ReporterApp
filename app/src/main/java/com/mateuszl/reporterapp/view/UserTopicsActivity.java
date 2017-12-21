@@ -33,7 +33,7 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 
 /**
- * Widok z listą aktywnych wydarzeń zalogowanego użytkownika
+ * Widok z listą aktywnych wydarzeń zalogowanego użytkownika.
  */
 public class UserTopicsActivity extends AppCompatActivity {
 
@@ -87,7 +87,7 @@ public class UserTopicsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                showMessage("Failed to load comments.");
+                showMessage("Błąd bazy danych!");
             }
         });
     }
@@ -128,7 +128,6 @@ public class UserTopicsActivity extends AppCompatActivity {
     public void openEventsActivity(AdapterView<?> parent, View view,
                                    int position, long id) {
         Topic topicSelected = (Topic) parent.getAdapter().getItem(position);
-//todo passing an object with intent instead of strings
         Intent intent = new Intent(getApplicationContext(), UserEventsActivity.class);
         intent.putExtra("Topic", topicSelected);
         startActivity(intent);
@@ -147,8 +146,6 @@ public class UserTopicsActivity extends AppCompatActivity {
 
             topicsListView.setAdapter(topicsAdapter);
             repositoryManager.retrieveTopicsByIdForListView(topicId, topicsList, topicsAdapter);
-        } else {
-            //// TODO: 24/11/2017 coś (pominięcie tego topicu)
         }
     }
 

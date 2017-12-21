@@ -5,6 +5,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * Klasa zawierająca metody użyteczności ogólnej
+ */
 public class Utils {
 
     /**
@@ -36,7 +39,7 @@ public class Utils {
         TimeZone tz = TimeZone.getDefault();
         calendar.setTimeInMillis(Long.decode(timestamp) * 1000);
         calendar.add(Calendar.MILLISECOND, tz.getOffset(calendar.getTimeInMillis()));
-        Date currentTimeZone = (Date) calendar.getTime();
+        Date currentTimeZone = calendar.getTime();
         return sdf.format(currentTimeZone);
     }
 

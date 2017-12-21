@@ -3,7 +3,6 @@ package com.mateuszl.reporterapp.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.MainThread;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
@@ -26,7 +25,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * A login screen that offers login via email/password.
+ * Ekran główny aplikcji z opcją zalogowania lub wejścia w listę wydarzeń bez logowania.
+ * Jeśli użytkownik jest zalogowany w aplikacji to ekran ten jest pomijany.
  */
 public class LoginActivity extends AppCompatActivity {
     private static final String FIREBASE_TOS_URL = "https://firebase.google.com/terms/";
@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
     private void handleSignInResponse(int resultCode, Intent data) {
         IdpResponse response = IdpResponse.fromResultIntent(data);
 
-        // Successfully signed in
+        //przy pomyślnym zalogowaniu
         if (resultCode == RESULT_OK) {
             startUserAccountActivity(response);
             finish();
@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // Sign in failed
             if (response == null) {
-                // Użytkownik pressed back button
+                // Użytkownik użył przycisku wstecz
                 showSnackbar(R.string.sign_in_cancelled);
                 return;
             }
@@ -118,20 +118,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void startUserAccountActivity(IdpResponse response) {
-        startActivity(
-//                UserAccountActivity.createIntent(
-//                this,
-//                response,
-//                new UserAccountActivity.SignedInConfig(
-//                        getSelectedLogo(),
-//                        getSelectedTheme(),
-//                        getSelectedProviders(),
-//                        getTosUrl(),
-//                        true,
-//                        true)));
-                UserAccountActivity.createIntent(
-                        this,
-                        response));
+        startActivity(UserAccountActivity.createIntent(this, response));
     }
 
     @MainThread
@@ -143,11 +130,6 @@ public class LoginActivity extends AppCompatActivity {
     @MainThread
     private List<AuthUI.IdpConfig> getSelectedProviders() {
         List<AuthUI.IdpConfig> selectedProviders = new ArrayList<>();
-//
-//        selectedProviders.add(
-//                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER)
-//                        .build());
-
         selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
 
         return selectedProviders;

@@ -1,6 +1,7 @@
 package com.mateuszl.reporterapp.utils;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.mateuszl.reporterapp.controller.RepositoryManager;
@@ -15,7 +16,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+/**
+ * Klasa wykrozsytywana do generowania danych losowych dla celów pomiarowych.
+ * Powstałe dane krozystają ze słownika słów angielskich.
+ */
 public class DataGenerator {
+    private final String TAG = "Data generator";
     private int topicsNumber;
     private int eventsNumber;
     private FirebaseUser user;
@@ -32,17 +38,16 @@ public class DataGenerator {
     }
 
     public void generateData() {
-        System.out.println("[][][] generating data...");
+        Log.d(TAG, "generating data...");
         int i = 0;
         do {
             Topic topic = generateTopic(i);
             Topic savedTopic = repositoryManager.saveTopic(topic, user);
             generateEvents(savedTopic);
             i++;
-            System.out.println("Topic generated nr: " + i);
         } while (i < topicsNumber);
 
-        System.out.println("[][][] data generated!");
+        System.out.println("data generated!");
     }
 
     private void generateEvents(Topic topic) {
@@ -81,13 +86,9 @@ public class DataGenerator {
 
     private String generateDateAndTimestamp(int i) {
         String startDateStr = "02/03/2017 10:23:34";
-
         String tempTimestamp = generateTimestampFromDateString(startDateStr);
-
         long dateLong = Long.decode(tempTimestamp) + i * 456763;
-
         this.startTopicDate = String.valueOf(dateLong);
-
         return startTopicDate;
     }
 
@@ -97,17 +98,12 @@ public class DataGenerator {
         return longdate.toString();
     }
 
-    private String generateTimestampFromDate(Date date) {
-        Long longdate = date.getTime() / 1000;
-        return longdate.toString();
-    }
-
     @Nullable
     private Date getDateFromString(String str_date) {
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date date = null;
         try {
-            date = (Date) formatter.parse(str_date);
+            date = formatter.parse(str_date);
         } catch (ParseException e) {
             e.printStackTrace();
         }

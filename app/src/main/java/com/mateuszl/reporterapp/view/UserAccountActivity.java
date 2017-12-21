@@ -9,7 +9,6 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,10 +25,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * Ekran główny aplikacji po zalogowaniu użytkownika. Częściowo pochodzi z dokumentacji Firebase.
+ */
 public class UserAccountActivity extends AppCompatActivity {
 
     private static final String EXTRA_IDP_RESPONSE = "extra_idp_response";
-    private static final String EXTRA_SIGNED_IN_CONFIG = "extra_signed_in_config";
 
     @BindView(android.R.id.content)
     View mRootView;
@@ -42,8 +43,6 @@ public class UserAccountActivity extends AppCompatActivity {
 
     @BindView(R.id.user_display_name)
     TextView mUserDisplayName;
-
-    private IdpResponse mIdpResponse;
 
     public static Intent createIntent(
             Context context,
@@ -67,8 +66,6 @@ public class UserAccountActivity extends AppCompatActivity {
             finish();
             return;
         }
-
-        mIdpResponse = getIntent().getParcelableExtra(EXTRA_IDP_RESPONSE);
 
         setContentView(R.layout.activity_user_account);
         ButterKnife.bind(this);
@@ -107,16 +104,9 @@ public class UserAccountActivity extends AppCompatActivity {
         Snackbar.make(mRootView, errorMessageRes, Snackbar.LENGTH_LONG).show();
     }
 
-    @Override
-    public void onBackPressed() {
-//        Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
-//        startActivity(intent);
-    }
-
     @OnClick(R.id.topics_all_btn)
     public void onAllTopicsBtnClick(View view) {
         Intent intent = new Intent(getApplicationContext(), AllTopicsActivity.class);
-        Log.d("POMIAR START", "Wywołanie akcji");
         startActivity(intent);
     }
 

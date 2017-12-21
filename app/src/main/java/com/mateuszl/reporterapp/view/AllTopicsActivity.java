@@ -18,6 +18,7 @@ import com.mateuszl.reporterapp.controller.adapters.TopicsAdapter;
 import com.mateuszl.reporterapp.model.Topic;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,22 +26,21 @@ import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 
 /**
- * Widok z listą wszystkich aktywnych wydarzeń
+ * Widok z listą wszystkich wydarzeń istniejących w bazie danych.
  */
-
 public class AllTopicsActivity extends AppCompatActivity {
 
     @BindView(R.id.topics_all_listView)
     public ListView topicsListView;
 
     private List<Topic> topicsList = new ArrayList<Topic>();
-    private RepositoryManager repositoryManager;
+    private TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_topics);
-        repositoryManager = RepositoryManager.getInstance();
+        RepositoryManager repositoryManager = RepositoryManager.getInstance();
         ButterKnife.bind(this);
 
         setTitle("Trwające wydarzenia:");
@@ -54,12 +54,12 @@ public class AllTopicsActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-
+                updateTopicInListView(dataSnapshot);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                clearAndAddTopicsToListView(dataSnapshot);
+                removeTopicFromListView(dataSnapshot);
             }
 
             @Override
@@ -69,7 +69,7 @@ public class AllTopicsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                showMessage("Failed to load comments.");
+                showMessage("Błąd bazy danych!");
             }
         });
     }
@@ -79,7 +79,6 @@ public class AllTopicsActivity extends AppCompatActivity {
                                    int position, long id) {
         Topic topicSelected = (Topic) parent.getAdapter().getItem(position);
         Intent intent = new Intent(getApplicationContext(), TopicEventsActivity.class);
-//        intent.putExtra("Topic", topicSelected);
         intent.putExtra("topicId", topicSelected.getId());
         intent.putExtra("topicTitle", topicSelected.getTitle());
         startActivity(intent);
@@ -88,8 +87,6 @@ public class AllTopicsActivity extends AppCompatActivity {
     private void addTopicsToListView(DataSnapshot dataSnapshot) {
         Topic topic = dataSnapshot.getValue(Topic.class);
         topicsList.add(topic);
-
-        TopicsAdapter topicsAdapter = new TopicsAdapter(this, topicsList);
         topicsListView.setAdapter(topicsAdapter);
         reportFullyDrawn();
     }
@@ -100,9 +97,31 @@ public class AllTopicsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void clearAndAddTopicsToListView(DataSnapshot dataSnapshot) {
-        topicsList.clear();
-        addTopicsToListView(dataSnapshot);
+    private void removeTopicFromListView(DataSnapshot dataSnapshot) {
+        Iterator<Topic> iterator = topicsList.iterator();
+        while (iterator.hasNext()) {
+            Topic topic = iterator.next();
+            if (topic.getId().equalsIgnoreCase(dataSnapshot.getValue(Topic.class).getId())) {
+                topicsList.remove(topic);
+                topicsAdapter.notifyDataSetChanged();
+                return;
+            }
+        }
+    }
+
+    private void updateTopicInListView(DataSnapshot dataSnapshot) {
+        Iterator<Topic> iterator = topicsList.iterator();
+        Topic topicUpdated = dataSnapshot.getValue(Topic.class);
+        while (iterator.hasNext()) {
+            Topic topic = iterator.next();
+            if (topic.getId().equalsIgnoreCase(topicUpdated.getId())) {
+                int index = topicsList.indexOf(topic);
+                topicsList.remove(index);
+                topicsList.add(index, topicUpdated);
+                topicsAdapter.notifyDataSetChanged();
+                return;
+            }
+        }
     }
 
     private void showMessage(String message) {

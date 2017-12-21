@@ -20,6 +20,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * Ekran służący do dodawania lub edycji Wydarzeń - w zależności od przekazanej akcji.
+ */
 public class EditTopicActivity extends AppCompatActivity {
 
     @BindView(R.id.accept_new_topic_btn)
@@ -32,7 +35,6 @@ public class EditTopicActivity extends AppCompatActivity {
     public EditText topicDescriptionEditText;
 
     private RepositoryManager repositoryManager;
-    private String currentTime;
     private TopicAction action;
     private FirebaseUser currentUser;
     private Topic topic;
@@ -73,10 +75,9 @@ public class EditTopicActivity extends AppCompatActivity {
     @OnClick(R.id.accept_new_topic_btn)
     public void acceptBtnOnClick(View view) {
         if (topicTitleEditText.getText().length() > 0 && topicDescriptionEditText.getText().length() > 0) {
-            //todo dodać sprawdzenie czy takie wydarzenie juz istnieje
 
             //generowanie danych po wpisaniu specjalnych znaków w pola edycji
-            if (topicTitleEditText.getText().toString().equalsIgnoreCase("!gen@")) { //todo uprościć
+            if (topicTitleEditText.getText().toString().equalsIgnoreCase("!gen@")) {
                 String numbers = topicDescriptionEditText.getText().toString();
                 showMessage("Generowanie danych...");
                 try {
@@ -91,7 +92,7 @@ public class EditTopicActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     showMessage("Błąd podczas generowania danych...");
                 }
-
+            //usuwanie wszystkich danych po wpisaniu poniższego hasła w pole tytułu
             } else if (topicTitleEditText.getText().toString().equalsIgnoreCase("!del@")) {
                 repositoryManager.cleanDatabase();
                 showMessage("Baza danych wyczyszczona!");
@@ -104,7 +105,7 @@ public class EditTopicActivity extends AppCompatActivity {
                         break;
                     case CREATE:
                         Topic newTopic = createNewTopic();
-                        Topic savedTopic = repositoryManager.saveTopic(newTopic, this.currentUser);
+                        repositoryManager.saveTopic(newTopic, this.currentUser);
                         break;
                 }
                 Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
@@ -118,7 +119,7 @@ public class EditTopicActivity extends AppCompatActivity {
 
     private Topic createNewTopic() {
         Long tsLong = System.currentTimeMillis() / 1000;
-        currentTime = tsLong.toString();
+        String currentTime = tsLong.toString();
 
         Topic newTopic = new Topic();
 
@@ -127,7 +128,6 @@ public class EditTopicActivity extends AppCompatActivity {
         } else {
             startActivity(LoginActivity.createIntent(this));
             finish();
-            return null; //todo potrzebne?
         }
 
         newTopic.setDescription(topicDescriptionEditText.getText().toString());

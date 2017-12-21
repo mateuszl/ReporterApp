@@ -36,11 +36,9 @@ import butterknife.OnClick;
 import butterknife.OnItemLongClick;
 
 /**
- * Lista zdarzeń (eventów) w wyświetlanej relacji wydarzenia.
+ * Lista zdarzeń (eventów) w wyświetlanej relacji wydarzenia, należącej do zalogowanego użytkownika.
  */
 public class UserEventsActivity extends AppCompatActivity {
-
-    private final String TAG = "UserEventsActivity LOG ";
 
     @BindView(R.id.send_event_btn)
     public ImageButton sendEventBtn;
@@ -54,7 +52,7 @@ public class UserEventsActivity extends AppCompatActivity {
     private Topic topic;
     private RepositoryManager repositoryManager;
     private List<Event> topicEventsList = new ArrayList<>();
-    EventsAdapter eventsAdapter = new EventsAdapter(this, topicEventsList);
+    private EventsAdapter eventsAdapter = new EventsAdapter(this, topicEventsList);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +85,8 @@ public class UserEventsActivity extends AppCompatActivity {
             }
         } else {
             showMessage("No such topic in DB!!");
-            //todo wyjście do listy topiców
+            Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);
+            startActivity(intent);
         }
 
         repositoryManager.getEventsRoot(topic.getId()).addChildEventListener(new ChildEventListener() {

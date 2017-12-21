@@ -16,20 +16,23 @@ import com.mateuszl.reporterapp.model.Event;
 import com.mateuszl.reporterapp.model.Topic;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Widok z listą wszystkich zdarzeń w wybranym wydarzeniu.
+ */
 public class TopicEventsActivity extends AppCompatActivity {
-
-    private final String TAG = "UserEventsActivity LOG ";
 
     @BindView(R.id.events_all_listView)
     public ListView eventsListView;
 
     private RepositoryManager repositoryManager;
-    private List<Event> topicEventsList = new ArrayList<>();
+    private List<Event> eventsList = new ArrayList<>();
+    private EventsAdapter eventsAdapter = new EventsAdapter(this, eventsList);
     private Topic topic;
 
     @Override
@@ -39,19 +42,6 @@ public class TopicEventsActivity extends AppCompatActivity {
         repositoryManager = RepositoryManager.getInstance();
         ButterKnife.bind(this);
 
-//        Topic topic = (Topic) getIntent().getSerializableExtra("Topic");
-//
-//        if (topic != null) {
-//            if (topic.getTitle() == null || topic.getTitle().isEmpty()) {
-//                showMessage("topic title empty or null!!");
-//            } else {
-//                setTitle(topic.getTitle());
-//            }
-//        } else {
-//            showMessage("No such topic in DB!!");
-//            //todo wyjście do listy topiców
-//        }
-
         this.topic = new Topic();
 
         this.topic.setId(getIntent().getExtras().get("topicId").toString());
@@ -60,13 +50,14 @@ public class TopicEventsActivity extends AppCompatActivity {
 
         if (this.topic != null) {
             if (this.topic.getTitle() == null || this.topic.getTitle().isEmpty()) {
-                showMessage("topic title empty or null!!");
+                showMessage("Brak tytułu wydarzenia!");
             } else {
                 setTitle(this.topic.getTitle());
             }
         } else {
-            showMessage("No such topic in DB!!");
-            //todo wyjście do listy topiców
+            showMessage("Błąd bazy danych!!");
+            Intent intent = new Intent(getApplicationContext(), AllTopicsActivity.class);
+            startActivity(intent);
         }
 
         repositoryManager.getEventsRoot(topic.getId()).addChildEventListener(new ChildEventListener() {
@@ -77,12 +68,12 @@ public class TopicEventsActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-
+                updateEventInListView(dataSnapshot);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                clearAndAddEventsToListView(dataSnapshot);
+                removeEventFromListView(dataSnapshot);
             }
 
             @Override
@@ -92,8 +83,7 @@ public class TopicEventsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(), "Failed to load data.",
-                        Toast.LENGTH_SHORT).show();
+                showMessage("Błąd bazy danych!");
             }
         });
         scrollEventsListViewToBottom();
@@ -104,20 +94,23 @@ public class TopicEventsActivity extends AppCompatActivity {
     }
 
     private void addEventsToListView(DataSnapshot dataSnapshot) {
-        topicEventsList.add(dataSnapshot.getValue(Event.class));
+        eventsList.add(dataSnapshot.getValue(Event.class));
 
-        EventsAdapter eventsAdapter = new EventsAdapter(this, topicEventsList);
         eventsListView.setAdapter(eventsAdapter);
+        eventsAdapter.notifyDataSetChanged();
 
         scrollEventsListViewToBottom();
     }
 
+    /**
+     * Ustawia wybór na ostatnią pozycję listy, co powoduje przesunięcie widoku na dół listy.
+     */
     private void scrollEventsListViewToBottom() {
         eventsListView.post(new Runnable() {
             @Override
             public void run() {
                 // Select the last row so it will scroll into view...
-                eventsListView.setSelection(topicEventsList.size() - 1);
+                eventsListView.setSelection(eventsList.size() - 1);
             }
         });
     }
@@ -128,9 +121,30 @@ public class TopicEventsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void clearAndAddEventsToListView(DataSnapshot dataSnapshot) {
-//        eventsListTextView.setText("");
-//        eventsListView.removeAllViews(); //todo check !
-        addEventsToListView(dataSnapshot);
+    private void removeEventFromListView(DataSnapshot dataSnapshot) {
+        Iterator<Event> iterator = eventsList.iterator();
+        while (iterator.hasNext()) {
+            Event event = iterator.next();
+            if (event.getId().equalsIgnoreCase(dataSnapshot.getValue(Event.class).getId())) {
+                eventsList.remove(event);
+                eventsAdapter.notifyDataSetChanged();
+                return;
+            }
+        }
+    }
+
+    private void updateEventInListView(DataSnapshot dataSnapshot) {
+        Iterator<Event> iterator = eventsList.iterator();
+        Event eventUpdated = dataSnapshot.getValue(Event.class);
+        while (iterator.hasNext()) {
+            Event event = iterator.next();
+            if (event.getId().equalsIgnoreCase(eventUpdated.getId())) {
+                int index = eventsList.indexOf(event);
+                eventsList.remove(index);
+                eventsList.add(index, eventUpdated);
+                eventsAdapter.notifyDataSetChanged();
+                return;
+            }
+        }
     }
 }

@@ -3,9 +3,8 @@ package com.mateuszl.reporterapp.utils;
 import java.io.Serializable;
 
 /**
- * Created by mateuszl on 20.12.2017.
+ * Akcja dotycząca menu kontekstowego wykorzystywanego przy liscie Wydarzeń.
  */
-
 public enum TopicAction implements Serializable {
     CREATE, EDIT
 }
