@@ -20,7 +20,7 @@ public class RepositoryManager {
     private DatabaseReference topicsRoot;
     private DatabaseReference userTopicsRoot;
 
-    protected RepositoryManager() {
+    private RepositoryManager() {
         root = FirebaseDatabase.getInstance().getReference();
         userTopicsRoot = root.child("userTopics");
         topicsRoot = root.child("topics");
