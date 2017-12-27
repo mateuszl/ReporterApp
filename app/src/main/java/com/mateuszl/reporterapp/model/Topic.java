@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Model danych dla Wydarzenia, które jest
+ * Model danych dla Wydarzenia, które utworzył Użytkownik i dla którego prowadzi/ł relację
  */
 public class Topic implements Serializable {
     private String id;
