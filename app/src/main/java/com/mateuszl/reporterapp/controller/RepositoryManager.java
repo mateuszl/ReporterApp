@@ -54,10 +54,10 @@ public class RepositoryManager {
         return userTopicsRoot;
     }
 
-    public Topic saveTopic(Topic topic, FirebaseUser user) {
+    public Topic saveTopic(Topic topic, String userId) {
         topic.setId(getNewKey(topicsRoot));
         topicsRoot.child(topic.getId()).setValue(topic);
-        addTopicToUser(topic, user);
+        addTopicToUser(topic, userId);
         return topic;
     }
 
@@ -98,8 +98,8 @@ public class RepositoryManager {
         this.topicsRoot.addListenerForSingleValueEvent(topicDbEventListener);
     }
 
-    private void addTopicToUser(Topic topic, FirebaseUser user) {
-        userTopicsRoot.child(user.getUid()).child(topic.getId()).setValue(true);
+    private void addTopicToUser(Topic topic, String userId) {
+        userTopicsRoot.child(userId).child(topic.getId()).setValue(true);
     }
 
     private void deleteTopicFromUser(Topic topic, String userId) {

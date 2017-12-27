@@ -42,7 +42,7 @@ public class DataGenerator {
         int i = 0;
         do {
             Topic topic = generateTopic(i);
-            Topic savedTopic = repositoryManager.saveTopic(topic, user);
+            Topic savedTopic = repositoryManager.saveTopic(topic, user.getUid());
             generateEvents(savedTopic);
             i++;
         } while (i < topicsNumber);

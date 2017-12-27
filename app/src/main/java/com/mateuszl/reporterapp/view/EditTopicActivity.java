@@ -105,7 +105,7 @@ public class EditTopicActivity extends AppCompatActivity {
                         break;
                     case CREATE:
                         Topic newTopic = createNewTopic();
-                        repositoryManager.saveTopic(newTopic, this.currentUser);
+                        repositoryManager.saveTopic(newTopic, this.currentUser.getUid());
                         break;
                 }
                 Intent intent = new Intent(getApplicationContext(), UserTopicsActivity.class);

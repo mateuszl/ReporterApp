@@ -43,4 +43,12 @@ public class Utils {
         return sdf.format(currentTimeZone);
     }
 
+    /**
+     * @return current system time as timestamp
+     */
+    public static String generateTimestamp(){
+        Long tsLong = System.currentTimeMillis() / 1000;
+        return tsLong.toString();
+    }
+
 }

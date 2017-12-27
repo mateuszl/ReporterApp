@@ -9,6 +9,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -16,6 +17,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 
@@ -29,27 +33,38 @@ allprojects {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
+    implementation  fileTree(dir: 'libs', include: ['*.jar'])
+    implementation  'com.android.support:multidex:1.0.2'
+    implementation  ('com.android.support:appcompat-v7:26.1.0', {
+        exclude group: 'com.google.android.gms', module: 'play-services-auth'
     })
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support:design:26.+'
+    implementation  ('com.android.support:design:26.1.0', {
+        exclude group: 'com.google.android.gms', module: 'play-services-auth'
+    })
     // FirebaseUI for Firebase Realtime Database
-    compile 'com.firebaseui:firebase-ui-database:3.1.0'
-    compile 'com.firebaseui:firebase-ui-auth:3.1.0'
+    implementation  'com.firebaseui:firebase-ui-database:3.1.2'
+    implementation  'com.firebaseui:firebase-ui-auth:3.1.2'
     // Each FirebaseUI library has a transitive dependency on the appropriate Firebase SDK so there is no need to include those separately
     testCompile 'junit:junit:4.12'
-    compile 'com.google.code.gson:gson:2.8.2'
-    compile 'com.facebook.android:facebook-android-sdk:4.27.0' //for facebook login option
-    compile("com.twitter.sdk.android:twitter-core:3.0.0@aar") { transitive = true } // for twitter login option
+    implementation  ('com.google.code.gson:gson:2.8.2', {
+        exclude group: 'com.google.android.gms', module: 'play-services-auth'
+    })
+    implementation  'com.facebook.android:facebook-android-sdk:4.27.0' //for facebook login option
+    implementation ("com.twitter.sdk.android:twitter-core:3.0.0@aar") { transitive = true } // for twitter login option
 
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation  'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     // https://mvnrepository.com/artifact/org.fluttercode.datafactory/datafactory
-    compile group: 'org.fluttercode.datafactory', name: 'datafactory', version: '0.8'
+    implementation  group: 'org.fluttercode.datafactory', name: 'datafactory', version: '0.8'
+
+    // Unit testing dependencies
+    testCompile 'junit:junit:4.12'
+
+    androidTestCompile 'com.android.support.test:runner:1.0.1'
+    androidTestCompile 'com.android.support.test:rules:1.0.1'
 
 }
 
 apply plugin: 'com.google.gms.google-services'
+

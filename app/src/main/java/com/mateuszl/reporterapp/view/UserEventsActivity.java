@@ -144,10 +144,9 @@ public class UserEventsActivity extends AppCompatActivity {
     @OnClick(R.id.send_event_btn)
     public void saveNewEvent(View view) {
         if (sendEventEditText.getText().length() < 1) {
-            //todo podswietlenie pola/mrugniecie czy coś
         } else {
             Long currentTime = System.currentTimeMillis() / 1000;
-            String time = currentTime.toString(); //todo zmienic na godzine:minuty:sekundy a nie całą datę
+            String time = currentTime.toString();
 
             Event event = new Event(sendEventEditText.getText().toString(), time);
             sendEventEditText.setText("");
@@ -199,13 +198,11 @@ public class UserEventsActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
 
             }
         });
