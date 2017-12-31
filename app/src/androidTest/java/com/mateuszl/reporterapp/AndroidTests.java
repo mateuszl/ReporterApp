@@ -43,7 +43,7 @@ public class AndroidTests {
 
     @Test
     public void loginAppPanelViewTest(){
-        onView(withId(R.id.app_panel)).check(matches(isDisplayed()));
+        onView(withId(R.id.user_panel)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -51,6 +51,7 @@ public class AndroidTests {
         repositoryManager = RepositoryManager.getInstance();
         topic = repositoryManager.saveTopic(generateTopic(), "test user id");
         Assert.assertNotNull(topic);
+        Assert.assertNotNull(topic.getId());
     }
 
     @Test()

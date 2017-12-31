@@ -17,7 +17,6 @@ public class Event {
     }
 
     public Event(String content, String timestamp) {
-        this.setId(UUID.randomUUID().toString());
         this.content = content;
         this.timestamp = timestamp;
     }
@@ -52,3 +51,10 @@ public class Event {
         return gson.toJson(this);
     }
 }
+
+
+
+
+
+
+
